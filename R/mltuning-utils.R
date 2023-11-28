@@ -1,0 +1,340 @@
+#' MLTuning App Utils
+#'
+#' @param results results from shiny app
+#' @param org org name
+#' @param store store name
+#' @param p0 plot
+#' @param p1 plot
+#' @param p2 plot
+#' @param p3 plot
+#' @param p4 plot
+#' @param oid org id
+#' @param sid store id
+#' @param sku_data sku table
+#' @param ml_args model args
+#' @param skus skus to get recs for
+#' @param ll argument list to scale or unscale values
+#' @param args args to send to the db
+#'
+#' @import data.table
+#' @importFrom rdstools log_suc log_err log_inf
+#' @importFrom rpgconn dbc dbd
+#' @importFrom DBI dbGetQuery dbWithTransaction dbExecute dbAppendTable
+#' @importFrom fs dir_create path dir_delete file_delete dir_ls file_exists
+#' @importFrom stringr str_glue str_to_title str_remove_all str_remove str_subset
+#' @importFrom ggplot2 ggsave
+#' @importFrom lubridate now
+#' @importFrom rdscore default_model_params
+#'
+#' @name mltuning-utils
+NULL
+
+
+#' @describeIn mltuning-utils get primary app data
+get_index <- function() {
+  f <- function() {
+    cn <- rpgconn::dbc("prod2", "hcaconfig")
+    on.exit(rpgconn::dbd(cn))
+    store_index <- function(cn) {
+      qry <- "SELECT org_uuid, store_uuid, short_name as store FROM org_stores"
+      setDT(DBI::dbGetQuery(cn, qry), key = "org_uuid")[]
+    }
+    org_index <- function(cn) {
+      qry1 <- "SELECT org_uuid, short_name as org FROM org_info"
+      qry2 <- "SELECT * FROM org_pipelines_info"
+      res1 <- setkey(data.table(DBI::dbGetQuery(cn, qry1)), org_uuid)
+      res2 <- setkey(data.table(DBI::dbGetQuery(cn, qry2)), org_uuid)
+      out <- res1[res2[current_client & in_population], .(org_uuid, org)]
+      setkey(out, "org_uuid")[]
+    }
+    store_index(cn)[org_index(cn)]
+  }
+
+  cn <- rpgconn::dbc(db = "appdata")
+  on.exit(rpgconn::dbd(cn))
+  qry <- "SELECT org_uuid,
+    store_uuid,
+    category3,
+    brand_name,
+    product_sku,
+    tot_sales,
+    units_sold
+  FROM vindex_product_velocity_daily
+  WHERE product_sku != ''"
+  index <- setcolorder(
+    setkey(f(), org_uuid, store_uuid)[
+      setDT(DBI::dbGetQuery(cn, qry), key = c("org_uuid","store_uuid"))
+    ],
+    neworder = c(
+      "org", "store", "category3", "brand_name",
+      "product_sku", "tot_sales", "units_sold"
+    ))
+  return(index[])
+}
+
+
+#' @describeIn mltuning-utils Set Plot colors
+.hca_colors <- function() {
+  list(
+    bg = "#041E39",
+    fg = "#E0ECF9",
+    primary    = "#187dd4",
+    secondary  = "#ED9100",
+    success    = "#00A651",
+    info       = "#fff573",
+    warning    = "#7d3be8",
+    danger     = "#DB14BF"
+  )
+}
+
+
+#' @describeIn mltuning-utils Run and Publishing Functions
+createOutputDir <- function() {
+  rdstools::log_inf(fs::path(getwd(), "output"))
+  fs::dir_create(fs::path("output", c("plots", "temp")))
+}
+
+
+#' @describeIn mltuning-utils Run and Publishing Functions
+cleanOutputDir <- function() {
+  old <- "./output"
+
+  if (fs::dir_exists(old)) {
+    fs::dir_delete(old)
+  }
+
+  if (!fs::dir_exists(old)) {
+    rdstools::log_suc("Session outputs cleared...")
+  }
+}
+
+
+#' @describeIn mltuning-utils keeps plot data generated during session
+savePlotData <- function(results) {
+
+  dirPath <- fs::path(getwd(), ".plotdata")
+  rdstools::log_inf(paste0("Saving plot data to ", dirPath))
+  fs::dir_create(dirPath)
+
+  saveRDS(results[[1]], fs::path(dirPath, "pdata0.rds"))
+  saveRDS(results[[2]], fs::path(dirPath, "pdata1.rds"))
+  saveRDS(results[[3]], fs::path(dirPath, "pdata2.rds"))
+  saveRDS(results[[4]], fs::path(dirPath, "pdata3.rds"))
+  saveRDS(results[[5]], fs::path(dirPath, "pdata4.rds"))
+
+  rdstools::log_suc("Plot data saved...")
+}
+
+
+#' @describeIn mltuning-utils Read in template, add the header and write report content to output dir
+generate_report <- function(org, store) {
+  Org <- stringr::str_to_title(org)
+  Store <- stringr::str_to_title(store)
+
+  report_title <- stringr::str_glue("Restock Model - {Org}, {Store}")
+
+  # define header
+  headr <- c('---',
+             stringr::str_glue('title: {report_title}'),
+             stringr::str_glue('date: "{Sys.Date()}"'),
+             'format: html',
+             'resource_files:',
+             ' - scenario.rds',
+             ' - plots/*',
+             '---')
+  # read lines, append header, and write
+  lines <- c(headr, readLines("doc/template.qmd"))
+  writeLines(lines, "output/report.qmd")
+}
+
+
+#' @describeIn mltuning-utils Saving plots for report
+save_ggplots <- function(p0, p1, p2, p3, p4) {
+  ggplot2::ggsave(
+    filename = "diagnostic-0.png",
+    plot = p0,
+    path = "output/plots",
+    width = 1800,
+    height = 1150,
+    units = "px",
+    dpi = 125,
+    bg = NULL
+  )
+  ggplot2::ggsave(
+    filename = "diagnostic-1.png",
+    plot = p1,
+    path = "output/plots",
+    width = 1700,
+    height = 1200,
+    units = "px",
+    dpi = 125,
+    bg = NULL
+  )
+  ggplot2::ggsave(
+    filename = "diagnostic-2.png",
+    plot = p2,
+    path = "output/plots",
+    width = 1500,
+    height = 2500,
+    units = "px",
+    dpi = 150,
+    bg = NULL
+  )
+  ggplot2::ggsave(
+    filename = "diagnostic-3.png",
+    plot = p3,
+    path = "output/plots",
+    width = 2600,
+    height = 1200,
+    units = "px",
+    dpi = 125,
+    bg = NULL
+  )
+  ggplot2::ggsave(
+    filename = "diagnostic-4.png",
+    plot = p4,
+    path = "output/plots",
+    width = 2000,
+    height = 2500,
+    units = "px",
+    dpi = 150,
+    bg = NULL
+  )
+  ## return plot objects
+  return(invisible(TRUE))
+}
+
+
+#' @describeIn mltuning-utils This will read from the temp outputs and construct the scenario dataset for the report
+build_scenario_data <- function() {
+  scenario <- NULL ## return null if data doesnt exist
+  results_path <- "output/temp/results.rds"
+  context_path <- "output/temp/context.rds"
+
+  has_outputs <- fs::file_exists(results_path) & fs::file_exists(context_path)
+
+  if (!has_outputs)
+    return(NULL)
+
+  ## Read in scenario and results from last run
+  results <- readRDS(results_path)
+  context <- readRDS(context_path)
+
+  ## Get table of recs, sku info, and join on table containing model params
+  skuRec <- setkey(results[["data"]][["rec"]][["results"]], product_sku)
+  skuInf <- setkey(context[["products"]][[1]], product_sku)
+
+  scenario <- as.data.table(c(
+    context["org_uuid"], context["store_uuid"],
+    context["run_utc"], context[["model"]]
+  ))[ skuInf[skuRec], on = c("org_uuid", "store_uuid")]
+
+
+  ## Order columns in table
+  ordrCols <- c(
+    "org_uuid", "store_uuid", "org", "store", "brand_name", "category3",
+    "product_sku", "tot_sales", "units_sold", "restock", "is_recommended",
+    stringr::str_subset(names(scenario), "^ml_"), "run_utc"
+  )
+  setcolorder(scenario, ordrCols)
+
+  # save scenario to the output directory for report generation and return
+  saveRDS(scenario[], "output/scenario.rds")
+  return(scenario[])
+}
+
+
+#' @describeIn mltuning-utils save ml context (internal)
+save_ml_context <- function(oid, sid, sku_data, ml_args) {
+  context <- list(
+    org_uuid = oid,
+    store_uuid = sid,
+    products = list(sku_data),
+    model = unscale_params(ml_args),
+    run_utc = lubridate::now()
+  )
+  saveRDS(context, "output/temp/context.rds")
+  invisible(TRUE)
+}
+
+
+#' @describeIn mltuning-utils Run rec model, save results, and return
+exec_ml_restock <- function(oid, sid, skus, ml_args) {
+  args <- c(oid = oid, sid = sid, list(sku = skus), unscale_params(ml_args))
+  results <- do.call(ds_sku_recs_pdata, args)
+  saveRDS(results, "output/temp/results.rds")
+  results
+}
+
+
+#' @describeIn mltuning-utils get defaults and scale
+default_params <- function() {
+  rdscore::default_model_params() |>
+    scale_params()
+}
+
+
+#' @describeIn mltuning-utils scale for shiny sliders
+scale_params <- function(ll) {
+  ll$ml_secd <- ll$ml_secd * 100
+  ll$ml_prim <- ll$ml_prim * 100
+  ll$ml_ppql <- ll$ml_ppql * 100
+  ll$ml_ppqh <- ll$ml_ppqh * 100
+
+  ll$ml_trend_pval <- ll$ml_trend_pval * 100
+  ll$ml_trend_conf <- ll$ml_trend_conf * 100
+  ll$ml_stock_pval <- ll$ml_stock_pval * 100
+  ll$ml_stock_conf <- ll$ml_stock_conf * 100
+  ll
+}
+
+
+#' @describeIn mltuning-utils scale for shiny sliders
+unscale_params <- function(ll) {
+  ll$ml_secd <- ll$ml_secd / 100
+  ll$ml_prim <- ll$ml_prim / 100
+  ll$ml_ppql <- ll$ml_ppql / 100
+  ll$ml_ppqh <- ll$ml_ppqh / 100
+
+  ll$ml_trend_pval <- ll$ml_trend_pval / 100
+  ll$ml_trend_conf <- ll$ml_trend_conf / 100
+  ll$ml_stock_pval <- ll$ml_stock_pval / 100
+  ll$ml_stock_conf <- ll$ml_stock_conf / 100
+  ll
+}
+
+
+#' @describeIn mltuning-utils get default model params by location from the db
+load_params <- function(oid, sid) {
+  cn <- rpgconn::dbc("prod2", "hcaconfig")
+  on.exit(rpgconn::dbd(cn))
+  tab <- "restock_ml_params"
+  qry <- stringr::str_glue("SELECT * FROM {tab} WHERE oid = '{oid}' AND sid = '{sid}'")
+  args <- setDT(DBI::dbGetQuery(cn, qry))
+
+  if (nrow(args) == 0) {
+    default_params()
+  } else {
+    scale_params(as.list(args))
+  }
+
+}
+
+
+#' @describeIn mltuning-utils save custom model params by location to the db
+save_params <- function(oid, sid, args) {
+  arg_row <- cbind(oid, sid, as.data.table(unscale_params(args)))
+  print(arg_row)
+
+  cn <- rpgconn::dbc("prod2", "hcaconfig")
+  on.exit(rpgconn::dbd(cn))
+  tab <- "restock_ml_params"
+  n <- DBI::dbWithTransaction(cn, {
+    qry <- stringr::str_glue("DELETE FROM {tab} WHERE oid = '{oid}' AND sid = '{sid}'")
+    DBI::dbExecute(cn, qry)
+    DBI::dbAppendTable(cn, tab, arg_row)
+  })
+  rdstools::log_inf("Saved Parameters", n)
+  return(n)
+}
+

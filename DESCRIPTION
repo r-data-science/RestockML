@@ -1,0 +1,40 @@
+Package: rdsapps
+Title: Internal Apps
+Version: 0.0.1
+Authors@R: 
+    person(given = "Bobby",
+           family = "Fatemi",
+           role = c("aut", "cre"),
+           email = "bfatemi07@gmail.com")
+Description: Apps created for targeted and exploratory analysis for internal use only.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
+URL: https://github.com/r-data-science/rdsapps
+BugReports: https://github.com/r-data-science/rdsapps/issues
+Config/testthat/edition: 3
+Imports:
+    fs,
+    data.table,
+    sass,
+    bslib,
+    datamods,
+    shiny,
+    shinyWidgets,
+    shinycssloaders,
+    ggplot2,
+    ggtext,
+    scales,
+    stringr,
+    uuid,
+    DBI,
+    lubridate,
+    rpgconn,
+    rdscore,
+    rdstools
+Depends: 
+  R (>= 4.0)
+Suggests: 
+    testthat,
+    waiter
