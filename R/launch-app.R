@@ -15,15 +15,7 @@ NULL
 runAppRecModel <- function(SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE) {
   if (!requireNamespace("waiter", quietly = TRUE)) {
     stop("'waiter' not available", call. = FALSE)
-
-  } else if (!requireNamespace("rsconnect", quietly = TRUE)) {
-    stop("'rsconnect' not available", call. = FALSE)
-
-  } else if (!requireNamespace("connectapi", quietly = TRUE)) {
-    stop("'connectapi' not available", call. = FALSE)
-
   }
-
 
   if (Sys.getenv("CONNECT_SERVER") == "")
     warning("Missing envvar... set with Sys.setenv(CONNECT_SERVER = '...')", call. = FALSE)

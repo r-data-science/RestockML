@@ -47,5 +47,8 @@ globalVariables(c(
   "value",
   "value2",
   "variable",
-  "wts"
+  "wts",
+  "current_client",
+  "in_population",
+  "org"
 ))
