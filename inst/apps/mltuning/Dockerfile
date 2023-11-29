@@ -1,6 +1,6 @@
 FROM rocker/r-ubuntu:20.04
 
-EXPOSE 3838
+EXPOSE 3939
 
 ## Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -23,10 +23,11 @@ RUN Rscript -e "remotes::install_deps()"
 RUN rm -f DESCRIPTION
 
 ## Specify shiny runtime options in Rprofile
-RUN echo "local(options(shiny.port = 3838, shiny.host = '0.0.0.0'))" > /usr/lib/R/etc/Rprofile.site
+RUN echo "local(options(shiny.port = 3939, shiny.host = '0.0.0.0'))" > /usr/lib/R/etc/Rprofile.site
 
 ## Set GH Personal Access Token and Install private depends
 ENV GITHUB_PAT="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"
+
 RUN Rscript -e 'remotes::install_github("r-data-science/rpgconn")'
 RUN Rscript -e 'remotes::install_github("r-data-science/rdstools")'
 RUN Rscript -e 'remotes::install_github("r-data-science/rdscore")'
@@ -44,5 +45,4 @@ COPY app .
 RUN chown app:app -R /home/app
 USER app
 CMD ["R", "-e", "shiny::runApp('/home/app')"]
-#CMD ["R"]
 
