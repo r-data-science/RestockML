@@ -36,7 +36,7 @@ runAppRecModel <- function(SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE) {
   ))
 
   ## Check For App
-  appDir <- system.file("apps/mltuning", package = "rdsapps")
+  appDir <- system.file("apps/mltuning/app", package = "rdsapps")
   if (!fs::file_exists(fs::path(appDir, "app.R")))
     stop("Could not find app. Re-install `rdsapps`.", call. = FALSE)
 

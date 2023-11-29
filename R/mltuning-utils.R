@@ -33,7 +33,7 @@ NULL
 #' @describeIn mltuning-utils get primary app data
 get_index <- function() {
   f <- function() {
-    cn <- rpgconn::dbc("prod2", "hcaconfig")
+    cn <- rpgconn::dbc(db = "hcaconfig")
     on.exit(rpgconn::dbd(cn))
     store_index <- function(cn) {
       qry <- "SELECT org_uuid, store_uuid, short_name as store FROM org_stores"
@@ -306,7 +306,7 @@ unscale_params <- function(ll) {
 
 #' @describeIn mltuning-utils get default model params by location from the db
 load_params <- function(oid, sid) {
-  cn <- rpgconn::dbc("prod2", "hcaconfig")
+  cn <- rpgconn::dbc(db = "hcaconfig")
   on.exit(rpgconn::dbd(cn))
   tab <- "restock_ml_params"
   qry <- stringr::str_glue("SELECT * FROM {tab} WHERE oid = '{oid}' AND sid = '{sid}'")
@@ -326,7 +326,7 @@ save_params <- function(oid, sid, args) {
   arg_row <- cbind(oid, sid, as.data.table(unscale_params(args)))
   print(arg_row)
 
-  cn <- rpgconn::dbc("prod2", "hcaconfig")
+  cn <- rpgconn::dbc(db = "hcaconfig")
   on.exit(rpgconn::dbd(cn))
   tab <- "restock_ml_params"
   n <- DBI::dbWithTransaction(cn, {
