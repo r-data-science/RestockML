@@ -14,4 +14,8 @@ Imports:
   uuid,
   DBI,
   lubridate,
-  waiter
+  waiter,
+  rmarkdown,
+  RPostgres,
+  usethis,
+  yaml

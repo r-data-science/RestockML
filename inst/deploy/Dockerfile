@@ -4,11 +4,12 @@ EXPOSE 3939
 
 ## Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    #sudo \
+    sudo \
     libcurl4-gnutls-dev \
-    #libxt-dev \
+    libxt-dev \
     libssl-dev \
-    #libssh2-1-dev \
+    libxml2-dev \
+    libssh2-1-dev \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
@@ -16,10 +17,11 @@ COPY Rprofile.site /etc/R
 ENV _R_SHLIB_STRIP_=true
 
 ## Install cran dependencies for app specified in DESC file
-#RUN install.r remotes
-#COPY DESCRIPTION .
-#RUN Rscript -e "remotes::install_deps()"
-#RUN rm -f DESCRIPTION
+ENV REPOS="https://packagemanager.posit.co/cran/__linux__/focal/latest"
+RUN install.r remotes
+COPY DESCRIPTION .
+RUN Rscript -e "remotes::install_deps()"
+RUN rm -f DESCRIPTION
 
 ## Specify shiny runtime options in Rprofile
 RUN echo "local(options(shiny.port = 3939, shiny.host = '0.0.0.0'))" > /usr/lib/R/etc/Rprofile.site
