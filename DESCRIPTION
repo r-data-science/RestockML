@@ -1,12 +1,14 @@
 Package: rdsapps
-Title: Internal Apps
-Version: 0.0.2
+Title: Product Recommendations Model Explorer
+Version: 0.0.3
 Authors@R: 
-    person(given = "Bobby",
-           family = "Fatemi",
-           role = c("aut", "cre"),
-           email = "bfatemi07@gmail.com")
-Description: Apps created for targeted and exploratory analysis for internal use only.
+  person(
+    given = "Bobby", 
+    family = "Fatemi", 
+    role = c("aut", "cre"), 
+    email = "bfatemi07@gmail.com"
+  )
+Description: Package containing app for exploring product recommendations model.
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -15,27 +17,31 @@ URL: https://github.com/r-data-science/rdsapps
 BugReports: https://github.com/r-data-science/rdsapps/issues
 Config/testthat/edition: 3
 Imports:
-    fs,
-    data.table,
-    sass,
-    bslib,
-    datamods,
-    shiny,
-    shinyWidgets,
-    shinycssloaders,
-    ggplot2,
-    ggtext,
-    scales,
-    stringr,
-    uuid,
-    DBI,
-    lubridate,
-    rpgconn,
-    rdscore,
-    rdstools,
-    waiter,
-    rmarkdown
+  fs,
+  data.table,
+  sass,
+  bslib,
+  datamods,
+  shiny,
+  shinyWidgets,
+  shinycssloaders,
+  ggplot2,
+  ggtext,
+  scales,
+  stringr,
+  uuid,
+  DBI,
+  lubridate,
+  waiter,
+  rmarkdown,
+  rpgconn,
+  rdscore,
+  rdstools
+Remotes:
+  r-data-science/rpgconn,
+  r-data-science/rdscore,
+  r-data-science/rdstools
 Depends: 
   R (>= 4.0)
 Suggests: 
-    testthat
+  testthat

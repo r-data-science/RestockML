@@ -4,9 +4,9 @@
 \name{rdsapps-package}
 \alias{rdsapps}
 \alias{rdsapps-package}
-\title{rdsapps: Internal Apps}
+\title{rdsapps: Product Recommendations Model Explorer}
 \description{
-Apps created for targeted and exploratory analysis for internal use only.
+Package containing app for exploring product recommendations model.
 }
 \seealso{
 Useful links:

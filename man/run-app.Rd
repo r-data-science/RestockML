@@ -3,17 +3,22 @@
 \name{run-app}
 \alias{run-app}
 \alias{runExplorePRM}
+\alias{appExplorePRM}
 \alias{server_prm}
 \alias{ui_prm}
 \title{Product Recommendations Model Tuning}
 \usage{
-runExplorePRM(SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE)
+runExplorePRM(WORK_DIR = NULL, SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE)
+
+appExplorePRM()
 
 server_prm()
 
 ui_prm()
 }
 \arguments{
+\item{WORK_DIR}{working directory to launch the app from. Default is NULL which will use the current working directory.}
+
 \item{SAVE_PLOTDATA}{Default is FALSE. Whether to keep plot input datasets generated during app session. Useful for plot development.}
 
 \item{CLEAN_OUTPUTS}{Default is False. Whether to delete the session output directory. Useful for debuging}
@@ -24,6 +29,8 @@ Product Recommendations Model Tuning
 \section{Functions}{
 \itemize{
 \item \code{runExplorePRM()}: run Recommendations Model Tuning App
+
+\item \code{appExplorePRM()}: returns app object for subsequent execution
 
 \item \code{server_prm()}: server function for app
 

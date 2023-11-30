@@ -1,5 +1,6 @@
 #' Product Recommendations Model Tuning
 #'
+#' @param WORK_DIR working directory to launch the app from. Default is NULL which will use the current working directory.
 #' @param SAVE_PLOTDATA Default is FALSE. Whether to keep plot input datasets generated during app session. Useful for plot development.
 #' @param CLEAN_OUTPUTS Default is False. Whether to delete the session output directory. Useful for debuging
 #'
@@ -16,8 +17,19 @@ NULL
 
 #' @describeIn run-app run Recommendations Model Tuning App
 #' @export
-runExplorePRM <- function(SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE) {
-  create_session_dir() # Init output directory
+runExplorePRM <- function(WORK_DIR=NULL, SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE) {
+  if (is.null(WORK_DIR)) {
+    rdstools::log_inf("...Using Current Working Directory")
+  } else {
+    rdstools::log_inf("...Setting Working Directory")
+    curr_wd <- getwd()
+    on.exit(setwd(curr_wd))
+    setwd(WORK_DIR)
+    rdstools::log_suc(WORK_DIR)
+  }
+
+  # Init output directory
+  create_session_dir()
 
   ## Set options for this app launch
   shiny::shinyOptions(
@@ -33,15 +45,21 @@ runExplorePRM <- function(SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE) {
   ))
 
   rdstools::log_inf("...Launching App")
-
   writeLines(
-    text = "shiny::shinyApp(rdsapps:::ui_prm(), rdsapps:::server_prm())",
+    text = "rdsapps::appExplorePRM()",
     fs::path(get_app_dir(), "app.R")
   )
-  # app <- shinyApp(ui_prm(), server_prm())
-  shiny::runApp(appDir = get_app_dir(), display.mode = "normal")
+  shiny::runApp(
+    appDir = get_app_dir(),
+    display.mode = "normal"
+  )
 }
 
+#' @describeIn run-app returns app object for subsequent execution
+#' @export
+appExplorePRM <- function() {
+  shiny::shinyApp(ui_prm(), server_prm())
+}
 
 #' @describeIn run-app server function for app
 server_prm <- function() {

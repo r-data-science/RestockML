@@ -20,7 +20,7 @@
 #' @importFrom rdstools log_suc log_err log_inf
 #' @importFrom rpgconn dbc dbd
 #' @importFrom DBI dbGetQuery dbWithTransaction dbExecute dbAppendTable
-#' @importFrom fs dir_create path dir_delete file_delete dir_ls file_exists path_package
+#' @importFrom fs dir_create path dir_delete file_delete dir_ls file_exists path_package path_file
 #' @importFrom stringr str_glue str_to_title str_remove_all str_remove str_subset
 #' @importFrom ggplot2 ggsave
 #' @importFrom lubridate now
@@ -159,7 +159,8 @@ generate_report <- function(org, store) {
     clean = TRUE,
     output_options = "self-contained",
     encoding = 'UTF-8'
-  )
+  ) |>
+    fs::path_file()
 }
 
 
