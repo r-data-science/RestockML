@@ -17,7 +17,6 @@ COPY Rprofile.site /etc/R
 ENV _R_SHLIB_STRIP_=true
 
 ## Install cran dependencies for app specified in DESC file
-ENV REPOS="https://packagemanager.posit.co/cran/__linux__/focal/latest"
 RUN install.r remotes
 COPY DESCRIPTION .
 RUN Rscript -e "remotes::install_deps()"
