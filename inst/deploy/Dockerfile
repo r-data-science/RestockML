@@ -4,23 +4,22 @@ EXPOSE 3939
 
 ## Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    sudo \
+    #sudo \
     libcurl4-gnutls-dev \
-    libxt-dev \
+    #libxt-dev \
     libssl-dev \
-    libssh2-1-dev \
+    #libssh2-1-dev \
     libpq-dev \
-    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY Rprofile.site /etc/R
 ENV _R_SHLIB_STRIP_=true
 
 ## Install cran dependencies for app specified in DESC file
-RUN install.r remotes
-COPY DESCRIPTION .
-RUN Rscript -e "remotes::install_deps()"
-RUN rm -f DESCRIPTION
+#RUN install.r remotes
+#COPY DESCRIPTION .
+#RUN Rscript -e "remotes::install_deps()"
+#RUN rm -f DESCRIPTION
 
 ## Specify shiny runtime options in Rprofile
 RUN echo "local(options(shiny.port = 3939, shiny.host = '0.0.0.0'))" > /usr/lib/R/etc/Rprofile.site
@@ -39,10 +38,11 @@ ENV RPG_CONN_STRING="user=cabbage;password=cabbage;host=host.docker.internal;por
 ## Add non-root system user that runs the app
 RUN addgroup --system app && adduser --system --ingroup app app
 WORKDIR /home/app
-COPY app .
+#RUN echo "shiny::shinyApp(rdsapps:::ui_prm(), rdsapps:::server_prm())" > app.R
 
 ## Set permissions, switch user, and run the app
 RUN chown app:app -R /home/app
 USER app
-CMD ["R", "-e", "shiny::runApp('/home/app')"]
+CMD ["R", "-e", "rdsapps::runExplorePRM()"]
+#CMD ["R", "-e", "shiny::runApp('/home/app')"]
 

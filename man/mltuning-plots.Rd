@@ -48,7 +48,7 @@ ds_sku_recs_pdata(
 )
 }
 \arguments{
-\item{.colors}{colors returned by .hca_colors()}
+\item{.colors}{colors returned by get_app_colors()}
 
 \item{ptitle}{plot title}
 

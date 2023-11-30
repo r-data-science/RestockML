@@ -2,32 +2,35 @@
 % Please edit documentation in R/mltuning-utils.R
 \name{mltuning-utils}
 \alias{mltuning-utils}
-\alias{get_index}
-\alias{.hca_colors}
-\alias{createOutputDir}
-\alias{cleanOutputDir}
-\alias{savePlotData}
+\alias{get_app_dir}
+\alias{get_app_index}
+\alias{get_app_colors}
+\alias{create_session_dir}
+\alias{clean_session_dir}
+\alias{save_plot_data}
 \alias{generate_report}
 \alias{save_ggplots}
 \alias{build_scenario_data}
 \alias{save_ml_context}
 \alias{exec_ml_restock}
-\alias{default_params}
-\alias{scale_params}
-\alias{unscale_params}
-\alias{load_params}
-\alias{save_params}
+\alias{default_ml_params}
+\alias{scale_ml_params}
+\alias{unscale_ml_params}
+\alias{load_ml_params}
+\alias{save_ml_params}
 \title{MLTuning App Utils}
 \usage{
-get_index()
+get_app_dir()
 
-.hca_colors()
+get_app_index()
 
-createOutputDir()
+get_app_colors()
 
-cleanOutputDir()
+create_session_dir()
 
-savePlotData(results)
+clean_session_dir()
+
+save_plot_data(results)
 
 generate_report(org, store)
 
@@ -39,15 +42,15 @@ save_ml_context(oid, sid, sku_data, ml_args)
 
 exec_ml_restock(oid, sid, skus, ml_args)
 
-default_params()
+default_ml_params()
 
-scale_params(ll)
+scale_ml_params(ll)
 
-unscale_params(ll)
+unscale_ml_params(ll)
 
-load_params(oid, sid)
+load_ml_params(oid, sid)
 
-save_params(oid, sid, args)
+save_ml_params(oid, sid, args)
 }
 \arguments{
 \item{results}{results from shiny app}
@@ -85,15 +88,17 @@ MLTuning App Utils
 }
 \section{Functions}{
 \itemize{
-\item \code{get_index()}: get primary app data
+\item \code{get_app_dir()}: creates and returns app dir path
 
-\item \code{.hca_colors()}: Set Plot colors
+\item \code{get_app_index()}: get primary app data
 
-\item \code{createOutputDir()}: Run and Publishing Functions
+\item \code{get_app_colors()}: Set Plot colors
 
-\item \code{cleanOutputDir()}: Run and Publishing Functions
+\item \code{create_session_dir()}: Run and Publishing Functions
 
-\item \code{savePlotData()}: keeps plot data generated during session
+\item \code{clean_session_dir()}: Run and Publishing Functions
+
+\item \code{save_plot_data()}: keeps plot data generated during session
 
 \item \code{generate_report()}: Read in template, add the header and write report content to output dir
 
@@ -105,14 +110,14 @@ MLTuning App Utils
 
 \item \code{exec_ml_restock()}: Run rec model, save results, and return
 
-\item \code{default_params()}: get defaults and scale
+\item \code{default_ml_params()}: get defaults and scale
 
-\item \code{scale_params()}: scale for shiny sliders
+\item \code{scale_ml_params()}: scale for shiny sliders
 
-\item \code{unscale_params()}: scale for shiny sliders
+\item \code{unscale_ml_params()}: scale for shiny sliders
 
-\item \code{load_params()}: get default model params by location from the db
+\item \code{load_ml_params()}: get default model params by location from the db
 
-\item \code{save_params()}: save custom model params by location to the db
+\item \code{save_ml_params()}: save custom model params by location to the db
 
 }}

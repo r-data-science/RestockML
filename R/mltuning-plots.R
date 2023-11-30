@@ -1,6 +1,6 @@
 #' Plot functions for MLTuning App
 #'
-#' @param .colors colors returned by .hca_colors()
+#' @param .colors colors returned by get_app_colors()
 #' @param pdata0 plot dataset
 #' @param pdata1 plot dataset
 #' @param pdata2 plot dataset
@@ -110,6 +110,8 @@ NULL
 
 #' @describeIn mltuning-plots diagnostic plot
 plot_diagnostic_0 <- function(pdata0, .colors) {
+  rdstools::log_inf("...Creating plot 0")
+
   ptitle <- "Count by Recommendation"
   psubtitle <- paste0("Total Recommendations Generated: ", pdata0[, sum(N)])
   p0 <- ggplot2::ggplot(pdata0) +
@@ -158,6 +160,8 @@ plot_diagnostic_0 <- function(pdata0, .colors) {
 
 #' @describeIn mltuning-plots diagnostic plot
 plot_diagnostic_1 <- function(pdata1, .colors) {
+  rdstools::log_inf("...Creating plot 1")
+
   ptitle <- "Proportion of Recommendation"
   psubtitle <- "By Product Category"
   p1 <- ggplot2::ggplot(pdata1) +
@@ -202,6 +206,8 @@ plot_diagnostic_1 <- function(pdata1, .colors) {
 
 #' @describeIn mltuning-plots diagnostic plot
 plot_diagnostic_2 <- function(pdata2, .colors) {
+  rdstools::log_inf("...Creating plot 2")
+
   ptitle <- "Proportion of Recommendation Flags"
   psubtitle <- "By Classification and Assignment"
   lab_na <- pdata2[value == "Flag Not Assigned", .SD[1], .(variable)]
@@ -263,6 +269,8 @@ plot_diagnostic_2 <- function(pdata2, .colors) {
 
 #' @describeIn mltuning-plots diagnostic plot
 plot_diagnostic_3 <- function(pdata3, .colors) {
+  rdstools::log_inf("...Creating plot 3")
+
   ptitle <- "Proportion of Recommendation"
   psubtitle <- "By Recommendation and Flag Assignments"
   p3 <- ggplot2::ggplot(pdata3[variable != "is_trending"]) +
@@ -331,6 +339,8 @@ plot_diagnostic_3 <- function(pdata3, .colors) {
 
 #' @describeIn mltuning-plots diagnostic plot
 plot_diagnostic_4 <- function(pdata4, .colors) {
+  rdstools::log_inf("...Creating plot 4")
+
   pdata4[, lab := stringr::str_replace(lab, "12pt;", "16pt;")]
   pdata4[, lab := stringr::str_replace_all(lab, "10pt", "14pt")]
 

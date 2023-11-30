@@ -1,6 +1,6 @@
 Package: rdsapps
 Title: Internal Apps
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person(given = "Bobby",
            family = "Fatemi",
@@ -32,9 +32,10 @@ Imports:
     lubridate,
     rpgconn,
     rdscore,
-    rdstools
+    rdstools,
+    waiter,
+    rmarkdown
 Depends: 
   R (>= 4.0)
 Suggests: 
-    testthat,
-    waiter
+    testthat

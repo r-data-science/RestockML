@@ -2,10 +2,11 @@
 % Please edit documentation in R/mltuning-ui.R
 \name{mltuning-ui}
 \alias{mltuning-ui}
-\alias{uiBootstrapTheme}
-\alias{uiSelectionFilts}
-\alias{uiSelectionStats}
-\alias{uiModelPlotPanel}
+\alias{.ui_bootstrap_theme}
+\alias{.ui_selection_filters}
+\alias{.ui_selection_stats}
+\alias{.ui_model_plot_panel}
+\alias{.ui_model_inputs_panel}
 \alias{.slider_model_sales}
 \alias{.slider_model_stock}
 \alias{.slider_price_qrtls}
@@ -14,13 +15,15 @@
 \alias{.toggle_model_ttest}
 \title{Ui elements of MLTuning App}
 \usage{
-uiBootstrapTheme()
+.ui_bootstrap_theme()
 
-uiSelectionFilts(width = 12, inline = TRUE)
+.ui_selection_filters(width = 12, inline = TRUE)
 
-uiSelectionStats(width = 12, .colors)
+.ui_selection_stats(width = 12, .colors)
 
-uiModelPlotPanel(width = 12)
+.ui_model_plot_panel(width = 12)
+
+.ui_model_inputs_panel()
 
 .slider_model_sales(width = "100\%", inline = FALSE)
 
@@ -46,13 +49,15 @@ Ui elements of MLTuning App
 }
 \section{Functions}{
 \itemize{
-\item \code{uiBootstrapTheme()}: bootstrap theme for app
+\item \code{.ui_bootstrap_theme()}: bootstrap theme for app
 
-\item \code{uiSelectionFilts()}: statistics panel
+\item \code{.ui_selection_filters()}: statistics panel
 
-\item \code{uiSelectionStats()}: statistics panel
+\item \code{.ui_selection_stats()}: statistics panel
 
-\item \code{uiModelPlotPanel()}: model diagnostic plot panel
+\item \code{.ui_model_plot_panel()}: model diagnostic plot panel
+
+\item \code{.ui_model_inputs_panel()}: model inputs panel
 
 \item \code{.slider_model_sales()}: slider
 

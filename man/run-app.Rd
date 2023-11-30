@@ -2,10 +2,16 @@
 % Please edit documentation in R/launch-app.R
 \name{run-app}
 \alias{run-app}
-\alias{runAppRecModel}
-\title{Launch Package Apps}
+\alias{runExplorePRM}
+\alias{server_prm}
+\alias{ui_prm}
+\title{Product Recommendations Model Tuning}
 \usage{
-runAppRecModel(SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE)
+runExplorePRM(SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE)
+
+server_prm()
+
+ui_prm()
 }
 \arguments{
 \item{SAVE_PLOTDATA}{Default is FALSE. Whether to keep plot input datasets generated during app session. Useful for plot development.}
@@ -13,10 +19,14 @@ runAppRecModel(SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE)
 \item{CLEAN_OUTPUTS}{Default is False. Whether to delete the session output directory. Useful for debuging}
 }
 \description{
-Launch Package Apps
+Product Recommendations Model Tuning
 }
 \section{Functions}{
 \itemize{
-\item \code{runAppRecModel()}: run MLTuning app
+\item \code{runExplorePRM()}: run Recommendations Model Tuning App
+
+\item \code{server_prm()}: server function for app
+
+\item \code{ui_prm()}: UI function for app
 
 }}

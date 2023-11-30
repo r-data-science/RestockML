@@ -8,7 +8,7 @@
 #' @importFrom sass font_link
 #' @importFrom bslib bs_theme
 #' @importFrom datamods select_group_ui
-#' @importFrom shinyWidgets panel statiCard noUiSliderInput wNumbFormat materialSwitch
+#' @importFrom shinyWidgets panel statiCard noUiSliderInput wNumbFormat materialSwitch dropMenu actionBttn
 #' @importFrom shinycssloaders withSpinner
 #'
 #' @name mltuning-ui
@@ -16,7 +16,7 @@ NULL
 
 
 #' @describeIn mltuning-ui bootstrap theme for app
-uiBootstrapTheme <- function() {
+.ui_bootstrap_theme <- function() {
   sor <- sass::font_link("Sora", href = "https://fonts.googleapis.com/css2?family=Sora")
   lex <- sass::font_link("Lexend", href = "https://fonts.googleapis.com/css2?family=Lexend")
   bslib::bs_theme(
@@ -38,7 +38,7 @@ uiBootstrapTheme <- function() {
 
 
 #' @describeIn mltuning-ui statistics panel
-uiSelectionFilts <- function(width = 12, inline = TRUE) {
+.ui_selection_filters <- function(width = 12, inline = TRUE) {
   column(
     width = width,
     shinyWidgets::panel(
@@ -87,7 +87,7 @@ uiSelectionFilts <- function(width = 12, inline = TRUE) {
 
 
 #' @describeIn mltuning-ui statistics panel
-uiSelectionStats <- function(width = 12, .colors) {
+.ui_selection_stats <- function(width = 12, .colors) {
   column(
     width = width,
     fluidRow(
@@ -151,7 +151,7 @@ uiSelectionStats <- function(width = 12, .colors) {
 
 
 #' @describeIn mltuning-ui model diagnostic plot panel
-uiModelPlotPanel <- function(width = 12) {
+.ui_model_plot_panel <- function(width = 12) {
   column(
     width = width,
     fluidRow(
@@ -178,6 +178,67 @@ uiModelPlotPanel <- function(width = 12) {
       column(
         width = 12,
         shinyWidgets::panel(shinycssloaders::withSpinner(plotOutput("plot_3", width = "100%", height = "800px")), footer = "Diagnostic 3")
+      )
+    )
+  )
+}
+
+
+#' @describeIn mltuning-ui model inputs panel
+.ui_model_inputs_panel <- function() {
+  panel(
+    column(
+      width = 12,
+      fluidRow(
+        .slider_model_sales(width = "20%", inline = TRUE),
+        .slider_model_stock(width = "20%", inline = TRUE),
+        .slider_price_qrtls(width = "20%", inline = TRUE),
+        .slider_product_cls(width = "20%", inline = TRUE),
+        .slider_menu_period(width = "20%", inline = TRUE)
+      )
+    ),
+    footer = fluidRow(
+
+      column(width = 4, .toggle_model_ttest(width = "150px", inline = TRUE)),
+      column(
+        width = 2,
+        offset = 3,
+        shinyWidgets::actionBttn(
+          inputId = "btn_run",
+          color = "warning",
+          label = "Generate Results",
+          size = "xs",
+          style = "minimal",
+          block = TRUE
+        )
+      ),
+      column(
+        width = 2,
+        shinyWidgets::actionBttn(
+          inputId = "btn_post",
+          color = "warning",
+          label = "Publish Scenario",
+          size = "xs",
+          style = "minimal",
+          block = TRUE
+        )
+      ),
+      column(
+        width = 1,
+        shinyWidgets::dropMenu(
+          shinyWidgets::actionBttn("btn_param_drop",
+                     icon = icon("gear"),
+                     color = "primary",
+                     size = "xs",
+                     style = "jelly",
+                     block = TRUE),
+          shinyWidgets::actionBttn("btn_save", label = "Save Params", size = "xs", style = "fill"),
+          shinyWidgets::actionBttn("btn_load", label = "Load Stored", size = "xs", style = "fill"),
+          shinyWidgets::actionBttn("btn_reset", label = "Reset to Default", size = "xs", style = "fill"),
+          placement = "bottom-end",
+          padding = 1,
+          maxWidth = "600px"
+        )
       )
     )
   )
