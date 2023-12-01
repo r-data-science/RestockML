@@ -46,6 +46,7 @@ jobs:
           remotes::install_github("r-data-science/rpgconn")
           remotes::install_github("r-data-science/rdstools")
           remotes::install_github("r-data-science/rdscore")
+        shell: Rscript {0}
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
