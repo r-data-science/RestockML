@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GH_PAT }}
+      RPG_CONN_STRING: ${{ secrets.RPG_CONN_STRING }}
 
     steps:
       - uses: actions/checkout@v3
