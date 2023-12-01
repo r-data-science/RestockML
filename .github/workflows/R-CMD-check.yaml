@@ -40,6 +40,13 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Install Private Depends
+        run: |
+          install.packages("remotes", repos = "https://packagemanager.posit.co/cran/latest")
+          remotes::install_github("r-data-science/rpgconn")
+          remotes::install_github("r-data-science/rdstools")
+          remotes::install_github("r-data-science/rdscore")
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
