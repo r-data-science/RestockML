@@ -1,6 +1,6 @@
 Package: rdsapps
 Title: Product Recommendations Model Explorer
-Version: 0.0.3
+Version: 0.0.5
 Authors@R: 
   person(
     given = "Bobby", 
@@ -44,4 +44,4 @@ Remotes:
 Depends: 
   R (>= 4.0)
 Suggests: 
-  testthat
+    testthat (>= 3.0.0)

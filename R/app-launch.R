@@ -1,4 +1,6 @@
-#' Product Recommendations Model Tuning
+#' Run App
+#'
+#' Functions to run the package shiny app
 #'
 #' @param WORK_DIR working directory to launch the app from. Default is NULL which will use the current working directory.
 #' @param SAVE_PLOTDATA Default is FALSE. Whether to keep plot input datasets generated during app session. Useful for plot development.
@@ -12,10 +14,11 @@
 #' @importFrom fs file_exists path
 #' @importFrom datamods select_group_server
 #'
-#' @name run-app
+#' @name app-launch
 NULL
 
-#' @describeIn run-app run Recommendations Model Tuning App
+
+#' @describeIn app-launch run Recommendations Model Tuning App
 #' @export
 runExplorePRM <- function(WORK_DIR=NULL, SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE) {
   if (is.null(WORK_DIR)) {
@@ -55,13 +58,15 @@ runExplorePRM <- function(WORK_DIR=NULL, SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = 
   )
 }
 
-#' @describeIn run-app returns app object for subsequent execution
+
+#' @describeIn app-launch returns app object for subsequent execution
 #' @export
 appExplorePRM <- function() {
   shiny::shinyApp(ui_prm(), server_prm())
 }
 
-#' @describeIn run-app server function for app
+
+#' @describeIn app-launch server function for app
 server_prm <- function() {
   function(input, output, session) {
 
@@ -70,7 +75,7 @@ server_prm <- function() {
     # create the waiter
     w <- Waiter$new(html = tagList(spin_pulsar(), br(), "Initializing..."), color = .colors$bg)
 
-    index <- get_app_index()
+    index <- db_app_index()
 
     ## Register callback to delete output dir on session end
     if (getShinyOption("clean_outputs", default = FALSE)) {
@@ -154,7 +159,7 @@ server_prm <- function() {
 
     ## Save Params on Actions
     observeEvent(input$btn_save, {
-      n <- save_ml_params(r_org_uuid(), r_store_uuid(), r_args())
+      n <- db_save_params(r_org_uuid(), r_store_uuid(), r_args())
       if (n == 1) {
         show_alert(
           title = "Success !!",
@@ -176,7 +181,7 @@ server_prm <- function() {
 
     ## Load previously stored params on action and update input elements
     observeEvent(input$btn_load, {
-      args <- load_ml_params(req(r_org_uuid()), req(r_store_uuid()))
+      args <- db_load_params(req(r_org_uuid()), req(r_store_uuid()))
 
       updateMaterialSwitch(session, "sw_poolvar", value = args$ml_pooled_var)
       updateMaterialSwitch(session, "sw_pairttest", value = args$ml_pair_ttest)
@@ -273,7 +278,7 @@ server_prm <- function() {
 }
 
 
-#' @describeIn run-app UI function for app
+#' @describeIn app-launch UI function for app
 ui_prm <- function() {
   fluidPage(
     theme = .ui_bootstrap_theme(),

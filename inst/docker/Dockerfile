@@ -1,5 +1,17 @@
-FROM rocker/r-ubuntu:20.04
+#------------------------------------------------------------
+# Base image
+#
+FROM rocker/r-ubuntu:22.04
 
+#------------------------------------------------------------
+# Args required to build image
+#
+ARG RPG_CONN_STRING
+ARG GITHUB_PAT
+
+#------------------------------------------------------------
+# Expose port for app to listen on
+#
 EXPOSE 3939
 
 #------------------------------------------------------------
@@ -28,11 +40,9 @@ RUN install.r remotes
 # Install cran and gh dependencies using the remotes package
 # and the current package's DESCRIPTION file
 #
-ENV GITHUB_PAT="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"
-ENV RPG_CONN_STRING="user=cabbage;password=cabbage;host=host.docker.internal;port=5432;dbname=integrated"
-ADD . rdsapps
-RUN Rscript -e "remotes::install_local('rdsapps')"
-RUN rm -rf rdsapps
+ENV GITHUB_PAT=$GITHUB_PAT
+ADD . rpkg
+RUN Rscript -e "remotes::install_local('rpkg')" && rm -rf rpkg
 
 #------------------------------------------------------------
 # Specify shiny runtime options in Rprofile.site that was
@@ -46,6 +56,11 @@ RUN echo "local(options(shiny.port = 3939, shiny.host = '0.0.0.0'))" > \
 #
 RUN addgroup --system app && adduser --system --ingroup app app
 WORKDIR /home/app
+
+#------------------------------------------------------------
+# Set envvar needed to run app
+#
+ENV RPG_CONN_STRING=$RPG_CONN_STRING
 
 #------------------------------------------------------------
 # Set permissions, switch user, and run the app

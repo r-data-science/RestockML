@@ -1,0 +1,13 @@
+test_that("App UI", {
+  # .ui_bootstrap_theme()
+  # .ui_selection_filters()
+  # .ui_selection_stats()
+  # .ui_model_plot_panel()
+  # .ui_model_inputs_panel()
+  # .slider_model_sales()
+  # .slider_model_stock()
+  # .slider_price_qrtls()
+  # .slider_product_cls()
+  # .slider_menu_period()
+  # .toggle_model_ttest()
+})

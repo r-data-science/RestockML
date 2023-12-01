@@ -1,4 +1,6 @@
-#' Plot functions for MLTuning App
+#' App Outputs
+#'
+#' Functions to generate and prepare outputs presented by the package app.
 #'
 #' @param .colors colors returned by get_app_colors()
 #' @param pdata0 plot dataset
@@ -33,10 +35,11 @@
 #' @importFrom rdscore restock_rec_ep
 #' @importFrom uuid as.UUID
 #'
-#' @name mltuning-plots
+#' @name app-outputs
 NULL
 
-#' @describeIn mltuning-plots provides the base theme for plots
+
+#' @describeIn app-outputs provides the base theme for plots
 .plot_theme <- function(.colors) {
 
   ggplot2::theme(
@@ -87,7 +90,7 @@ NULL
 }
 
 
-#' @describeIn mltuning-plots Style the plot title/subtitle
+#' @describeIn app-outputs Style the plot title/subtitle
 .plot_title_style <- function(ptitle, psubtitle, .colors) {
   ggplot2::labs(
     title = stringr::str_glue(
@@ -97,7 +100,7 @@ NULL
 }
 
 
-#' @describeIn mltuning-plots Parse failed skus to delineate between failures and uncertain recs
+#' @describeIn app-outputs Parse failed skus to delineate between failures and uncertain recs
 .parse_fails <- function(rec) {
   failed_skus <- stringr::str_split_1(
     stringr::str_remove(
@@ -108,7 +111,7 @@ NULL
 }
 
 
-#' @describeIn mltuning-plots diagnostic plot
+#' @describeIn app-outputs diagnostic plot
 plot_diagnostic_0 <- function(pdata0, .colors) {
   rdstools::log_inf("...Creating plot 0")
 
@@ -158,7 +161,7 @@ plot_diagnostic_0 <- function(pdata0, .colors) {
 }
 
 
-#' @describeIn mltuning-plots diagnostic plot
+#' @describeIn app-outputs diagnostic plot
 plot_diagnostic_1 <- function(pdata1, .colors) {
   rdstools::log_inf("...Creating plot 1")
 
@@ -204,7 +207,7 @@ plot_diagnostic_1 <- function(pdata1, .colors) {
 }
 
 
-#' @describeIn mltuning-plots diagnostic plot
+#' @describeIn app-outputs diagnostic plot
 plot_diagnostic_2 <- function(pdata2, .colors) {
   rdstools::log_inf("...Creating plot 2")
 
@@ -267,7 +270,7 @@ plot_diagnostic_2 <- function(pdata2, .colors) {
 }
 
 
-#' @describeIn mltuning-plots diagnostic plot
+#' @describeIn app-outputs diagnostic plot
 plot_diagnostic_3 <- function(pdata3, .colors) {
   rdstools::log_inf("...Creating plot 3")
 
@@ -337,7 +340,7 @@ plot_diagnostic_3 <- function(pdata3, .colors) {
 }
 
 
-#' @describeIn mltuning-plots diagnostic plot
+#' @describeIn app-outputs diagnostic plot
 plot_diagnostic_4 <- function(pdata4, .colors) {
   rdstools::log_inf("...Creating plot 4")
 
@@ -394,7 +397,7 @@ plot_diagnostic_4 <- function(pdata4, .colors) {
 }
 
 
-#' @describeIn mltuning-plots Run recommendations then Build plot datasets and generate plots
+#' @describeIn app-outputs Run recommendations then Build plot datasets and generate plots
 ds_sku_recs_pdata <- function(oid, sid, sku,
                               ml_trend_conf = 0.85,
                               ml_trend_pval = 0.05,

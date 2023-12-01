@@ -1,0 +1,11 @@
+test_that("Testing app outputs", {
+  # .plot_theme()
+  # .plot_title_style()
+  # .parse_fails()
+  # plot_diagnostic_0()
+  # plot_diagnostic_1()
+  # plot_diagnostic_2()
+  # plot_diagnostic_3()
+  # plot_diagnostic_4()
+  # ds_sku_recs_pdata()
+})

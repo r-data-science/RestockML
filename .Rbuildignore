@@ -6,7 +6,6 @@
 .github
 ^\.github$
 ^\.lintr$
-rsconnect
 ^R/_dev$
 _\.new\.png$
-^Dockerfile$
+^.dockerignore$
