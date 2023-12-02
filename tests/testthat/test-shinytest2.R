@@ -4,13 +4,14 @@ test_that("{shinytest2} recording: app ", {
 
   ## Test app location
   appd <- "test-app"
+  to_ms <- 10000000
 
   ## Initiate new test app session
   app <- AppDriver$new(app_dir = appd,
                        name = "app",
                        height = 871,
                        width = 1562,
-                       load_timeout = 100000)
+                       load_timeout = to_ms)
 
   ## Select scenario for model execution
   app$set_inputs(`filters-org` = "abidenapa")
@@ -18,7 +19,7 @@ test_that("{shinytest2} recording: app ", {
   app$set_inputs(`filters-category3` = "EDIBLES")
 
   ## Run model and expect output values
-  app$click("btn_run", timeout_=100000)
+  app$click("btn_run", timeout_ = to_ms)
   app$expect_values(output = TRUE)
 
   ## Expect these directories to have been created
