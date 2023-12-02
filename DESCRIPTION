@@ -44,4 +44,5 @@ Remotes:
 Depends: 
   R (>= 4.0)
 Suggests: 
+    shinytest2,
     testthat (>= 3.0.0)

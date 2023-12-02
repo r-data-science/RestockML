@@ -8,11 +8,11 @@
 \alias{ui_prm}
 \title{Run App}
 \usage{
-runExplorePRM(WORK_DIR = NULL, SAVE_PLOTDATA = FALSE, CLEAN_OUTPUTS = TRUE)
+runExplorePRM(WORK_DIR = NULL, SAVE_PLOTDATA = FALSE, CLEAN = TRUE)
 
 appExplorePRM()
 
-server_prm()
+server_prm(input, output, session)
 
 ui_prm()
 }
@@ -21,7 +21,13 @@ ui_prm()
 
 \item{SAVE_PLOTDATA}{Default is FALSE. Whether to keep plot input datasets generated during app session. Useful for plot development.}
 
-\item{CLEAN_OUTPUTS}{Default is False. Whether to delete the session output directory. Useful for debuging}
+\item{CLEAN}{Default is False. Whether to delete the session output directory. Useful for debuging}
+
+\item{input}{server function arg}
+
+\item{output}{server function arg}
+
+\item{session}{server function arg}
 }
 \description{
 Functions to run the package shiny app

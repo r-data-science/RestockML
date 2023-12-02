@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <script type="application/shiny-singletons">3891ac171834ed25f436995ba40a47edd74e5169,45534f2c59c7069db5da7f5118dc12c792e86de5</script>
+  <script type="application/html-dependencies">jquery[3.6.0];shiny-sass[1.8.0];shiny-javascript[1.8.0];shiny-testmode[1.8.0];bootstrap[5.3.1];Lexend[0.4.7];Sora[0.4.7];bs3compat[0.6.1];waiter[0.2.5];virtual-select[1.0.24];datamods[1.4.2];stati[0.8.0];font-awesome[6.4.2];nouislider[15.6.1];shinyWidgets[0.8.0];bttn[0.2.4];popper[1.16.0];tippy[5.1.2]</script>
+<script src="jquery-3.6.0/jquery.min.js"></script>
+<link href="shiny-sass-1.8.0/shiny-sass.css" rel="stylesheet" />
+<script src="shiny-javascript-1.8.0/shiny.min.js"></script>
+<script src="shiny-testmode-1.8.0/shiny-testmode.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet" />
+<script src="bootstrap-5.3.1/bootstrap.bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora" rel="stylesheet"/>
+<script src="bs3compat-0.6.1/transition.js"></script>
+<script src="bs3compat-0.6.1/tabs.js"></script>
+<script src="bs3compat-0.6.1/bs3compat.js"></script>
+<script src="waiter-0.2.5/waiter.js"></script>
+<script src="virtual-select-1.0.24/virtual-select.js"></script>
+<link href="datamods/css/datamods.css" rel="stylesheet" />
+<script src="datamods/js/datamods.js"></script>
+<link href="shinyWidgets/stati/stati.css" rel="stylesheet" />
+<script src="shinyWidgets/stati/bounty.js"></script>
+<script src="shinyWidgets/stati/stati.js"></script>
+<link href="font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<script src="nouislider-15.6.1/nouislider.js"></script>
+<link href="shinyWidgets/shinyWidgets.min.css" rel="stylesheet" />
+<script src="shinyWidgets/shinyWidgets-bindings.min.js"></script>
+<link href="shinyWidgets/bttn/bttn.min.css" rel="stylesheet" />
+<script src="shinyWidgets/popper/popper.min.js"></script>
+<link href="shinyWidgets/tippy/dist/themes.min.css" rel="stylesheet" />
+<link href="shinyWidgets/tippy/dist/animations.min.css" rel="stylesheet" />
+<script src="shinyWidgets/tippy/dist/tippy-bundle.iife.min.js"></script>  <link rel="stylesheet" href="shinycssloaders-assets/spinner.css"/>
+  <script src="shinycssloaders-assets/spinner.js"></script>
+  <link rel="stylesheet" href="shinycssloaders-assets/css-loaders.css"/>
+  <style>#spinner-cd102689c2c801962f52507cf48c4438, #spinner-cd102689c2c801962f52507cf48c4438:before, #spinner-cd102689c2c801962f52507cf48c4438:after {   background: #0275D8; } #spinner-cd102689c2c801962f52507cf48c4438 {   color: #0275D8; } #spinner-cd102689c2c801962f52507cf48c4438 { font-size: 8px; }</style>
+  <style>#spinner-7cd1893377d98541bccd1f045ad7fdb8, #spinner-7cd1893377d98541bccd1f045ad7fdb8:before, #spinner-7cd1893377d98541bccd1f045ad7fdb8:after {   background: #0275D8; } #spinner-7cd1893377d98541bccd1f045ad7fdb8 {   color: #0275D8; } #spinner-7cd1893377d98541bccd1f045ad7fdb8 { font-size: 8px; }</style>
+  <style>#spinner-130bb9dae101a3dc434bfe61aea23b6f, #spinner-130bb9dae101a3dc434bfe61aea23b6f:before, #spinner-130bb9dae101a3dc434bfe61aea23b6f:after {   background: #0275D8; } #spinner-130bb9dae101a3dc434bfe61aea23b6f {   color: #0275D8; } #spinner-130bb9dae101a3dc434bfe61aea23b6f { font-size: 8px; }</style>
+  <style>#spinner-8a5ceaedcea48b0bd305a1169cf22355, #spinner-8a5ceaedcea48b0bd305a1169cf22355:before, #spinner-8a5ceaedcea48b0bd305a1169cf22355:after {   background: #0275D8; } #spinner-8a5ceaedcea48b0bd305a1169cf22355 {   color: #0275D8; } #spinner-8a5ceaedcea48b0bd305a1169cf22355 { font-size: 8px; }</style>
+  <style>#spinner-2b4c078b2b7e4c9085e8603ec1d1b597, #spinner-2b4c078b2b7e4c9085e8603ec1d1b597:before, #spinner-2b4c078b2b7e4c9085e8603ec1d1b597:after {   background: #0275D8; } #spinner-2b4c078b2b7e4c9085e8603ec1d1b597 {   color: #0275D8; } #spinner-2b4c078b2b7e4c9085e8603ec1d1b597 { font-size: 8px; }</style>
+</head>
+<body>
+  <div class="container-fluid">
+    <br/>
+    <div class="panel card mb-3 panel-default border-default">
+      <div class="panel-body card-body">
+        <div class="col-sm-12">
+          <div class="panel card mb-3 panel-warning border-warning">
+            <div class="panel-heading card-header bg-warning">
+              <div class="select-group">
+                <div class="select-group-container" style="display:grid;grid-template-columns:repeat(4, 1fr);grid-column-gap:5px;">
+                  <div class="select-group-item" id="filters-container-org">
+                    <div class="form-group shiny-input-container" style="width:100%;">
+                      <label class="control-label" id="filters-org-label" for="filters-org">Choose Org (Required)</label>
+                      <div id="filters-org" class="virtual-select" style="width:100%;max-width:none;display:block;">
+                        <script type="application/json" data-for="filters-org">{"stateInput":true,"options":{"type":["transpose"],"choices":{"label":[],"value":[]}},"config":{"multiple":false,"search":true,"hideClearButton":false,"autoSelectFirstOption":true,"showSelectedOptionsFirst":false,"showValueAsTags":true,"optionsCount":10,"noOfDisplayValues":2,"allowNewOption":false,"disableSelectAll":true,"disableOptionGroupCheckbox":true,"disabled":false,"placeholder":"All Orgs","zIndex":10}}</script>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="select-group-item" id="filters-container-store">
+                    <div class="form-group shiny-input-container" style="width:100%;">
+                      <label class="control-label" id="filters-store-label" for="filters-store">Choose Store (Required)</label>
+                      <div id="filters-store" class="virtual-select" style="width:100%;max-width:none;display:block;">
+                        <script type="application/json" data-for="filters-store">{"stateInput":true,"options":{"type":["transpose"],"choices":{"label":[],"value":[]}},"config":{"multiple":false,"search":true,"hideClearButton":false,"autoSelectFirstOption":true,"showSelectedOptionsFirst":false,"showValueAsTags":true,"optionsCount":10,"noOfDisplayValues":2,"allowNewOption":false,"disableSelectAll":true,"disableOptionGroupCheckbox":true,"disabled":false,"placeholder":"All Stores","zIndex":10}}</script>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="select-group-item" id="filters-container-category3">
+                    <div class="form-group shiny-input-container" style="width:100%;">
+                      <label class="control-label" id="filters-category3-label" for="filters-category3">Filter Categories (Optional)</label>
+                      <div id="filters-category3" class="virtual-select" style="width:100%;max-width:none;display:block;">
+                        <script type="application/json" data-for="filters-category3">{"stateInput":true,"options":{"type":["transpose"],"choices":{"label":[],"value":[]}},"config":{"multiple":true,"search":true,"hideClearButton":false,"autoSelectFirstOption":false,"showSelectedOptionsFirst":false,"showValueAsTags":true,"optionsCount":10,"noOfDisplayValues":2,"allowNewOption":false,"disableSelectAll":true,"disableOptionGroupCheckbox":false,"disabled":false,"placeholder":"All Categories","zIndex":10}}</script>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="select-group-item" id="filters-container-brand_name">
+                    <div class="form-group shiny-input-container" style="width:100%;">
+                      <label class="control-label" id="filters-brand_name-label" for="filters-brand_name">Filter Brands (Optional)</label>
+                      <div id="filters-brand_name" class="virtual-select" style="width:100%;max-width:none;display:block;">
+                        <script type="application/json" data-for="filters-brand_name">{"stateInput":true,"options":{"type":["transpose"],"choices":{"label":[],"value":[]}},"config":{"multiple":true,"search":true,"hideClearButton":false,"autoSelectFirstOption":false,"showSelectedOptionsFirst":false,"showValueAsTags":true,"optionsCount":10,"noOfDisplayValues":2,"allowNewOption":false,"disableSelectAll":true,"disableOptionGroupCheckbox":false,"disabled":false,"placeholder":"All Brands","zIndex":10}}</script>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="stati left" style="color:#041E39; background:#73bffb;">
+                <div class="stati-content">
+                  <b class="stati-value" id="stat_skus" data-duration="0"></b>
+                  <span class="stati-subtitle" title="Count of Products in Selection">Count of Products in Selection</span>
+                </div>
+                <i class="fas fa-joint" role="presentation" aria-label="joint icon"></i>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="stati left" style="color:#041E39; background:#73bffb;">
+                <div class="stati-content">
+                  <b class="stati-value" id="stat_brands" data-duration="0"></b>
+                  <span class="stati-subtitle" title="Count of Brands in Selection">Count of Brands in Selection</span>
+                </div>
+                <i class="fas fa-cannabis" role="presentation" aria-label="cannabis icon"></i>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="stati left" style="color:#041E39; background:#73bffb;">
+                <div class="stati-content">
+                  <b class="stati-value" id="stat_sales" data-duration="2000"></b>
+                  <span class="stati-subtitle" title="Total Sales for Products in Selection">Total Sales for Products in Selection</span>
+                </div>
+                <i class="fas fa-magnifying-glass-dollar" role="presentation" aria-label="magnifying-glass-dollar icon"></i>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="stati left" style="color:#041E39; background:#73bffb;">
+                <div class="stati-content">
+                  <b class="stati-value" id="stat_units" data-duration="2000"></b>
+                  <span class="stati-subtitle" title="Units Sold for Products in Selection">Units Sold for Products in Selection</span>
+                </div>
+                <i class="fas fa-boxes-stacked" role="presentation" aria-label="boxes-stacked icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel card mb-3 panel-default border-default">
+      <div class="panel-body card-body">
+        <div class="col-sm-12">
+          <div class="row">
+            <div class="form-group shiny-input-container shiny-input-container-inline" style="width:20%; display: inline-block;">
+              <label class="control-label" id="sli_trend_pval_conf-label" for="sli_trend_pval_conf"><b><i>Sales Trend</i></b><br><i>Conf-Level & P-Value</i></label>
+              <div style="padding-left: 10px; margin-top: 40px; ">
+                <style>#sli_trend_pval_conf .noUi-connect {background: #a98bfb;}</style>
+                <div style="height: 22px;" id="sli_trend_pval_conf" class="sw-no-ui-slider" data-update="end"></div>
+                <script type="application/json" data-for="sli_trend_pval_conf">{"start":[5,85],"step":1,"range":{"min":[0],"30%":[5,1],"70%":[85,5],"max":[100,5]},"tooltips":true,"connect":[false,true,false],"padding":0,"margin":40,"orientation":"horizontal","direction":"rtl","behaviour":"tap-drag","format":{"decimals":0,"suffix":"%"}}</script>
+              </div>
+            </div>
+            <div class="form-group shiny-input-container shiny-input-container-inline" style="width:20%; display: inline-block;">
+              <label class="control-label" id="sli_stock_pval_conf-label" for="sli_stock_pval_conf"><b><i>Supply Risk</i></b><br><i>Conf-Level & P-Value</i></label>
+              <div style="padding-left: 10px; margin-top: 40px; ">
+                <style>#sli_stock_pval_conf .noUi-connect {background: #a98bfb;}</style>
+                <div style="height: 22px;" id="sli_stock_pval_conf" class="sw-no-ui-slider" data-update="end"></div>
+                <script type="application/json" data-for="sli_stock_pval_conf">{"start":[5,85],"step":1,"range":{"min":[0],"30%":[5,1],"70%":[85,5],"max":[100,5]},"tooltips":true,"connect":[false,true,false],"padding":0,"margin":40,"orientation":"horizontal","direction":"rtl","behaviour":"tap-drag","format":{"decimals":0,"suffix":"%"}}</script>
+              </div>
+            </div>
+            <div class="form-group shiny-input-container shiny-input-container-inline" style="width:20%; display: inline-block;">
+              <label class="control-label" id="sli_ppql_ppqh-label" for="sli_ppql_ppqh"><b><i>Price Quantiles</i></b><br><i>High vs Low</i></label>
+              <div style="padding-left: 10px; margin-top: 40px; ">
+                <style>#sli_ppql_ppqh .noUi-connect {background: #a98bfb;}</style>
+                <div style="height: 22px;" id="sli_ppql_ppqh" class="sw-no-ui-slider" data-update="end"></div>
+                <script type="application/json" data-for="sli_ppql_ppqh">{"start":[20,80],"step":1,"range":{"min":[0],"30%":[20,1],"70%":[80,5],"max":[100,5]},"tooltips":true,"connect":[true,false,true],"padding":5,"margin":30,"orientation":"horizontal","direction":"rtl","behaviour":"tap-drag","format":{"decimals":0,"suffix":"th"}}</script>
+              </div>
+            </div>
+            <div class="form-group shiny-input-container shiny-input-container-inline" style="width:20%; display: inline-block;">
+              <label class="control-label" id="sli_secd_prim-label" for="sli_secd_prim"><b><i>Primary vs Secondary</i></b><br><i>Share of Order</i></label>
+              <div style="padding-left: 10px; margin-top: 40px; ">
+                <style>#sli_secd_prim .noUi-connect {background: #a98bfb;}</style>
+                <div style="height: 22px;" id="sli_secd_prim" class="sw-no-ui-slider" data-update="end"></div>
+                <script type="application/json" data-for="sli_secd_prim">{"start":[20,45],"step":1,"range":{"min":[0],"30%":[20,1],"70%":[45,5],"max":[75,5]},"tooltips":true,"connect":[true,false,true],"padding":5,"margin":20,"orientation":"horizontal","direction":"rtl","behaviour":"tap-drag","format":{"decimals":0,"suffix":"%"}}</script>
+              </div>
+            </div>
+            <div class="form-group shiny-input-container shiny-input-container-inline" style="width:20%; display: inline-block;">
+              <label class="control-label" id="sli_npom_ltmi-label" for="sli_npom_ltmi"><b><i>Classic vs New</i></b><br><i>Days on Menu</i></label>
+              <div style="padding-left: 10px; margin-top: 40px; ">
+                <style>#sli_npom_ltmi .noUi-connect {background: #a98bfb;}</style>
+                <div style="height: 22px;" id="sli_npom_ltmi" class="sw-no-ui-slider" data-update="end"></div>
+                <script type="application/json" data-for="sli_npom_ltmi">{"start":[14,182],"step":1,"range":{"min":[0],"30%":[14,1],"70%":[182,10],"max":[360,10]},"tooltips":true,"connect":[true,false,true],"padding":4,"margin":60,"orientation":"horizontal","direction":"rtl","behaviour":"tap-drag","format":{"decimals":0,"suffix":" days"}}</script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer card-footer">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="row">
+              <div class="form-group shiny-input-container shiny-input-container-inline" style="width:150px; display: inline-block; margin-right: 10px;">
+                <div class="material-switch">
+                  <input id="sw_poolvar" type="checkbox" checked="checked"/>
+                  <label class="switch label-default bg-default" for="sw_poolvar"></label>
+                  <label for="sw_poolvar" style="padding-left: 5px;">Pool Variance</label>
+                </div>
+              </div>
+              <div class="form-group shiny-input-container shiny-input-container-inline" style="width:150px; display: inline-block; margin-right: 10px;">
+                <div class="material-switch">
+                  <input id="sw_pairttest" type="checkbox"/>
+                  <label class="switch label-default bg-default" for="sw_pairttest"></label>
+                  <label for="sw_pairttest" style="padding-left: 5px;">Paired T-Test</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2 offset-md-3 col-sm-offset-3">
+            <button class="action-button bttn bttn-minimal bttn-xs bttn-warning bttn-block bttn-no-outline" id="btn_run" type="button">Generate Results</button>
+          </div>
+          <div class="col-sm-2">
+            <button class="action-button bttn bttn-minimal bttn-xs bttn-warning bttn-block bttn-no-outline" id="btn_post" type="button">Publish Scenario</button>
+          </div>
+          <div class="col-sm-1">
+            <div class="drop-menu-input" id="btn_param_drop_dropmenu" data-target="btn_param_drop" data-template="btn_param_drop-template">
+              <button class="action-button bttn bttn-jelly bttn-xs bttn-primary bttn-block bttn-no-outline" id="btn_param_drop" type="button">
+                <i class="fas fa-gear" role="presentation" aria-label="gear icon"></i>
+              </button>
+              <div id="btn_param_drop-template" style="display: none; padding: 1px;">
+                <button class="action-button bttn bttn-fill bttn-xs bttn-default bttn-no-outline" id="btn_save" type="button">Save Params</button>
+                <button class="action-button bttn bttn-fill bttn-xs bttn-default bttn-no-outline" id="btn_load" type="button">Load Stored</button>
+                <button class="action-button bttn bttn-fill bttn-xs bttn-default bttn-no-outline" id="btn_reset" type="button">Reset to Default</button>
+              </div>
+              <script type="application/json" data-for="btn_param_drop_dropmenu">{"options":{"arrow":true,"theme":"light","trigger":"click","placement":"bottom-end","maxWidth":"600px","hideOnClick":true,"flip":false}}</script>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="panel card mb-3 panel-default border-default">
+            <div class="panel-body card-body">
+              <div class="shiny-spinner-output-container shiny-spinner-hideui ">
+                <div class="load-container shiny-spinner-hidden load1">
+                  <div id="spinner-cd102689c2c801962f52507cf48c4438" class="loader">Loading...</div>
+                </div>
+                <div class="shiny-plot-output html-fill-item" id="plot_0" style="width:100%;height:675px;"></div>
+              </div>
+            </div>
+            <div class="panel-footer card-footer">Diagnostic 0</div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="panel card mb-3 panel-default border-default">
+            <div class="panel-body card-body">
+              <div class="shiny-spinner-output-container shiny-spinner-hideui ">
+                <div class="load-container shiny-spinner-hidden load1">
+                  <div id="spinner-7cd1893377d98541bccd1f045ad7fdb8" class="loader">Loading...</div>
+                </div>
+                <div class="shiny-plot-output html-fill-item" id="plot_1" style="width:100%;height:675px;"></div>
+              </div>
+            </div>
+            <div class="panel-footer card-footer">Diagnostic 1</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-5">
+          <div class="panel card mb-3 panel-default border-default">
+            <div class="panel-body card-body">
+              <div class="shiny-spinner-output-container shiny-spinner-hideui ">
+                <div class="load-container shiny-spinner-hidden load1">
+                  <div id="spinner-130bb9dae101a3dc434bfe61aea23b6f" class="loader">Loading...</div>
+                </div>
+                <div class="shiny-plot-output html-fill-item" id="plot_2" style="width:100%;height:1500px;"></div>
+              </div>
+            </div>
+            <div class="panel-footer card-footer">Diagnostic 2</div>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <div class="panel card mb-3 panel-default border-default">
+            <div class="panel-body card-body">
+              <div class="shiny-spinner-output-container shiny-spinner-hideui ">
+                <div class="load-container shiny-spinner-hidden load1">
+                  <div id="spinner-8a5ceaedcea48b0bd305a1169cf22355" class="loader">Loading...</div>
+                </div>
+                <div class="shiny-plot-output html-fill-item" id="plot_4" style="width:100%;height:1500px;"></div>
+              </div>
+            </div>
+            <div class="panel-footer card-footer">Diagnostic 4</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel card mb-3 panel-default border-default">
+            <div class="panel-body card-body">
+              <div class="shiny-spinner-output-container shiny-spinner-hideui ">
+                <div class="load-container shiny-spinner-hidden load1">
+                  <div id="spinner-2b4c078b2b7e4c9085e8603ec1d1b597" class="loader">Loading...</div>
+                </div>
+                <div class="shiny-plot-output html-fill-item" id="plot_3" style="width:100%;height:800px;"></div>
+              </div>
+            </div>
+            <div class="panel-footer card-footer">Diagnostic 3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

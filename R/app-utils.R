@@ -31,11 +31,15 @@ NULL
 
 #' @describeIn app-utils creates and returns app dir path
 get_app_dir <- function() {
-  if (!shiny::isRunning()) {
-    fs::path_abs("ExplorePRM")
+  if (fs::file_exists("test-app/app.R")) {
+    x <- fs::path_wd("test-app")
+  } else if (shiny::isRunning()) {
+    x <- fs::path_abs("ExplorePRM")
   } else {
-    fs::path_wd()
+    x <- fs::path_wd()
+    # stop("Unknown error getting app dir path", call. = FALSE)
   }
+  return(x)
 }
 
 
@@ -58,8 +62,8 @@ get_app_colors <- function() {
 create_session_dir <- function() {
   rdstools::log_inf("...Creating Session Directory")
   fs::dir_create(get_app_dir())
-  fs::dir_create(get_app_dir(), "www") # report folder
-  fs::dir_create(get_app_dir(), "output", c("plots", "temp")) # output folder
+  fs::dir_create(get_app_dir(), "www")
+  fs::dir_create(get_app_dir(), "output", c("plots", "temp", ".plotdata"))
 }
 
 
@@ -233,6 +237,8 @@ save_ml_context <- function(oid, sid, sku_data, ml_args) {
   )
   # save scenario to the output directory for report generation and return
   outpath <- fs::path(get_app_dir(), "output/temp/context.rds")
+  print(outpath)
+  stopifnot(fs::dir_exists(fs::path_dir(outpath)))
   saveRDS(context, outpath)
   invisible(TRUE)
 }

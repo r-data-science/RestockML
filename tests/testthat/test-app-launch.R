@@ -1,6 +1,6 @@
 test_that("App Launch", {
   # runExplorePRM()
-  # appExplorePRM()
+  appExplorePRM()
   # server_prm()
   # ui_prm()
 })
