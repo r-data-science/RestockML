@@ -8,6 +8,7 @@
 #' @param input server function arg
 #' @param output server function arg
 #' @param session server function arg
+#' @param ... additional args to pass to shiny::runApp
 #'
 #' @import shiny
 #' @import waiter
@@ -16,6 +17,7 @@
 #' @importFrom rdstools log_suc
 #' @importFrom fs file_exists path
 #' @importFrom datamods select_group_server
+#' @importFrom testthat is_testing
 #'
 #' @name app-launch
 NULL
@@ -23,7 +25,7 @@ NULL
 
 #' @describeIn app-launch run Recommendations Model Tuning App
 #' @export
-runExplorePRM <- function(WORK_DIR=NULL, SAVE_PLOTDATA = FALSE, CLEAN = TRUE) {
+runExplorePRM <- function(WORK_DIR=NULL, SAVE_PLOTDATA = FALSE, CLEAN = TRUE, ...) {
   if (is.null(WORK_DIR)) {
     rdstools::log_inf("...Using Current Working Directory")
   } else {
@@ -48,14 +50,20 @@ runExplorePRM <- function(WORK_DIR=NULL, SAVE_PLOTDATA = FALSE, CLEAN = TRUE) {
   ))
 
   rdstools::log_inf("...Launching App")
+  path_app.r <- fs::path(get_app_dir(), "app.R")
   writeLines(
     text = "rdsapps::appExplorePRM()",
-    fs::path(get_app_dir(), "app.R")
+    path_app.r
   )
-  shiny::runApp(
-    appDir = get_app_dir(),
-    display.mode = "normal"
-  )
+
+  if (!testthat::is_testing()) {
+    shiny::runApp(
+      appDir = get_app_dir(),
+      display.mode = "normal",
+      ...
+    )
+  }
+  invisible(path_app.r)
 }
 
 
@@ -311,14 +319,14 @@ server_prm <- function(input, output, session) {
       w$update(html = tagList(spin_pulsar(), br(), "Generating Report..."))
 
       # Get org and store name for the report
-      report_path <- generate_report(
+      report_file <- generate_report(
         scenario[1, get("org")],
         scenario[1, get("store")]
       )
 
       ## get the link to the generated content
       report_link <- a("Download Report",
-                       href = report_path,
+                       href = report_file,
                        download=NA,
                        target = "_blank")
 
