@@ -2,19 +2,13 @@ library(shinytest2)
 
 
 test_that("{shinytest2} Basic App Tests ", {
-
-  ## Skip if on non-linux os and running on ci
-  skip_if(condition = {
-    tolower(Sys.info()[["sysname"]]) %in% c("windows", "mac") &
-      isTRUE(as.logical(Sys.getenv("CI", "false")))
-  })
+  # skip_on_ci()
 
   #-----------------------------------------------------
   # Initialize app and expect consistent state on start
   #
   app <- AppDriver$new(
     app_dir = ".",
-    seed = 1000,
     name = "app",
     height = 880,
     width = 1571,
@@ -64,6 +58,9 @@ test_that("{shinytest2} Basic App Tests ", {
   app$click("btn_save", wait_=FALSE)
   app$click("btn_reset", wait_=FALSE)
   app$click("btn_load", wait_=FALSE)
+
+  Sys.sleep(3)
+
   app$click("btn_run")
   app$expect_values()
 
