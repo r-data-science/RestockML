@@ -95,7 +95,7 @@ NULL
         width = 3,
         shinyWidgets::statiCard(
           value = NULL,
-          subtitle = "Count of Products in Selection",
+          subtitle = "Products in Selection",
           icon = icon("joint"),
           left = TRUE,
           background = "#73bffb",
@@ -109,7 +109,7 @@ NULL
         width = 3,
         shinyWidgets::statiCard(
           value = NULL,
-          subtitle = "Count of Brands in Selection",
+          subtitle = "Brands in Selection",
           icon = icon("cannabis"),
           left = TRUE,
           background = "#73bffb",
@@ -123,7 +123,7 @@ NULL
         width = 3,
         shinyWidgets::statiCard(
           value = NULL,
-          subtitle = "Total Sales for Products in Selection",
+          subtitle = "90-day Total Sales",
           icon = icon("magnifying-glass-dollar"),
           left = TRUE,
           background = "#73bffb",
@@ -136,7 +136,7 @@ NULL
         width = 3,
         shinyWidgets::statiCard(
           value = NULL,
-          subtitle = "Units Sold for Products in Selection",
+          subtitle = "90-Day Total Units Sold",
           icon = icon("boxes"),
           left = TRUE,
           background = "#73bffb",
@@ -206,7 +206,7 @@ NULL
         shinyWidgets::actionBttn(
           inputId = "btn_run",
           color = "warning",
-          label = "Generate Results",
+          label = "Run Model",
           size = "xs",
           style = "minimal",
           block = TRUE
@@ -217,7 +217,7 @@ NULL
         shinyWidgets::actionBttn(
           inputId = "btn_post",
           color = "warning",
-          label = "Publish Scenario",
+          label = "Create Report",
           size = "xs",
           style = "minimal",
           block = TRUE
