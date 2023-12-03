@@ -11,34 +11,18 @@
 #' @param ptitle plot title
 #' @param psubtitle plot subtitle
 #' @param rec internal
-#' @param oid see rdscore::restock_rec_ep
-#' @param sid see rdscore::restock_rec_ep
-#' @param sku see rdscore::restock_rec_ep
-#' @param ml_trend_conf see rdscore::restock_rec_ep
-#' @param ml_trend_pval see rdscore::restock_rec_ep
-#' @param ml_stock_conf see rdscore::restock_rec_ep
-#' @param ml_stock_pval see rdscore::restock_rec_ep
-#' @param ml_pair_ttest see rdscore::restock_rec_ep
-#' @param ml_pooled_var see rdscore::restock_rec_ep
-#' @param ml_ltmi see rdscore::restock_rec_ep
-#' @param ml_npom see rdscore::restock_rec_ep
-#' @param ml_prim see rdscore::restock_rec_ep
-#' @param ml_secd see rdscore::restock_rec_ep
-#' @param ml_ppql see rdscore::restock_rec_ep
-#' @param ml_ppqh see rdscore::restock_rec_ep
 #'
 #' @import ggplot2
 #' @import ggtext
 #' @import data.table
 #' @importFrom scales percent
 #' @importFrom stringr str_glue str_remove str_split_1 str_replace str_replace_all
-#' @importFrom rdscore restock_rec_ep
 #'
-#' @name app-outputs
+#' @name app-output
 NULL
 
 
-#' @describeIn app-outputs provides the base theme for plots
+#' @describeIn app-output provides the base theme for plots
 .plot_theme <- function(.colors) {
 
   ggplot2::theme(
@@ -89,7 +73,7 @@ NULL
 }
 
 
-#' @describeIn app-outputs Style the plot title/subtitle
+#' @describeIn app-output Style the plot title/subtitle
 .plot_title_style <- function(ptitle, psubtitle, .colors) {
   ggplot2::labs(
     title = stringr::str_glue(
@@ -99,7 +83,7 @@ NULL
 }
 
 
-#' @describeIn app-outputs Parse failed skus to delineate between failures and uncertain recs
+#' @describeIn app-output Parse failed skus to delineate between failures and uncertain recs
 .parse_fails <- function(rec) {
   failed_skus <- stringr::str_split_1(
     stringr::str_remove(
@@ -110,7 +94,7 @@ NULL
 }
 
 
-#' @describeIn app-outputs diagnostic plot
+#' @describeIn app-output diagnostic plot
 plot_diagnostic_0 <- function(pdata0, .colors) {
   rdstools::log_inf("...Creating plot 0")
 
@@ -160,7 +144,7 @@ plot_diagnostic_0 <- function(pdata0, .colors) {
 }
 
 
-#' @describeIn app-outputs diagnostic plot
+#' @describeIn app-output diagnostic plot
 plot_diagnostic_1 <- function(pdata1, .colors) {
   rdstools::log_inf("...Creating plot 1")
 
@@ -206,7 +190,7 @@ plot_diagnostic_1 <- function(pdata1, .colors) {
 }
 
 
-#' @describeIn app-outputs diagnostic plot
+#' @describeIn app-output diagnostic plot
 plot_diagnostic_2 <- function(pdata2, .colors) {
   rdstools::log_inf("...Creating plot 2")
 
@@ -269,7 +253,7 @@ plot_diagnostic_2 <- function(pdata2, .colors) {
 }
 
 
-#' @describeIn app-outputs diagnostic plot
+#' @describeIn app-output diagnostic plot
 plot_diagnostic_3 <- function(pdata3, .colors) {
   rdstools::log_inf("...Creating plot 3")
 
@@ -339,7 +323,7 @@ plot_diagnostic_3 <- function(pdata3, .colors) {
 }
 
 
-#' @describeIn app-outputs diagnostic plot
+#' @describeIn app-output diagnostic plot
 plot_diagnostic_4 <- function(pdata4, .colors) {
   rdstools::log_inf("...Creating plot 4")
 
@@ -396,40 +380,8 @@ plot_diagnostic_4 <- function(pdata4, .colors) {
 }
 
 
-#' @describeIn app-outputs Run recommendations then Build plot datasets and generate plots
-ds_sku_recs_pdata <- function(oid, sid, sku,
-                              ml_trend_conf = 0.85,
-                              ml_trend_pval = 0.05,
-                              ml_stock_conf = 0.85,
-                              ml_stock_pval = 0.05,
-                              ml_pair_ttest = FALSE,
-                              ml_pooled_var = TRUE,
-                              ml_ltmi = 182,
-                              ml_npom = 14,
-                              ml_prim = 0.45,
-                              ml_secd = 0.2,
-                              ml_ppql = 0.2,
-                              ml_ppqh = 0.8) {
-
-  # Get recommendations
-  rec <- rdscore::restock_rec_ep(
-    oid = oid,
-    sid = sid,
-    sku = sku,
-    ml_trend_conf = ml_trend_conf,
-    ml_trend_pval = ml_trend_pval,
-    ml_stock_conf = ml_stock_conf,
-    ml_stock_pval = ml_stock_pval,
-    ml_pair_ttest = ml_pair_ttest,
-    ml_pooled_var = ml_pooled_var,
-    ml_ltmi = ml_ltmi,
-    ml_npom = ml_npom,
-    ml_prim = ml_prim,
-    ml_secd = ml_secd,
-    ml_ppql = ml_ppql,
-    ml_ppqh = ml_ppqh
-  )
-
+#' @describeIn app-output build plot data with result of rdscore::restock_rec_ep
+process_rec_ep <- function(rec) {
 
   ## Label failed skus in results table
   rec$results[(.parse_fails(rec)), restock := "failed", on = "product_sku"]
@@ -600,7 +552,6 @@ ds_sku_recs_pdata <- function(oid, sid, sku,
   pdata4[description == "This product drives the majority of sales per order when purchased",
          lab := "<span style= 'font-size:12pt;'>**Primary Product**</span><br>
                 <span style= 'font-size:10pt;'>*Product drives the<br>majority of sales<br>per order*</span>"]
-
 
   list(
     pdata0 = pdata0,

@@ -14,16 +14,19 @@
 #' @param sid store id
 #' @param sku_data sku table
 #' @param ml_args model args
-#' @param skus skus to get recs for
+#' @param sku_vec skus to get recs for
 #' @param ll argument list to scale or unscale values
+#' @param dlfile download filename
 #'
 #' @import data.table
+#' @importFrom shiny a
 #' @importFrom rdstools log_suc log_err log_inf
 #' @importFrom fs dir_create path dir_delete file_delete dir_ls file_exists path_package path_file
 #' @importFrom stringr str_glue str_to_title str_remove_all str_remove str_subset
 #' @importFrom ggplot2 ggsave
 #' @importFrom lubridate now
 #' @importFrom rmarkdown render
+#' @importFrom rdscore restock_rec_ep
 #'
 #' @name app-utils
 NULL
@@ -81,6 +84,12 @@ save_plot_data <- function(results) {
 }
 
 
+#' @describeIn app-utils create a dowload link to be displayed to user
+create_dl_link <- function(dlfile = "report.html") {
+  shiny::a("Download Report", href = dlfile, download=NA, target = "_blank")
+}
+
+
 #' @describeIn app-utils Read in template, add the header and write report content to output dir
 generate_report <- function(org, store) {
   rdstools::log_inf("...Generating Model Report")
@@ -91,34 +100,37 @@ generate_report <- function(org, store) {
   report_title <- stringr::str_glue("Product Recommendations - {Org}/{Store}")
 
   # define header
-  headr <- c('---',
-             stringr::str_glue('title: {report_title}'),
-             stringr::str_glue('date: "{Sys.Date()}"'),
-             'format: markdown',
-             'resource_files:',
-             ' - scenario.rds',
-             ' - plots/*',
-             '---')
+  headr <- c(
+    '---',
+    stringr::str_glue('title: {report_title}'),
+    stringr::str_glue('date: "{Sys.Date()}"'),
+    'format: markdown',
+    'resource_files:',
+    ' - scenario.rds',
+    ' - plots/*',
+    '---'
+  )
   # read lines, append header, and write
   templ_path <- fs::path_package(package = "rdsapps", "docs", "template.rmd")
   report_path <- fs::path(get_app_dir(), "output/report.rmd")
   writeLines(c(headr, readLines(templ_path)), report_path)
 
   rdstools::log_inf("...Rendering Model Report")
-
-  rmarkdown::render(
+  dlink <- rmarkdown::render(
     input = report_path,
     output_dir = fs::path(get_app_dir(), "www"),
     clean = TRUE,
     output_options = "self-contained",
     encoding = 'UTF-8'
   ) |>
-    fs::path_file()
+    fs::path_file() |>
+    create_dl_link()
+  return(dlink)
 }
 
 
 #' @describeIn app-utils Saving plots for report
-save_ggplots <- function(p0, p1, p2, p3, p4) {
+save_plot_image <- function(p0, p1, p2, p3, p4) {
   rdstools::log_inf("...Saving Plots as PNG Images")
 
   plot_path <- fs::path(get_app_dir(), "output/plots")
@@ -230,30 +242,38 @@ save_ml_context <- function(oid, sid, sku_data, ml_args) {
   )
   # save scenario to the output directory for report generation and return
   outpath <- fs::path(get_app_dir(), "output/temp/context.rds")
-  print(outpath)
-  stopifnot(fs::dir_exists(fs::path_dir(outpath)))
   saveRDS(context, outpath)
   invisible(outpath)
 }
 
 
-#' @describeIn app-utils Run rec model, save results, and return
-exec_ml_restock <- function(oid, sid, skus, ml_args) {
-  args <- c(oid = oid, sid = sid, list(sku = skus), unscale_ml_params(ml_args))
-
-  rdstools::log_inf("...Executing Rec Model")
-  results <- do.call(ds_sku_recs_pdata, args)
-
-  rdstools::log_inf("...Saving Model Results")
+#' @describeIn app-utils save ml results (internal)
+save_ml_results <- function(results) {
   outpath <- fs::path(get_app_dir(), "output/temp/results.rds")
   saveRDS(results, outpath)
-  results
+  invisible(outpath)
+}
+
+
+#' @describeIn app-utils Run rec model, save results, and return
+exec_ml_restock <- function(oid, sid, sku_vec, ml_args) {
+  rdstools::log_inf("...Executing and Saving Results")
+  args <- c(
+    oid = oid,
+    sid = sid,
+    list(sku = sku_vec),
+    unscale_ml_params(ml_args)
+  )
+  rdscore::restock_rec_ep |>
+    do.call(args) |>
+    process_rec_ep()
 }
 
 
 #' @describeIn app-utils get defaults and scale
 default_ml_params <- function() {
   rdstools::log_inf("...Getting Default Params")
+
   scale_ml_params(
     list(
       ml_npom = 14,

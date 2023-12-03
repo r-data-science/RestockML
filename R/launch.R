@@ -106,7 +106,7 @@ server_prm <- function(input, output, session) {
   index <- db_app_index_anon()
 
   ## Register callback to delete output dir on session end
-  if (getShinyOption("clean_outputs", default = FALSE)) {
+  if (getShinyOption("clean_outputs", FALSE)) {
     onStop(clean_session_dir, session = session)
   }
 
@@ -117,24 +117,6 @@ server_prm <- function(input, output, session) {
     data_r = index,
     vars_r = c("org", "store", "category3", "brand_name", "product_sku")
   )
-
-  ## Get model input parameters and store as reactive object
-  r_args <- reactive({
-    list(
-      ml_trend_conf = input$sli_trend_pval_conf[2], ## model confidence
-      ml_trend_pval = input$sli_trend_pval_conf[1], ## model pvalue
-      ml_stock_conf = input$sli_stock_pval_conf[2], ## model confidence
-      ml_stock_pval = input$sli_stock_pval_conf[1], ## model pvalue
-      ml_pair_ttest = input$sw_pairttest,           ## Pair the ttest
-      ml_pooled_var = input$sw_poolvar,             ## Pool the variance
-      ml_ltmi = input$sli_npom_ltmi[2],             ## Long term product days
-      ml_npom = input$sli_npom_ltmi[1],             ## New menu item days
-      ml_prim = input$sli_secd_prim[2],             ## Primary product thresh
-      ml_secd = input$sli_secd_prim[1],             ## Secondary product thresh
-      ml_ppql = input$sli_ppql_ppqh[1],             ## price quantile low
-      ml_ppqh = input$sli_ppql_ppqh[2]              ## price quantile high
-    )
-  })
 
   ## Update the Stats Cards on new filtering of dataset
   observe({
@@ -159,6 +141,25 @@ server_prm <- function(input, output, session) {
       duration = 100
     )
   })
+
+  ## Get model input parameters and store as reactive object
+  r_args <- reactive({
+    list(
+      ml_trend_conf = input$sli_trend_pval_conf[2], ## model confidence
+      ml_trend_pval = input$sli_trend_pval_conf[1], ## model pvalue
+      ml_stock_conf = input$sli_stock_pval_conf[2], ## model confidence
+      ml_stock_pval = input$sli_stock_pval_conf[1], ## model pvalue
+      ml_pair_ttest = input$sw_pairttest,           ## Pair the ttest
+      ml_pooled_var = input$sw_poolvar,             ## Pool the variance
+      ml_ltmi = input$sli_npom_ltmi[2],             ## Long term product days
+      ml_npom = input$sli_npom_ltmi[1],             ## New menu item days
+      ml_prim = input$sli_secd_prim[2],             ## Primary product thresh
+      ml_secd = input$sli_secd_prim[1],             ## Secondary product thresh
+      ml_ppql = input$sli_ppql_ppqh[1],             ## price quantile low
+      ml_ppqh = input$sli_ppql_ppqh[2]              ## price quantile high
+    )
+  })
+
 
   ## Save Org, Store, and Skus into reactive objects
   r_org_uuid <- reactive({
@@ -208,28 +209,6 @@ server_prm <- function(input, output, session) {
                           value = list(args$ml_npom, args$ml_ltmi))
   })
 
-  ## Save Params on Actions
-  observeEvent(input$btn_save, {
-    n <- db_save_params(r_org_uuid(), r_store_uuid(), r_args())
-    if (n == 1) {
-      show_alert(
-        title = "Success !!",
-        text = "Parameters saved",
-        type = "success",
-        closeOnClickOutside = TRUE,
-        showCloseButton = TRUE
-      )
-    } else {
-      show_alert(
-        title = "Error !!",
-        text = "Failed to save parameters",
-        type = "error",
-        closeOnClickOutside = TRUE,
-        showCloseButton = TRUE
-      )
-    }
-  })
-
   ## Load previously stored params on action and update input elements
   observeEvent(input$btn_load, {
     args <- db_load_params(req(r_org_uuid()), req(r_store_uuid()))
@@ -265,6 +244,29 @@ server_prm <- function(input, output, session) {
     )
   })
 
+  ## Save Params on Actions
+  observeEvent(input$btn_save, {
+    n <- db_save_params(r_org_uuid(), r_store_uuid(), r_args())
+
+    if (n == 1) {
+      show_alert(
+        title = "Success !!",
+        text = "Parameters saved",
+        type = "success",
+        closeOnClickOutside = TRUE,
+        showCloseButton = TRUE
+      )
+    } else {
+      show_alert(
+        title = "Error !!",
+        text = "Failed to save parameters",
+        type = "error",
+        closeOnClickOutside = TRUE,
+        showCloseButton = TRUE
+      )
+    }
+  })
+
 
   ## Run all on action
   r_plots <- eventReactive(input$btn_run, {
@@ -276,24 +278,27 @@ server_prm <- function(input, output, session) {
 
     w$show()
 
-    w$update(html = tagList(spin_pulsar(), br(), "Saving Model Context..."))
+    w$update(html = tagList(spin_pulsar(), br(), "Saving Context..."))
     save_ml_context(oid, sid, skus_data, ml_args)
 
     w$update(html = tagList(spin_pulsar(), br(), "Running Model..."))
     results <- exec_ml_restock(oid, sid, skus, ml_args)
 
-    w$update(html = tagList(spin_pulsar(), br(), "Running Diagnostics..."))
-    if (getShinyOption("save_plotdata", TRUE))
+    w$update(html = tagList(spin_pulsar(), br(), "Saving Results..."))
+    save_ml_results(results)
+
+    if (getShinyOption("save_plotdata", FALSE))
       save_plot_data(results)
 
+    w$update(html = tagList(spin_pulsar(), br(), "Generating Plots..."))
     p0 <- plot_diagnostic_0(pdata0 = results[[1]], .colors)
     p1 <- plot_diagnostic_1(pdata1 = results[[2]], .colors)
     p2 <- plot_diagnostic_2(pdata2 = results[[3]], .colors)
     p3 <- plot_diagnostic_3(pdata3 = results[[4]], .colors)
     p4 <- plot_diagnostic_4(pdata4 = results[[5]], .colors)
 
-    w$update(html = tagList(spin_pulsar(), br(), "Finalizing Output Plots..."))
-    save_ggplots(p0, p1, p2, p3, p4)
+    w$update(html = tagList(spin_pulsar(), br(), "Saving Plots..."))
+    save_plot_image(p0, p1, p2, p3, p4)
 
     w$hide()
     list(p0, p1, p2, p3, p4)
@@ -318,25 +323,17 @@ server_prm <- function(input, output, session) {
     if (!is.null(scenario)) {
       w$update(html = tagList(spin_pulsar(), br(), "Generating Report..."))
 
-      # Get org and store name for the report
-      report_file <- generate_report(
+      # generate report and get the download link
+      report_link <- generate_report(
         scenario[1, get("org")],
         scenario[1, get("store")]
       )
-
-      ## get the link to the generated content
-      report_link <- a("Download Report",
-                       href = report_file,
-                       download=NA,
-                       target = "_blank")
 
       ## Hide waiter and show success alert containing link
       w$hide()
       show_alert("Document Ready!", report_link, type = "success", html = TRUE)
     } else {
-
       w$hide()
-
       show_alert(
         title = "Oops !!",
         text = "Unable to Generate Report. No Results Found...",
@@ -347,7 +344,6 @@ server_prm <- function(input, output, session) {
     }
   })
 }
-
 
 #' @describeIn app-launch UI function for app
 ui_prm <- function() {
