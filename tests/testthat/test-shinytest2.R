@@ -10,12 +10,16 @@ test_that("{shinytest2} Basic App Tests ", {
   app <- AppDriver$new(
     app_dir = ".",
     name = "app",
+    screenshot_args = FALSE,
+    seed = 1000,
     height = 1200,
     width = 1900,
     timeout = 10000,
     variant = "linux-4.3",
     expect_values_screenshot_args = FALSE
   )
+
+  app$set_window_size(width = 1816, height = 1104)
   app$expect_values()
 
   #-----------------------------------------------------
