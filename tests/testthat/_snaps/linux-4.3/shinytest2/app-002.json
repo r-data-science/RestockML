@@ -1,19 +1,19 @@
 {
   "input": {
-    "btn_load": 1,
+    "btn_load": 0,
     "btn_param_drop": 0,
     "btn_param_drop_dropmenu": false,
-    "btn_post": 1,
-    "btn_reset": 2,
-    "btn_run": 3,
-    "btn_save": 1,
+    "btn_post": 0,
+    "btn_reset": 0,
+    "btn_run": 1,
+    "btn_save": 0,
     "filters-brand_name": null,
     "filters-category3": "Edibles",
     "filters-org": "ORG001",
     "filters-store": "AA001",
     "sli_npom_ltmi": [
-      14,
-      120
+      21,
+      150
     ],
     "sli_ppql_ppqh": [
       20,
@@ -21,28 +21,25 @@
     ],
     "sli_secd_prim": [
       20,
-      40
+      50
     ],
     "sli_stock_pval_conf": [
-      8,
+      10,
       80
     ],
     "sli_trend_pval_conf": [
-      8,
-      80
+      15,
+      60
     ],
     "sw_pairttest": false,
     "sw_poolvar": true,
-    "swal2-checkbox": false,
-    "swal2-select": null,
-    "swal2-textarea": "",
     "waiter_hidden": true,
     "waiter_shown": true
   },
   "output": {
     "plot_0": {
-      "src": "[image data hash: ce1690eaa45ccdec1f954e909e5d2595]",
-      "width": 722,
+      "src": "[image data hash: 86219dc0bf04c18ca87660d06184a7e2]",
+      "width": 886.5,
       "height": 675,
       "alt": "Plot object",
       "coordmap": {
@@ -62,7 +59,7 @@
               "left": 0.55,
               "right": 3.45,
               "bottom": 0,
-              "top": 3.16227766016838,
+              "top": 3.464101615137754,
               "discrete_limits": {
                 "x": [
                   "yes",
@@ -77,22 +74,22 @@
               "fill": "restock"
             },
             "range": {
-              "left": 43.57071537290712,
-              "right": 715.531202435312,
-              "bottom": 635.5092846270928,
-              "top": 77.19293759512938
+              "left": 30.31071537290707,
+              "right": 879.531202435312,
+              "bottom": 636.862823011689,
+              "top": 76.52043635673796
             }
           }
         ],
         "dims": {
-          "width": 722,
+          "width": 886.5,
           "height": 675
         }
       }
     },
     "plot_1": {
-      "src": "[image data hash: 23c75930b390ff17a562017d445e5fda]",
-      "width": 722,
+      "src": "[image data hash: 1ae1f8f7b4863e1c05c084743797387f]",
+      "width": 886.5,
       "height": 675,
       "alt": "Plot object",
       "coordmap": {
@@ -124,22 +121,22 @@
               "panelvar1": "category3"
             },
             "range": {
-              "left": 49.17631659056322,
-              "right": 715.5312024353119,
-              "bottom": 644.3458973294589,
-              "top": 77.19293759512938
+              "left": 49.54819159056319,
+              "right": 879.5312024353119,
+              "bottom": 645.0226665217571,
+              "top": 76.52043635673796
             }
           }
         ],
         "dims": {
-          "width": 722,
+          "width": 886.5,
           "height": 675
         }
       }
     },
     "plot_2": {
-      "src": "[image data hash: a24da765213b64cf3ce089418d5fa25b]",
-      "width": 592.328125,
+      "src": "[image data hash: 777351c085baac3f29881603582afd12]",
+      "width": 729.40625,
       "height": 1500,
       "alt": "Plot object",
       "coordmap": {
@@ -168,9 +165,9 @@
                   "<span style= 'font-size:12pt;'>**Primary Product**<\/span><br>\n         <span style= 'font-size:10pt;'>*Drives Majority<br>of Order Sales*<\/span>",
                   "<span style= 'font-size:12pt;'>**Secondary Item**<\/span><br>\n         <span style= 'font-size:10pt;'>*Product is an<br>Addon Item*<\/span>",
                   "<span style= 'font-size:12pt;'>**Bottom Shelf**<\/span><br>\n         <span style= 'font-size:10pt;'>*Low Price<br>Relative to Category*<\/span>",
+                  "<span style= 'font-size:12pt;'>**Menu Classic**<\/span><br>\n         <span style= 'font-size:10pt;'>*Long-Term<br>Menu Item*<\/span>",
                   "<span style= 'font-size:12pt;'>**Sales Decline**<\/span><br>\n         <span style= 'font-size:10pt;'>*Sales Trend<br>is Negative*<\/span>",
                   "<span style= 'font-size:12pt;'>**Trending Sales**<\/span><br>\n         <span style= 'font-size:10pt;'>*Recent Sales<br>shows Trend*<\/span>",
-                  "<span style= 'font-size:12pt;'>**Menu Classic**<\/span><br>\n         <span style= 'font-size:10pt;'>*Long-Term<br>Menu Item*<\/span>",
                   "<span style= 'font-size:12pt;'>**Stockout Risk**<\/span><br>\n         <span style= 'font-size:10pt;'>*Supply has<br>risk of Stockout*<\/span>"
                 ]
               }
@@ -181,22 +178,22 @@
               "fill": "value"
             },
             "range": {
-              "left": 141.7173820395739,
-              "right": 585.531202435312,
-              "bottom": 1474.109284627093,
-              "top": 77.19293759512938
+              "left": 142.4806112062405,
+              "right": 722.531202435312,
+              "bottom": 1474.786053819391,
+              "top": 76.52043635673795
             }
           }
         ],
         "dims": {
-          "width": 592.328125,
+          "width": 729.40625,
           "height": 1500
         }
       }
     },
     "plot_3": {
-      "src": "[image data hash: 38a9a8f7c56ebcf39cb4e043cd81a00b]",
-      "width": 1500,
+      "src": "[image data hash: 4150219328a228fb739e8a907a21740d]",
+      "width": 1829,
       "height": 800,
       "alt": "Plot object",
       "coordmap": {
@@ -230,10 +227,10 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 49.17631659056307,
-              "right": 166.2861721995968,
-              "bottom": 697.1036834094368,
-              "top": 163.7139283243393
+              "left": 49.54819159056304,
+              "right": 193.3035708482454,
+              "bottom": 697.5818084094368,
+              "top": 162.3646578936498
             }
           },
           {
@@ -265,10 +262,10 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 166.2861721995968,
-              "right": 283.3960278086305,
-              "bottom": 697.1036834094368,
-              "top": 163.7139283243393
+              "left": 193.3035708482454,
+              "right": 337.0589501059277,
+              "bottom": 697.5818084094368,
+              "top": 162.3646578936498
             }
           },
           {
@@ -300,10 +297,10 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 283.3960278086305,
-              "right": 400.5058834176642,
-              "bottom": 697.1036834094368,
-              "top": 163.7139283243393
+              "left": 337.0589501059277,
+              "right": 480.8143293636101,
+              "bottom": 697.5818084094368,
+              "top": 162.3646578936498
             }
           },
           {
@@ -335,10 +332,10 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 400.5058834176642,
-              "right": 517.615739026698,
-              "bottom": 697.1036834094368,
-              "top": 163.7139283243393
+              "left": 480.8143293636101,
+              "right": 624.5697086212925,
+              "bottom": 697.5818084094368,
+              "top": 162.3646578936498
             }
           },
           {
@@ -373,10 +370,10 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 517.615739026698,
-              "right": 732.317140976593,
-              "bottom": 697.1036834094368,
-              "top": 163.7139283243393
+              "left": 624.5697086212925,
+              "right": 888.1212372603768,
+              "bottom": 697.5818084094368,
+              "top": 162.3646578936498
             }
           },
           {
@@ -411,54 +408,16 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 732.317140976593,
-              "right": 947.0185429264882,
-              "bottom": 697.1036834094368,
-              "top": 163.7139283243393
+              "left": 888.1212372603768,
+              "right": 1151.672765899461,
+              "bottom": 697.5818084094368,
+              "top": 162.3646578936498
             }
           },
           {
             "panel": 7,
             "row": 1,
             "col": 7,
-            "panel_vars": {
-              "panelvar1": "<span style= 'font-size:12pt;'>**Sales Decline**<\/span><br>\n         <span style= 'font-size:10pt;'>*Sales Trend<br>is Negative*<\/span>"
-            },
-            "log": {
-              "x": null,
-              "y": null
-            },
-            "domain": {
-              "left": 0.4,
-              "right": 2.6,
-              "bottom": 0,
-              "top": 1,
-              "discrete_limits": {
-                "x": [
-                  "Assigned",
-                  "Not Assigned"
-                ]
-              }
-            },
-            "mapping": {
-              "y": null,
-              "x": "value2",
-              "fill": "restock",
-              "alpha": "value2",
-              "colour": "value2",
-              "panelvar1": "fac_var"
-            },
-            "range": {
-              "left": 947.0185429264882,
-              "right": 1161.719944876383,
-              "bottom": 697.1036834094368,
-              "top": 163.7139283243393
-            }
-          },
-          {
-            "panel": 8,
-            "row": 1,
-            "col": 8,
             "panel_vars": {
               "panelvar1": "<span style= 'font-size:12pt;'>**Menu Classic**<\/span><br>\n         <span style= 'font-size:10pt;'>*Long-Term<br>Menu Item*<\/span>"
             },
@@ -487,10 +446,48 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 1161.719944876383,
-              "right": 1376.421346826278,
-              "bottom": 697.1036834094368,
-              "top": 163.7139283243393
+              "left": 1151.672765899461,
+              "right": 1415.224294538546,
+              "bottom": 697.5818084094368,
+              "top": 162.3646578936498
+            }
+          },
+          {
+            "panel": 8,
+            "row": 1,
+            "col": 8,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**Sales Decline**<\/span><br>\n         <span style= 'font-size:10pt;'>*Sales Trend<br>is Negative*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 2.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": [
+                  "Assigned",
+                  "Not Assigned"
+                ]
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 1415.224294538546,
+              "right": 1678.77582317763,
+              "bottom": 697.5818084094368,
+              "top": 162.3646578936498
             }
           },
           {
@@ -522,22 +519,22 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 1376.421346826278,
-              "right": 1493.531202435312,
-              "bottom": 697.1036834094368,
-              "top": 163.7139283243393
+              "left": 1678.77582317763,
+              "right": 1822.531202435312,
+              "bottom": 697.5818084094368,
+              "top": 162.3646578936498
             }
           }
         ],
         "dims": {
-          "width": 1500,
+          "width": 1829,
           "height": 800
         }
       }
     },
     "plot_4": {
-      "src": "[image data hash: 6b56177fa081028aea0f3343b9e342bd]",
-      "width": 851.65625,
+      "src": "[image data hash: 9b1ca09f3198b0749aaa8efa1f9b9018]",
+      "width": 1043.578125,
       "height": 1500,
       "alt": "Plot object",
       "coordmap": {
@@ -580,15 +577,15 @@
               "panelvar1": "category3"
             },
             "range": {
-              "left": 190.3896499238964,
-              "right": 844.531202435312,
-              "bottom": 1477.343683409437,
-              "top": 103.0782427009825
+              "left": 190.9651707572298,
+              "right": 1036.531202435312,
+              "bottom": 1478.020452601735,
+              "top": 102.4112077005331
             }
           }
         ],
         "dims": {
-          "width": 851.65625,
+          "width": 1043.578125,
           "height": 1500
         }
       }
