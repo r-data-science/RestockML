@@ -6,13 +6,59 @@
 #'
 #' @import data.table
 #' @importFrom rpgconn dbc dbd
-#' @importFrom DBI dbGetQuery dbWithTransaction dbExecute dbAppendTable
+#' @importFrom DBI dbGetQuery dbWithTransaction dbExecute dbAppendTable dbReadTable
 #' @importFrom stringr str_glue
 #' @importFrom rdstools log_suc log_err log_inf
 #'
 #' @name app-database
 NULL
 
+#' @describeIn app-database get index of locations with anonomized names
+db_app_index_anon <- function() {
+  cn <- rpgconn::dbc(db = "appdata")
+  on.exit(rpgconn::dbd(cn))
+
+  # Get Values to Assign to Stores
+  LIDs <- apply(CJ(LETTERS, LETTERS), 1, paste0, collapse = "")
+
+  # Get Index from Table
+  DT <- setDT(DBI::dbReadTable(cn, "vindex_product_velocity_daily"))
+
+  # Assign anonomized org and store names
+  DT[, org := paste0(
+    c("ORG", c(rep(0, 3 - stringr::str_length(.GRP)), .GRP)),
+    collapse = ""
+  ), org_uuid][, store := .SD[, paste0(
+    LIDs[.GRP],
+    stringr::str_remove(org, "^ORG")
+  ), store_uuid]$V1, org_uuid]
+
+  # Make category labels more user-friendly
+  levs <- c(
+    "FLOWER", "PREROLLS", "VAPES",
+    "EXTRACTS", "EDIBLES", "DRINKS",
+    "TABLETS_CAPSULES", "TINCTURES",
+    "TOPICALS", "ACCESSORIES", "OTHER"
+  )
+  labs <- c(
+    "Flowers", "Prerolls", "Vapes & Cartridges",
+    "Concentrates", "Edibles", "Drinks",
+    "Tablets & Capsules", "Tictures",
+    "Topicals", "Accessories", "Miscellaneous"
+  )
+  DT[, category3 := factor(
+    x = category3,
+    levels = levs,
+    labels = labs
+  )]
+
+  # Order columns and return
+  setcolorder(DT, c(
+    "org", "store", "category3", "brand_name",
+    "product_sku", "tot_sales", "units_sold"
+  ))
+  return(DT[])
+}
 
 #' @describeIn app-database get primary app data
 db_app_index <- function() {
