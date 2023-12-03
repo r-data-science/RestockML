@@ -2,11 +2,14 @@
 % Please edit documentation in R/app-database.R
 \name{app-database}
 \alias{app-database}
+\alias{db_app_index_anon}
 \alias{db_app_index}
 \alias{db_load_params}
 \alias{db_save_params}
 \title{Interface with Database}
 \usage{
+db_app_index_anon()
+
 db_app_index()
 
 db_load_params(oid, sid)
@@ -25,6 +28,8 @@ Interface with Database
 }
 \section{Functions}{
 \itemize{
+\item \code{db_app_index_anon()}: get index of locations with anonomized names
+
 \item \code{db_app_index()}: get primary app data
 
 \item \code{db_load_params()}: get default model params by location from the db
