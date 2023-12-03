@@ -1,29 +1,82 @@
 {
+  "input": {
+    "btn_load": 0,
+    "btn_param_drop": 0,
+    "btn_param_drop_dropmenu": false,
+    "btn_post": 0,
+    "btn_reset": 0,
+    "btn_run": 0,
+    "btn_save": 0,
+    "filters-brand_name": null,
+    "filters-category3": null,
+    "filters-org": "",
+    "filters-store": "",
+    "sli_npom_ltmi": [
+      14,
+      182
+    ],
+    "sli_ppql_ppqh": [
+      20,
+      80
+    ],
+    "sli_secd_prim": [
+      20,
+      45
+    ],
+    "sli_stock_pval_conf": [
+      5,
+      85
+    ],
+    "sli_trend_pval_conf": [
+      5,
+      85
+    ],
+    "sw_pairttest": false,
+    "sw_poolvar": true
+  },
   "output": {
     "plot_0": {
       "message": "",
       "call": "NULL",
-      "type": null
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
     },
     "plot_1": {
       "message": "",
       "call": "NULL",
-      "type": null
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
     },
     "plot_2": {
       "message": "",
       "call": "NULL",
-      "type": null
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
     },
     "plot_3": {
       "message": "",
       "call": "NULL",
-      "type": null
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
     },
     "plot_4": {
       "message": "",
       "call": "NULL",
-      "type": null
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
     }
+  },
+  "export": {
+
   }
 }

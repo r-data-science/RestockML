@@ -1,0 +1,600 @@
+{
+  "input": {
+    "btn_load": 1,
+    "btn_param_drop": 0,
+    "btn_param_drop_dropmenu": false,
+    "btn_post": 1,
+    "btn_reset": 2,
+    "btn_run": 3,
+    "btn_save": 1,
+    "filters-brand_name": null,
+    "filters-category3": "Edibles",
+    "filters-org": "ORG001",
+    "filters-store": "AA001",
+    "sli_npom_ltmi": [
+      14,
+      120
+    ],
+    "sli_ppql_ppqh": [
+      20,
+      80
+    ],
+    "sli_secd_prim": [
+      20,
+      40
+    ],
+    "sli_stock_pval_conf": [
+      8,
+      80
+    ],
+    "sli_trend_pval_conf": [
+      8,
+      80
+    ],
+    "sw_pairttest": false,
+    "sw_poolvar": true,
+    "swal2-checkbox": false,
+    "swal2-select": null,
+    "swal2-textarea": "",
+    "waiter_hidden": true,
+    "waiter_shown": true
+  },
+  "output": {
+    "plot_0": {
+      "src": "[image data hash: d0a4991e3fccd0caf3cd4a8d9d731b56]",
+      "width": 719,
+      "height": 675,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.55,
+              "right": 3.45,
+              "bottom": 0,
+              "top": 3.16227766016838,
+              "discrete_limits": {
+                "x": [
+                  "yes",
+                  "no",
+                  "unsure"
+                ]
+              }
+            },
+            "mapping": {
+              "x": "restock",
+              "y": "N",
+              "fill": "restock"
+            },
+            "range": {
+              "left": 39.84134037290713,
+              "right": 712.531202435312,
+              "bottom": 636.862823011689,
+              "top": 75.84012712526911
+            }
+          }
+        ],
+        "dims": {
+          "width": 719,
+          "height": 675
+        }
+      }
+    },
+    "plot_1": {
+      "src": "[image data hash: c71d696cc3536854ffc48aa01b33a404]",
+      "width": 719,
+      "height": 675,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+              "panelvar1": "Edibles"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 1.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": "Edibles"
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "category3",
+              "fill": "restock",
+              "panelvar1": "category3"
+            },
+            "range": {
+              "left": 45.26631659056312,
+              "right": 712.5312024353121,
+              "bottom": 645.0226665217571,
+              "top": 75.84012712526911
+            }
+          }
+        ],
+        "dims": {
+          "width": 719,
+          "height": 675
+        }
+      }
+    },
+    "plot_2": {
+      "src": "[image data hash: 640279aa6acacae3d69408feb9cc3344]",
+      "width": 589.828125,
+      "height": 1500,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0,
+              "right": 1.01,
+              "bottom": 0.55,
+              "top": 10.45,
+              "discrete_limits": {
+                "y": [
+                  "<span style= 'font-size:12pt;'>**Sales Growth**<\/span><br>\n         <span style= 'font-size:10pt;'>*Sales Trend<br>is Positive*<\/span>",
+                  "<span style= 'font-size:12pt;'>**New Product**<\/span><br>\n         <span style= 'font-size:10pt;'>*Recent Addition<br>on Menu*<\/span>",
+                  "<span style= 'font-size:12pt;'>**Top Shelf**<\/span><br>\n         <span style= 'font-size:10pt;'>*High Price<br>Relative to Category*<\/span>",
+                  "<span style= 'font-size:12pt;'>**Primary Product**<\/span><br>\n         <span style= 'font-size:10pt;'>*Drives Majority<br>of Order Sales*<\/span>",
+                  "<span style= 'font-size:12pt;'>**Secondary Item**<\/span><br>\n         <span style= 'font-size:10pt;'>*Product is an<br>Addon Item*<\/span>",
+                  "<span style= 'font-size:12pt;'>**Bottom Shelf**<\/span><br>\n         <span style= 'font-size:10pt;'>*Low Price<br>Relative to Category*<\/span>",
+                  "<span style= 'font-size:12pt;'>**Sales Decline**<\/span><br>\n         <span style= 'font-size:10pt;'>*Sales Trend<br>is Negative*<\/span>",
+                  "<span style= 'font-size:12pt;'>**Trending Sales**<\/span><br>\n         <span style= 'font-size:10pt;'>*Recent Sales<br>shows Trend*<\/span>",
+                  "<span style= 'font-size:12pt;'>**Menu Classic**<\/span><br>\n         <span style= 'font-size:10pt;'>*Long-Term<br>Menu Item*<\/span>",
+                  "<span style= 'font-size:12pt;'>**Stockout Risk**<\/span><br>\n         <span style= 'font-size:10pt;'>*Supply has<br>risk of Stockout*<\/span>"
+                ]
+              }
+            },
+            "mapping": {
+              "y": "fac_var",
+              "x": null,
+              "fill": "value"
+            },
+            "range": {
+              "left": 122.5162362062405,
+              "right": 582.531202435312,
+              "bottom": 1474.786053819391,
+              "top": 75.84012712526911
+            }
+          }
+        ],
+        "dims": {
+          "width": 589.828125,
+          "height": 1500
+        }
+      }
+    },
+    "plot_3": {
+      "src": "[image data hash: 74b6726b76836811ae4774ff3c374836]",
+      "width": 1494,
+      "height": 800,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**Sales Growth**<\/span><br>\n         <span style= 'font-size:10pt;'>*Sales Trend<br>is Positive*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 1.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": "Not Assigned"
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 45.26631659056311,
+              "right": 162.2067127401374,
+              "bottom": 706.7193084094368,
+              "top": 161.684348662181
+            }
+          },
+          {
+            "panel": 2,
+            "row": 1,
+            "col": 2,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**New Product**<\/span><br>\n         <span style= 'font-size:10pt;'>*Recent Addition<br>on Menu*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 1.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": "Not Assigned"
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 162.2067127401374,
+              "right": 279.1471088897116,
+              "bottom": 706.7193084094368,
+              "top": 161.684348662181
+            }
+          },
+          {
+            "panel": 3,
+            "row": 1,
+            "col": 3,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**Top Shelf**<\/span><br>\n         <span style= 'font-size:10pt;'>*High Price<br>Relative to Category*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 1.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": "Not Assigned"
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 279.1471088897116,
+              "right": 396.0875050392858,
+              "bottom": 706.7193084094368,
+              "top": 161.684348662181
+            }
+          },
+          {
+            "panel": 4,
+            "row": 1,
+            "col": 4,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**Primary Product**<\/span><br>\n         <span style= 'font-size:10pt;'>*Drives Majority<br>of Order Sales*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 1.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": "Not Assigned"
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 396.0875050392858,
+              "right": 513.02790118886,
+              "bottom": 706.7193084094368,
+              "top": 161.684348662181
+            }
+          },
+          {
+            "panel": 5,
+            "row": 1,
+            "col": 5,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**Secondary Item**<\/span><br>\n         <span style= 'font-size:10pt;'>*Product is an<br>Addon Item*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 2.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": [
+                  "Assigned",
+                  "Not Assigned"
+                ]
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 513.02790118886,
+              "right": 727.4186274630795,
+              "bottom": 706.7193084094368,
+              "top": 161.684348662181
+            }
+          },
+          {
+            "panel": 6,
+            "row": 1,
+            "col": 6,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**Bottom Shelf**<\/span><br>\n         <span style= 'font-size:10pt;'>*Low Price<br>Relative to Category*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 2.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": [
+                  "Assigned",
+                  "Not Assigned"
+                ]
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 727.4186274630795,
+              "right": 941.8093537372989,
+              "bottom": 706.7193084094368,
+              "top": 161.684348662181
+            }
+          },
+          {
+            "panel": 7,
+            "row": 1,
+            "col": 7,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**Sales Decline**<\/span><br>\n         <span style= 'font-size:10pt;'>*Sales Trend<br>is Negative*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 2.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": [
+                  "Assigned",
+                  "Not Assigned"
+                ]
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 941.8093537372989,
+              "right": 1156.200080011518,
+              "bottom": 706.7193084094368,
+              "top": 161.684348662181
+            }
+          },
+          {
+            "panel": 8,
+            "row": 1,
+            "col": 8,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**Menu Classic**<\/span><br>\n         <span style= 'font-size:10pt;'>*Long-Term<br>Menu Item*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 2.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": [
+                  "Assigned",
+                  "Not Assigned"
+                ]
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 1156.200080011518,
+              "right": 1370.590806285738,
+              "bottom": 706.7193084094368,
+              "top": 161.684348662181
+            }
+          },
+          {
+            "panel": 9,
+            "row": 1,
+            "col": 9,
+            "panel_vars": {
+              "panelvar1": "<span style= 'font-size:12pt;'>**Stockout Risk**<\/span><br>\n         <span style= 'font-size:10pt;'>*Supply has<br>risk of Stockout*<\/span>"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0.4,
+              "right": 1.6,
+              "bottom": 0,
+              "top": 1,
+              "discrete_limits": {
+                "x": "Assigned"
+              }
+            },
+            "mapping": {
+              "y": null,
+              "x": "value2",
+              "fill": "restock",
+              "alpha": "value2",
+              "colour": "value2",
+              "panelvar1": "fac_var"
+            },
+            "range": {
+              "left": 1370.590806285738,
+              "right": 1487.531202435312,
+              "bottom": 706.7193084094368,
+              "top": 161.684348662181
+            }
+          }
+        ],
+        "dims": {
+          "width": 1494,
+          "height": 800
+        }
+      }
+    },
+    "plot_4": {
+      "src": "[image data hash: a1194b781655513a703fd2593d4058cf]",
+      "width": 848.15625,
+      "height": 1500,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+              "panelvar1": "Edibles"
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": -0.02,
+              "right": 1.02,
+              "bottom": 0.4,
+              "top": 9.6,
+              "discrete_limits": {
+                "y": [
+                  "<span style= 'font-size:16pt;'>**Ave Order Item**<\/span><br>\n                <span style= 'font-size:14pt;'>*Products are neither<br>primary or secondary*<\/span>",
+                  "<span style= 'font-size:16pt;'>**Average History**<\/span><br>\n                <span style= 'font-size:14pt;'>*Product not new<br>nor a menu classic*<\/span>",
+                  "<span style= 'font-size:16pt;'>**Bottom Shelf**<\/span><br>\n                <span style= 'font-size:14pt;'>*Low Priced Item*<\/span>",
+                  "<span style= 'font-size:16pt;'>**Menu Classic**<\/span><br>\n                <span style= 'font-size:14pt;'>*Long-term<br>menu items*<\/span>",
+                  "<span style= 'font-size:16pt;'>**Mid-Shelf**<\/span><br>\n                <span style= 'font-size:14pt;'>*Products are priced<br>within category range*<\/span>",
+                  "<span style= 'font-size:16pt;'>**No Sales Trend**<\/span><br>\n                <span style= 'font-size:14pt;'>*No statistically<br>significant sales trend*<\/span>",
+                  "<span style= 'font-size:16pt;'>**Sales Decline**<\/span><br>\n                <span style= 'font-size:14pt;'>*Sales are<br>trending down*<\/span>",
+                  "<span style= 'font-size:16pt;'>**Secondary Item**<\/span><br>\n                <span style= 'font-size:14pt;'>*Products are added<br>on to orders*<\/span>",
+                  "<span style= 'font-size:16pt;'>**Supply Risky**<\/span><br>\n                <span style= 'font-size:14pt;'>*Supply has risk<br>of stockouts*<\/span>"
+                ]
+              }
+            },
+            "mapping": {
+              "y": "lab",
+              "x": null,
+              "fill": "restock",
+              "alpha": "restock",
+              "panelvar1": "category3"
+            },
+            "range": {
+              "left": 167.9443374238964,
+              "right": 841.531202435312,
+              "bottom": 1478.020452601735,
+              "top": 101.7308984690643
+            }
+          }
+        ],
+        "dims": {
+          "width": 848.15625,
+          "height": 1500
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}
