@@ -33,7 +33,6 @@
 #' @importFrom scales percent
 #' @importFrom stringr str_glue str_remove str_split_1 str_replace str_replace_all
 #' @importFrom rdscore restock_rec_ep
-#' @importFrom uuid as.UUID
 #'
 #' @name app-outputs
 NULL
@@ -411,12 +410,6 @@ ds_sku_recs_pdata <- function(oid, sid, sku,
                               ml_secd = 0.2,
                               ml_ppql = 0.2,
                               ml_ppqh = 0.8) {
-
-  if (is.na(uuid::as.UUID(oid)) | is.na(uuid::as.UUID(sid)))
-    stop("Invalid UUIDs for Org and Store", call. = FALSE)
-
-  if (length(sku) == 0)
-    stop("No Skus provided in call args", call. = FALSE)
 
   # Get recommendations
   rec <- rdscore::restock_rec_ep(
