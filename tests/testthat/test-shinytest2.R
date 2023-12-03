@@ -4,7 +4,10 @@ library(shinytest2)
 test_that("{shinytest2} Basic App Tests ", {
 
   ## Skip if on non-linux os and running on ci
-  skip_if(!!skip_on_os("linux") & !is.null(skip_on_ci()))
+  skip_if(condition = {
+    tolower(Sys.info()[["sysname"]]) %in% c("windows", "mac") &
+      isTRUE(as.logical(Sys.getenv("CI", "false")))
+  })
 
   #-----------------------------------------------------
   # Initialize app and expect consistent state on start
