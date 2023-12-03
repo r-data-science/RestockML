@@ -1,7 +1,7 @@
 test_that("App Database Interface", {
   cnams <- c("org", "store", "category3", "brand_name", "product_sku",
              "tot_sales", "units_sold", "org_uuid", "store_uuid")
-  indx <- db_app_index()
+  indx <- db_app_index_anon()
   expect_named(indx, cnams, ignore.order = TRUE)
 
   oid <- "bfcadfb1-34df-40c1-acf6-1be6ba20de0f"
