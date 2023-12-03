@@ -62,7 +62,10 @@ runExplorePRM <- function(WORK_DIR=NULL, SAVE_PLOTDATA = FALSE, CLEAN = TRUE) {
 #' @describeIn app-launch returns app object for subsequent execution
 #' @export
 appExplorePRM <- function() {
-  create_session_dir() # Init output directory
+
+  # Init output directory
+  rdstools::log_inf(paste0("...Starting From: ", getwd()))
+  create_session_dir()
 
   shiny::shinyApp(
     ui = fluidPage(
@@ -92,7 +95,7 @@ server_prm <- function(input, output, session) {
     color = .colors$bg
   )
 
-  index <- db_app_index()
+  index <- db_app_index_anon()
 
   ## Register callback to delete output dir on session end
   if (getShinyOption("clean_outputs", default = FALSE)) {
@@ -169,8 +172,6 @@ server_prm <- function(input, output, session) {
       get("product_sku")
     ]
   })
-
-
 
   ## On click, resent tuning parameters to default values
   observeEvent(input$btn_reset, {
