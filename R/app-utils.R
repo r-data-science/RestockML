@@ -55,7 +55,8 @@ create_session_dir <- function() {
   rdstools::log_inf("...Creating Session Directory")
   fs::dir_create(get_app_dir())
   fs::dir_create(get_app_dir(), "www")
-  fs::dir_create(get_app_dir(), "output", c("plots", "temp", ".plotdata"))
+  x <- fs::dir_create(get_app_dir(), "output", c("plots", "temp", ".plotdata"))
+  return(invisible(x))
 }
 
 
@@ -76,6 +77,7 @@ save_plot_data <- function(results) {
   saveRDS(results[[3]], fs::path(dpath, "pdata2.rds"))
   saveRDS(results[[4]], fs::path(dpath, "pdata3.rds"))
   saveRDS(results[[5]], fs::path(dpath, "pdata4.rds"))
+  return(invisible(dpath))
 }
 
 
@@ -170,8 +172,7 @@ save_ggplots <- function(p0, p1, p2, p3, p4) {
     dpi = 150,
     bg = NULL
   )
-  ## return plot objects
-  return(invisible(TRUE))
+  return(invisible(plot_path))
 }
 
 
@@ -232,7 +233,7 @@ save_ml_context <- function(oid, sid, sku_data, ml_args) {
   print(outpath)
   stopifnot(fs::dir_exists(fs::path_dir(outpath)))
   saveRDS(context, outpath)
-  invisible(TRUE)
+  invisible(outpath)
 }
 
 
