@@ -76,7 +76,7 @@ NULL
         vs_args = list(
           noOfDisplayValues = 2,
           hideClearButton = FALSE,
-          search = TRUE
+          search = FALSE
         ),
         btn_reset_label = NULL,
         inline = inline
