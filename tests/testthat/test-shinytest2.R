@@ -22,8 +22,13 @@ test_that("{shinytest2} Basic App Tests ", {
   # and then Run and expect outputs
   #
   app$set_inputs(`filters-org` = "ORG001")
+  app$wait_for_idle(500)
+
   app$set_inputs(`filters-store` = "AA001")
+  app$wait_for_idle(500)
+
   app$set_inputs(`filters-category3` = "Edibles")
+  app$wait_for_idle(500)
 
   app$set_inputs(sli_trend_pval_conf = c(15, 60))
   app$set_inputs(sli_stock_pval_conf = c(10, 80))
@@ -42,7 +47,9 @@ test_that("{shinytest2} Basic App Tests ", {
   #-----------------------------------------------------
   # Run Model with reset params and expect output
   #
-  app$click("btn_reset", wait_=FALSE)
+  app$click("btn_reset")
+  app$wait_for_idle(500)
+
   app$click("btn_run")
   app$expect_values()
 
@@ -56,10 +63,13 @@ test_that("{shinytest2} Basic App Tests ", {
   app$set_inputs(sli_npom_ltmi = c(14, 120))
 
   app$click("btn_save", wait_=FALSE)
-  app$click("btn_reset", wait_=FALSE)
-  app$click("btn_load", wait_=FALSE)
+  app$wait_for_idle(5000)
 
-  Sys.sleep(3)
+  app$click("btn_reset")
+  app$wait_for_idle(500)
+
+  app$click("btn_load", wait_=FALSE)
+  app$wait_for_idle(5000)
 
   app$click("btn_run")
   app$expect_values()
