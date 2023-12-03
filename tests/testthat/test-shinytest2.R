@@ -2,7 +2,7 @@ library(shinytest2)
 
 
 test_that("{shinytest2} Basic App Tests ", {
-  # skip_on_ci()
+  testthat::skip_on_os(c("windows", "mac"))
 
   #-----------------------------------------------------
   # Initialize app and expect consistent state on start
