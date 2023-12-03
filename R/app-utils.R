@@ -31,15 +31,7 @@ NULL
 
 #' @describeIn app-utils creates and returns app dir path
 get_app_dir <- function() {
-  if (fs::file_exists("test-app/app.R")) {
-    x <- fs::path_wd("test-app")
-  } else if (shiny::isRunning()) {
-    x <- fs::path_abs("ExplorePRM")
-  } else {
-    x <- fs::path_wd()
-    # stop("Unknown error getting app dir path", call. = FALSE)
-  }
-  return(x)
+  fs::path_wd()
 }
 
 
