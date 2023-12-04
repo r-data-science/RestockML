@@ -68,10 +68,17 @@ create_session_dir <- function() {
 
 
 #' @describeIn app-utils Run and Publishing Functions
-clean_session_dir <- function() {
-  rdstools::log_inf("...Cleaning Session Directory")
-  path <- fs::path(get_app_dir(), "output")
-  if (fs::dir_exists(path)) fs::dir_delete(path)
+clear_session_dir <- function() {
+  if (getOption("shiny.testmode", FALSE)) {
+    rdstools::log_inf("...[Test Mode] skipping session clean")
+  } else {
+    rdstools::log_inf("...Clearing Session Data")
+    if (fs::dir_exists(get_app_dir())) {
+      rdstools::log_suc("...Deleted...", fs::dir_delete(get_app_dir()))
+    } else {
+      rdstools::log_err("...Session Dir Not Found")
+    }
+  }
 }
 
 
@@ -81,7 +88,7 @@ generate_report <- function(file) {
   report_path <- fs::path(get_app_dir(), "output/report.Rmd")
   templ_path <- fs::path_package("rdsapps", "docs", "template.Rmd")
   writeLines(readLines(templ_path), report_path)
-  rmarkdown::render(
+  x <- rmarkdown::render(
     input = report_path,
     output_file = file,
     output_dir = get_app_dir(),
@@ -96,6 +103,8 @@ generate_report <- function(file) {
     output_options = "self-contained",
     encoding = 'UTF-8'
   )
+  rdstools::log_suc("...File Created for Download...", file)
+  return(x)
 }
 
 
