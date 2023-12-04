@@ -1,9 +1,5 @@
 #' Ui elements of MLTuning App
 #'
-#' @param width width
-#' @param inline default TRUE
-#' @param .colors hca colors
-#'
 #' @import shiny
 #' @importFrom sass font_link
 #' @importFrom bslib bs_theme
@@ -11,11 +7,11 @@
 #' @importFrom shinyWidgets panel statiCard noUiSliderInput wNumbFormat materialSwitch dropMenu actionBttn
 #' @importFrom shinycssloaders withSpinner
 #'
-#' @name mltuning-ui
+#' @name app-ui
 NULL
 
 
-#' @describeIn mltuning-ui bootstrap theme for app
+#' @describeIn app-ui bootstrap theme for app
 .ui_bootstrap_theme <- function() {
   sor <- sass::font_link("Sora", href = "https://fonts.googleapis.com/css2?family=Sora")
   lex <- sass::font_link("Lexend", href = "https://fonts.googleapis.com/css2?family=Lexend")
@@ -37,8 +33,10 @@ NULL
 }
 
 
-#' @describeIn mltuning-ui statistics panel
-.ui_selection_filters <- function(width = 12, inline = TRUE) {
+#' @describeIn app-ui statistics panel
+.ui_selection_filters <- function() {
+  width <- 12
+  inline <- TRUE
   column(
     width = width,
     shinyWidgets::panel(
@@ -86,8 +84,10 @@ NULL
 }
 
 
-#' @describeIn mltuning-ui statistics panel
-.ui_selection_stats <- function(width = 12, .colors) {
+#' @describeIn app-ui statistics panel
+.ui_selection_stats <- function() {
+  width <- 12
+  .colors <- get_app_colors()
   column(
     width = width,
     fluidRow(
@@ -150,56 +150,82 @@ NULL
 }
 
 
-#' @describeIn mltuning-ui model diagnostic plot panel
-.ui_model_plot_panel <- function(width = 12) {
+#' @describeIn app-ui model diagnostic plot panel
+.ui_model_plot_panel <- function() {
+  width <- 12
   column(
     width = width,
     fluidRow(
       column(
         width = 6,
-        shinyWidgets::panel(shinycssloaders::withSpinner(plotOutput("plot_0", width = "100%", height = "675px" )), footer = "Diagnostic 0")
+        shinyWidgets::panel(
+          shinycssloaders::withSpinner(
+            plotOutput("plot_0", width = "100%", height = "675px" )
+          ),
+          footer = "Diagnostic 0"
+        )
       ),
       column(
         width = 6,
-        shinyWidgets::panel(shinycssloaders::withSpinner(plotOutput("plot_1", width = "100%", height = "675px")), footer = "Diagnostic 1")
+        shinyWidgets::panel(
+          shinycssloaders::withSpinner(
+            plotOutput("plot_1", width = "100%", height = "675px")
+          ),
+          footer = "Diagnostic 1"
+        )
       )
     ),
     fluidRow(
       column(
         width = 5,
-        shinyWidgets::panel(shinycssloaders::withSpinner(plotOutput("plot_2", width = "100%", height = "1500px")), footer = "Diagnostic 2")
+        shinyWidgets::panel(
+          shinycssloaders::withSpinner(
+            plotOutput("plot_2", width = "100%", height = "1500px")
+          ),
+          footer = "Diagnostic 2"
+        )
       ),
       column(
         width = 7,
-        shinyWidgets::panel(shinycssloaders::withSpinner(plotOutput("plot_4", width = "100%", height = "1500px")), footer = "Diagnostic 4")
+        shinyWidgets::panel(
+          shinycssloaders::withSpinner(
+            plotOutput("plot_4", width = "100%", height = "1500px")
+          ),
+          footer = "Diagnostic 4"
+        )
       )
     ),
     fluidRow(
       column(
         width = 12,
-        shinyWidgets::panel(shinycssloaders::withSpinner(plotOutput("plot_3", width = "100%", height = "800px")), footer = "Diagnostic 3")
+        shinyWidgets::panel(
+          shinycssloaders::withSpinner(
+            plotOutput("plot_3", width = "100%", height = "800px")
+          ),
+          footer = "Diagnostic 3"
+        )
       )
     )
   )
 }
 
 
-#' @describeIn mltuning-ui model inputs panel
+#' @describeIn app-ui model inputs panel
 .ui_model_inputs_panel <- function() {
   panel(
     column(
       width = 12,
       fluidRow(
-        .slider_model_sales(width = "20%", inline = TRUE),
-        .slider_model_stock(width = "20%", inline = TRUE),
-        .slider_price_qrtls(width = "20%", inline = TRUE),
-        .slider_product_cls(width = "20%", inline = TRUE),
-        .slider_menu_period(width = "20%", inline = TRUE)
+        .slider_model_sales(),
+        .slider_model_stock(),
+        .slider_price_qrtls(),
+        .slider_product_cls(),
+        .slider_menu_period()
       )
     ),
     footer = fluidRow(
 
-      column(width = 4, .toggle_model_ttest(width = "150px", inline = TRUE)),
+      column(width = 4, .toggle_model_ttest()),
       column(
         width = 2,
         offset = 3,
@@ -227,11 +253,11 @@ NULL
         width = 1,
         shinyWidgets::dropMenu(
           shinyWidgets::actionBttn("btn_param_drop",
-                     icon = icon("gear"),
-                     color = "primary",
-                     size = "xs",
-                     style = "jelly",
-                     block = TRUE),
+                                   icon = icon("gear"),
+                                   color = "primary",
+                                   size = "xs",
+                                   style = "jelly",
+                                   block = TRUE),
           shinyWidgets::actionBttn("btn_save", label = "Save Params", size = "xs", style = "fill"),
           shinyWidgets::actionBttn("btn_load", label = "Load Stored", size = "xs", style = "fill"),
           shinyWidgets::actionBttn("btn_reset", label = "Reset to Default", size = "xs", style = "fill"),
@@ -245,8 +271,10 @@ NULL
 }
 
 
-#' @describeIn mltuning-ui slider
-.slider_model_sales <- function(width = "100%", inline = FALSE) {
+#' @describeIn app-ui slider
+.slider_model_sales <- function() {
+  width <- "20%"
+  inline <- TRUE
   shinyWidgets::noUiSliderInput(
     inputId = "sli_trend_pval_conf",
     label = HTML("<b><i>Sales Trend</i></b><br><i>Conf-Level & P-Value</i>"),
@@ -276,8 +304,10 @@ NULL
 }
 
 
-#' @describeIn mltuning-ui slider
-.slider_model_stock <- function(width = "100%", inline = FALSE) {
+#' @describeIn app-ui slider
+.slider_model_stock <- function() {
+  width <- "20%"
+  inline <- TRUE
   shinyWidgets::noUiSliderInput(
     inputId = "sli_stock_pval_conf",
     label = HTML("<b><i>Supply Risk</i></b><br><i>Conf-Level & P-Value</i>"),
@@ -307,8 +337,10 @@ NULL
 }
 
 
-#' @describeIn mltuning-ui slider
-.slider_price_qrtls <- function(width = "100%", inline = FALSE) {
+#' @describeIn app-ui slider
+.slider_price_qrtls <- function() {
+  width <- "20%"
+  inline <- TRUE
   shinyWidgets::noUiSliderInput(
     inputId = "sli_ppql_ppqh",
     label = HTML("<b><i>Price Quantiles</i></b><br><i>High vs Low</i>"),
@@ -338,8 +370,10 @@ NULL
 }
 
 
-#' @describeIn mltuning-ui slider
-.slider_product_cls <- function(width = "100%", inline = FALSE) {
+#' @describeIn app-ui slider
+.slider_product_cls <- function() {
+  width <- "20%"
+  inline <- TRUE
   shinyWidgets::noUiSliderInput(
     inputId = "sli_secd_prim",
     label = HTML("<b><i>Primary vs Secondary</i></b><br><i>Share of Order</i>"),
@@ -369,8 +403,10 @@ NULL
 }
 
 
-#' @describeIn mltuning-ui slider
-.slider_menu_period <- function(width = "100%", inline = FALSE) {
+#' @describeIn app-ui slider
+.slider_menu_period <- function() {
+  width <- "20%"
+  inline <- TRUE
   shinyWidgets::noUiSliderInput(
     inputId = "sli_npom_ltmi",
     label = HTML("<b><i>Classic vs New</i></b><br><i>Days on Menu</i>"),
@@ -400,8 +436,10 @@ NULL
 }
 
 
-#' @describeIn mltuning-ui ml toggle
-.toggle_model_ttest <- function(width = "150px", inline = TRUE) {
+#' @describeIn app-ui ml toggle
+.toggle_model_ttest <- function() {
+  width <- "150px"
+  inline <- TRUE
   fluidRow(
     shinyWidgets::materialSwitch(
       inputId = "sw_poolvar",

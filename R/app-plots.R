@@ -2,7 +2,6 @@
 #'
 #' Functions to generate and prepare outputs presented by the package app.
 #'
-#' @param .colors colors returned by get_app_colors()
 #' @param pdata0 plot dataset
 #' @param pdata1 plot dataset
 #' @param pdata2 plot dataset
@@ -10,21 +9,20 @@
 #' @param pdata4 plot dataset
 #' @param ptitle plot title
 #' @param psubtitle plot subtitle
-#' @param rec internal
 #'
 #' @import ggplot2
 #' @import ggtext
 #' @import data.table
-#' @importFrom scales percent
-#' @importFrom stringr str_glue str_remove str_split_1 str_replace str_replace_all
+#' @importFrom stringr str_glue str_replace str_replace_all
+#' @importFrom rdstools log_inf
 #'
-#' @name app-output
+#' @name app-plots
 NULL
 
 
-#' @describeIn app-output provides the base theme for plots
-.plot_theme <- function(.colors) {
-
+#' @describeIn app-plots provides the base theme for plots
+.plot_theme <- function() {
+  .colors <- get_app_colors()
   ggplot2::theme(
     axis.title = ggplot2::element_blank(),
     plot.title = ggtext::element_textbox(
@@ -73,8 +71,9 @@ NULL
 }
 
 
-#' @describeIn app-output Style the plot title/subtitle
-.plot_title_style <- function(ptitle, psubtitle, .colors) {
+#' @describeIn app-plots Style the plot title/subtitle
+.plot_title_style <- function(ptitle, psubtitle) {
+  .colors <- get_app_colors()
   ggplot2::labs(
     title = stringr::str_glue(
       "<span style= 'font-size:16pt; color:{.colors$fg};'><b>{ptitle}</b></span><br>
@@ -83,21 +82,10 @@ NULL
 }
 
 
-#' @describeIn app-output Parse failed skus to delineate between failures and uncertain recs
-.parse_fails <- function(rec) {
-  failed_skus <- stringr::str_split_1(
-    stringr::str_remove(
-      rec$status_msg,
-      "Recommendations failed for the following..."
-    ), ", ?")
-  return(failed_skus)
-}
-
-
-#' @describeIn app-output diagnostic plot
-plot_diagnostic_0 <- function(pdata0, .colors) {
-  rdstools::log_inf("...Creating plot 0")
-
+#' @describeIn app-plots diagnostic plot
+.plot_diagnostic_0 <- function(pdata0) {
+  rdstools::log_inf("...Creating Plot 0")
+  .colors <- get_app_colors()
   ptitle <- "Count by Recommendation"
   psubtitle <- paste0("Total Recommendations Generated: ", pdata0[, sum(N)])
   p0 <- ggplot2::ggplot(pdata0) +
@@ -122,8 +110,8 @@ plot_diagnostic_0 <- function(pdata0, .colors) {
       text.colour = .colors$bg,
       vjust = 0
     ) +
-    .plot_title_style(ptitle, psubtitle, .colors) +
-    .plot_theme(.colors) +
+    .plot_title_style(ptitle, psubtitle) +
+    .plot_theme() +
     ggplot2::scale_x_discrete(
       breaks = c("yes", "no", "unsure", "failed"),
       labels = c(
@@ -144,10 +132,10 @@ plot_diagnostic_0 <- function(pdata0, .colors) {
 }
 
 
-#' @describeIn app-output diagnostic plot
-plot_diagnostic_1 <- function(pdata1, .colors) {
-  rdstools::log_inf("...Creating plot 1")
-
+#' @describeIn app-plots diagnostic plot
+.plot_diagnostic_1 <- function(pdata1) {
+  rdstools::log_inf("...Creating Plot 1")
+  .colors <- get_app_colors()
   ptitle <- "Proportion of Recommendation"
   psubtitle <- "By Product Category"
   p1 <- ggplot2::ggplot(pdata1) +
@@ -156,8 +144,8 @@ plot_diagnostic_1 <- function(pdata1, .colors) {
       stat = "count",
       position = "fill"
     ) +
-    .plot_title_style(ptitle, psubtitle, .colors) +
-    .plot_theme(.colors) +
+    .plot_title_style(ptitle, psubtitle) +
+    .plot_theme() +
     ggplot2::scale_y_continuous(
       labels = scales::percent_format(),
       expand = c(0, 0)
@@ -190,10 +178,10 @@ plot_diagnostic_1 <- function(pdata1, .colors) {
 }
 
 
-#' @describeIn app-output diagnostic plot
-plot_diagnostic_2 <- function(pdata2, .colors) {
-  rdstools::log_inf("...Creating plot 2")
-
+#' @describeIn app-plots diagnostic plot
+.plot_diagnostic_2 <- function(pdata2) {
+  rdstools::log_inf("...Creating Plot 2")
+  .colors <- get_app_colors()
   ptitle <- "Proportion of Recommendation Flags"
   psubtitle <- "By Classification and Assignment"
   lab_na <- pdata2[value == "Flag Not Assigned", .SD[1], .(variable)]
@@ -210,8 +198,8 @@ plot_diagnostic_2 <- function(pdata2, .colors) {
       labels = scales::percent_format(accuracy = 1),
       expand = c(0, 0, 0, .01)
     ) +
-    .plot_title_style(ptitle, psubtitle, .colors) +
-    .plot_theme(.colors) +
+    .plot_title_style(ptitle, psubtitle) +
+    .plot_theme() +
     ggplot2::scale_x_discrete(expand = c(0, 0, 0, 0)) +
     ggplot2::scale_fill_manual(values = rev(c(.colors$secondary, .colors$warning))) +
     ggplot2::theme(
@@ -253,10 +241,10 @@ plot_diagnostic_2 <- function(pdata2, .colors) {
 }
 
 
-#' @describeIn app-output diagnostic plot
-plot_diagnostic_3 <- function(pdata3, .colors) {
-  rdstools::log_inf("...Creating plot 3")
-
+#' @describeIn app-plots diagnostic plot
+.plot_diagnostic_3 <- function(pdata3) {
+  rdstools::log_inf("...Creating Plot 3")
+  .colors <- get_app_colors()
   ptitle <- "Proportion of Recommendation"
   psubtitle <- "By Recommendation and Flag Assignments"
   p3 <- ggplot2::ggplot(pdata3[variable != "is_trending"]) +
@@ -267,7 +255,7 @@ plot_diagnostic_3 <- function(pdata3, .colors) {
     ) +
     ggplot2::scale_alpha_manual(values = c(1, .35), guide = "none") +
     ggplot2::scale_color_manual(values = c(.colors$fg, .colors$bg), guide = "none") +
-    .plot_title_style(ptitle, psubtitle, .colors) +
+    .plot_title_style(ptitle, psubtitle) +
     ggplot2::scale_y_continuous(
       labels = scales::percent_format(accuracy = 1),
       expand = c(0, 0)
@@ -278,7 +266,7 @@ plot_diagnostic_3 <- function(pdata3, .colors) {
       values = c("#96dc7d", "#f187eb"),
       labels = c("IS Recommended", "NOT Recommended")
     ) +
-    .plot_theme(.colors) +
+    .plot_theme() +
     ggplot2::facet_grid(. ~ fac_var, scales = "free", space = "free") +
     ggplot2::theme(
       axis.text.x = ggtext::element_markdown(
@@ -323,10 +311,10 @@ plot_diagnostic_3 <- function(pdata3, .colors) {
 }
 
 
-#' @describeIn app-output diagnostic plot
-plot_diagnostic_4 <- function(pdata4, .colors) {
-  rdstools::log_inf("...Creating plot 4")
-
+#' @describeIn app-plots diagnostic plot
+.plot_diagnostic_4 <- function(pdata4) {
+  rdstools::log_inf("...Creating Plot 4")
+  .colors <- get_app_colors()
   pdata4[, lab := stringr::str_replace(lab, "12pt;", "16pt;")]
   pdata4[, lab := stringr::str_replace_all(lab, "10pt", "14pt")]
 
@@ -341,8 +329,8 @@ plot_diagnostic_4 <- function(pdata4, .colors) {
                       position = ggplot2::position_fill()) +
     ggplot2::facet_grid(. ~ category3, scales = "free", space = "free") +
     ggplot2::coord_flip() +
-    .plot_theme(.colors) +
-    .plot_title_style(ptitle, psubtitle, .colors) +
+    .plot_theme() +
+    .plot_title_style(ptitle, psubtitle) +
     ggplot2::scale_fill_manual(
       name = NULL,
       breaks = c("yes", "no"),
@@ -380,186 +368,4 @@ plot_diagnostic_4 <- function(pdata4, .colors) {
 }
 
 
-#' @describeIn app-output build plot data with result of rdscore::restock_rec_ep
-process_rec_ep <- function(rec) {
-
-  ## Label failed skus in results table
-  rec$results[(.parse_fails(rec)), restock := "failed", on = "product_sku"]
-
-  ## Set as factor columns
-  levs <- c("yes", "no", "unsure", "failed")
-  rec$results[, restock := factor(restock, levs)]
-
-  ## Save labels for later
-  labs <- c("Restock Is<br>Recommended",
-            "Restock Not<br>Recommended",
-            "Uncertain<br>Recommendation",
-            "Failed to Get<br>Recommendation")
-  label_table <- data.table(
-    level = levs,
-    label = labs
-  )
-
-  ## Set category factors
-  rec$meta$stats[, category3 := factor(
-    category3,
-    levels = c(
-      "FLOWER", "PREROLLS","VAPES", "EDIBLES", "EXTRACTS", "DRINKS",
-      "TABLETS_CAPSULES", "TOPICALS", "TINCTURES", "ACCESSORIES", "OTHER"
-    ),
-    labels = c(
-      "Flower", "Prerolls", "Vapes", "Edibles", "Extracts", "Drinks",
-      "Tablets", "Topicals", "Tinctures", "Accessories", "Other"
-    )
-  )]
-
-  ## Get plot datasets
-  pdata0 <- rec$results[, .N, restock]
-  pdata0[, label := scales::percent(N / sum(N), accuracy = 1)]
-  pdata0[, restock := factor(restock, levels = c("yes", "no", "unsure", "failed"))]
-
-  pdata1 <- rec$results[
-    rec$meta$stats[, .(product_sku, category3)],
-    on = "product_sku"][, !"is_recommended"]
-  pdata1[, restock := factor(restock, levels = c("yes", "no", "unsure"))]
-
-  # Proportion by Flag
-  rec$meta$flags[, has_sales_growth := trend_sign == "positive"]
-  rec$meta$flags[, has_sales_decline := trend_sign == "negative"]
-  rec$meta$flags[, is_price_high := price_point == "high"]
-  rec$meta$flags[, is_price_low := price_point == "low"]
-  rec$meta$flags[, price_point := NULL]
-  rec$meta$flags[, trend_sign := NULL]
-
-  pdata2 <- data.table::melt(rec$meta$flags, id.vars = "product_sku", variable.factor = FALSE)[!is.na(value)]
-  labs <- pdata2[, .N, .(variable, value)][, perc := N / sum(N), variable][]
-  labs[, pctlab := scales::percent(perc, accuracy = 1)]
-
-  setkey(pdata2, variable, value)
-  setkey(labs, variable, value)
-  pdata2[labs, c("pct", "pctlab") := .(perc, pctlab)]
-
-  pdata2[variable == "has_oos_risk",
-         fac_var := "<span style= 'font-size:12pt;'>**Stockout Risk**</span><br>
-         <span style= 'font-size:10pt;'>*Supply has<br>risk of Stockout*</span>"]
-  pdata2[variable == "has_sales_decline",
-         fac_var := "<span style= 'font-size:12pt;'>**Sales Decline**</span><br>
-         <span style= 'font-size:10pt;'>*Sales Trend<br>is Negative*</span>"]
-  pdata2[variable == "has_sales_growth",
-         fac_var := "<span style= 'font-size:12pt;'>**Sales Growth**</span><br>
-         <span style= 'font-size:10pt;'>*Sales Trend<br>is Positive*</span>"]
-  pdata2[variable == "is_long_term",
-         fac_var := "<span style= 'font-size:12pt;'>**Menu Classic**</span><br>
-         <span style= 'font-size:10pt;'>*Long-Term<br>Menu Item*</span>"]
-  pdata2[variable == "is_new_on_menu",
-         fac_var := "<span style= 'font-size:12pt;'>**New Product**</span><br>
-         <span style= 'font-size:10pt;'>*Recent Addition<br>on Menu*</span>"]
-  pdata2[variable == "is_price_high",
-         fac_var := "<span style= 'font-size:12pt;'>**Top Shelf**</span><br>
-         <span style= 'font-size:10pt;'>*High Price<br>Relative to Category*</span>"]
-  pdata2[variable == "is_price_low",
-         fac_var := "<span style= 'font-size:12pt;'>**Bottom Shelf**</span><br>
-         <span style= 'font-size:10pt;'>*Low Price<br>Relative to Category*</span>"]
-  pdata2[variable == "is_primary",
-         fac_var := "<span style= 'font-size:12pt;'>**Primary Product**</span><br>
-         <span style= 'font-size:10pt;'>*Drives Majority<br>of Order Sales*</span>"]
-  pdata2[variable == "is_secondary",
-         fac_var := "<span style= 'font-size:12pt;'>**Secondary Item**</span><br>
-         <span style= 'font-size:10pt;'>*Product is an<br>Addon Item*</span>"]
-  pdata2[variable == "is_trending",
-         fac_var := "<span style= 'font-size:12pt;'>**Trending Sales**</span><br>
-         <span style= 'font-size:10pt;'>*Recent Sales<br>shows Trend*</span>"]
-
-
-  ## Set factor order by flag frequency
-  levs <- pdata2[value == FALSE, .SD[1], .(variable, value)][order(-pct), fac_var]
-  pdata2[, fac_var := factor(fac_var, levels = levs)]
-
-  ## Set factor orders for flag assignment
-  pdata2[, value := factor(
-    x = value,
-    levels = c(FALSE, TRUE),
-    labels = c("Flag Not Assigned", "Flag Assigned")
-  )]
-
-  setkey(pdata1, product_sku)
-  setkey(pdata2, product_sku)
-  pdata3 <- pdata1[pdata2][!is.na(value) & restock != "unsure"]
-
-  pdata3[value == "Flag Assigned", value2 := "Assigned"]
-  pdata3[value == "Flag Not Assigned", value2 := "Not Assigned"]
-
-  # Rec Breakdown by category
-  #
-  setkey(rec$meta$descr, product_sku)
-
-  pdata4 <- rec$meta$descr[
-    pdata3[, unique(.SD), .SDcols = c("product_sku", "restock", "category3")]
-  ][!is.na(description)]
-
-  pdata4[description == "No statistically significant sales trend",
-         lab := "<span style= 'font-size:12pt;'>**No Sales Trend**</span><br>
-                <span style= 'font-size:10pt;'>*No statistically<br>significant sales trend*</span>"]
-
-  pdata4[description == "Based on historical data, product has limited to no supply risk",
-         lab := "<span style= 'font-size:12pt;'>**Supply Not Risky**</span><br>
-                <span style= 'font-size:10pt;'>*Product has limited<br>to no supply risk*</span>"]
-
-  pdata4[description == "Price point is low relative to others in category",
-         lab := "<span style= 'font-size:12pt;'>**Bottom Shelf**</span><br>
-                <span style= 'font-size:10pt;'>*Low Priced Item*</span>"]
-
-  pdata4[description == "Product is neither a primary or secondary item",
-         lab := "<span style= 'font-size:12pt;'>**Ave Order Item**</span><br>
-                <span style= 'font-size:10pt;'>*Products are neither<br>primary or secondary*</span>"]
-
-  pdata4[description == "Product is a long-term menu item (first sold +6 months prior)",
-         lab := "<span style= 'font-size:12pt;'>**Menu Classic**</span><br>
-                <span style= 'font-size:10pt;'>*Long-term<br>menu items*</span>"]
-
-  pdata4[description == "Based on historical data, product supply is highly volatile",
-         lab := "<span style= 'font-size:12pt;'>**Supply Risky**</span><br>
-                <span style= 'font-size:10pt;'>*Supply has risk<br>of stockouts*</span>"]
-
-  pdata4[description == "Price point is within the average of others in category",
-         lab := "<span style= 'font-size:12pt;'>**Mid-Shelf**</span><br>
-                <span style= 'font-size:10pt;'>*Products are priced<br>within category range*</span>"]
-
-  pdata4[description == "Price point is high relative to others in category",
-         lab := "<span style= 'font-size:12pt;'>**Top Shelf**</span><br>
-                <span style= 'font-size:10pt;'>*Products are priced<br>high relative to category*</span>"]
-
-  pdata4[description == "Recent sales are trending upward",
-         lab := "<span style= 'font-size:12pt;'>**Sales Growth**</span><br>
-                <span style= 'font-size:10pt;'>*Sales are<br>trending up*</span>"]
-
-  pdata4[description == "Recent sales are trending downward",
-         lab := "<span style= 'font-size:12pt;'>**Sales Decline**</span><br>
-                <span style= 'font-size:10pt;'>*Sales are<br>trending down*</span>"]
-
-  pdata4[description == "This product drives less than 25% of the order total when purchased",
-         lab := "<span style= 'font-size:12pt;'>**Secondary Item**</span><br>
-                <span style= 'font-size:10pt;'>*Products are added<br>on to orders*</span>"]
-
-  pdata4[description == "Product isn't a new menu offering, nor is it a long-term menu item",
-         lab := "<span style= 'font-size:12pt;'>**Average History**</span><br>
-                <span style= 'font-size:10pt;'>*Product not new<br>nor a menu classic*</span>"]
-
-  pdata4[description == "Not enough sales days to evaluate recent trends",
-         lab := "<span style= 'font-size:12pt;'>**Not enough data**</span><br>
-                <span style= 'font-size:10pt;'>*Unable to model<br>sales trend*</span>"]
-
-  pdata4[description == "This product drives the majority of sales per order when purchased",
-         lab := "<span style= 'font-size:12pt;'>**Primary Product**</span><br>
-                <span style= 'font-size:10pt;'>*Product drives the<br>majority of sales<br>per order*</span>"]
-
-  list(
-    pdata0 = pdata0,
-    pdata1 = pdata1,
-    pdata2 = pdata2,
-    pdata3 = pdata3,
-    pdata4 = pdata4,
-    data = list(rec = rec)
-  )
-}
 

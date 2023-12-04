@@ -7,7 +7,7 @@
 #' @import data.table
 #' @importFrom rpgconn dbc dbd
 #' @importFrom DBI dbGetQuery dbWithTransaction dbExecute dbAppendTable dbReadTable
-#' @importFrom stringr str_glue
+#' @importFrom stringr str_glue str_remove str_length
 #' @importFrom rdstools log_suc log_err log_inf
 #'
 #' @name app-database
@@ -25,10 +25,10 @@ db_app_index_anon <- function() {
   DT <- setDT(DBI::dbReadTable(cn, "vindex_product_velocity_daily"))
 
   # Assign anonomized org and store names
-  DT[, org := paste0(
+  DT[, "org" := paste0(
     c("ORG", c(rep(0, 3 - stringr::str_length(.GRP)), .GRP)),
     collapse = ""
-  ), org_uuid][, store := .SD[, paste0(
+  ), org_uuid][, "store" := .SD[, paste0(
     LIDs[.GRP],
     stringr::str_remove(org, "^ORG")
   ), store_uuid]$V1, org_uuid]
@@ -46,8 +46,8 @@ db_app_index_anon <- function() {
     "Tablets & Capsules", "Tictures",
     "Topicals", "Accessories", "Miscellaneous"
   )
-  DT[, category3 := factor(
-    x = category3,
+  DT[, "category3" := factor(
+    x = get("category3"),
     levels = levs,
     labels = labs
   )]
