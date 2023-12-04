@@ -40,13 +40,13 @@ test_that("Initial Shiny values are consistent", {
   # Set primary selection inputs to filter sku data
   #
   app$set_inputs(`filters-org` = "ORG001")
-  app$wait_for_idle()
+  # app$wait_for_idle()
 
   app$set_inputs(`filters-store` = "AA001")
-  app$wait_for_idle()
+  # app$wait_for_idle()
 
   app$set_inputs(`filters-category3` = "Edibles")
-  app$wait_for_idle(3000)
+  # app$wait_for_idle(3000)
 
   #-----------------------------------------------------
   # Check stats shown on the ui AFTER filtering
@@ -79,16 +79,16 @@ test_that("Initial Shiny values are consistent", {
   # Create report and expect download
   #
   app$click("btn_post")
-  app$wait_for_idle()
+  # app$wait_for_idle()
   app$set_inputs(dl_format = "html", wait_ = FALSE)
-  app$wait_for_idle()
+  # app$wait_for_idle()
   app$expect_download("btn_dl")
 
   #-----------------------------------------------------
   # Run Model with reset params and expect output
   #
   app$click("btn_reset")
-  app$wait_for_idle()
+  # app$wait_for_idle()
 
   app$expect_values(input = c(
     "sli_trend_pval_conf",
@@ -111,13 +111,13 @@ test_that("Initial Shiny values are consistent", {
   app$set_inputs(sli_npom_ltmi = c(14, 120))
 
   app$click("btn_save")
-  app$wait_for_idle()
+  # app$wait_for_idle()
 
   app$click("btn_reset")
-  app$wait_for_idle()
+  # app$wait_for_idle()
 
   app$click("btn_load")
-  app$wait_for_idle()
+  # app$wait_for_idle()
 
   app$expect_values(input = c(
     "sli_trend_pval_conf",
