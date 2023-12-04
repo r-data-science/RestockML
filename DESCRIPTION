@@ -1,6 +1,6 @@
 Package: rdsapps
 Title: Product Recommendations Model Explorer
-Version: 0.0.7
+Version: 0.0.8
 Authors@R: 
   person(
     given = "Bobby", 
