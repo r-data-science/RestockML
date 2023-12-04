@@ -7,6 +7,7 @@
     "btn_reset": 1,
     "btn_run": 2,
     "btn_save": 0,
+    "dl_format": "html",
     "filters-brand_name": null,
     "filters-category3": "Edibles",
     "filters-org": "ORG001",
@@ -38,8 +39,8 @@
   },
   "output": {
     "plot_0": {
-      "src": "[image data hash: 8364457d6279a96fe93fea8a1d45674f]",
-      "width": 841.5,
+      "src": "[image data hash: 0357e0ed1f5af1df3afe15326de3dcb7]",
+      "width": 883.5,
       "height": 675,
       "alt": "Plot object",
       "coordmap": {
@@ -75,21 +76,21 @@
             },
             "range": {
               "left": 39.84134037290713,
-              "right": 834.531202435312,
+              "right": 876.531202435312,
               "bottom": 636.862823011689,
               "top": 75.84012712526911
             }
           }
         ],
         "dims": {
-          "width": 841.5,
+          "width": 883.5,
           "height": 675
         }
       }
     },
     "plot_1": {
-      "src": "[image data hash: 162a85f4b53898632be9bd5e23e65ec6]",
-      "width": 841.5,
+      "src": "[image data hash: 1cba01b936bfff22a207b88f65dd9571]",
+      "width": 883.5,
       "height": 675,
       "alt": "Plot object",
       "coordmap": {
@@ -122,21 +123,21 @@
             },
             "range": {
               "left": 45.26631659056312,
-              "right": 834.5312024353121,
+              "right": 876.5312024353121,
               "bottom": 645.0226665217571,
               "top": 75.84012712526911
             }
           }
         ],
         "dims": {
-          "width": 841.5,
+          "width": 883.5,
           "height": 675
         }
       }
     },
     "plot_2": {
-      "src": "[image data hash: c83ffbdba7ae7175697c2c0801226672]",
-      "width": 691.90625,
+      "src": "[image data hash: 5807d3e52ff5c89329a134f5d1896c8e]",
+      "width": 726.90625,
       "height": 1500,
       "alt": "Plot object",
       "coordmap": {
@@ -179,21 +180,21 @@
             },
             "range": {
               "left": 122.5162362062405,
-              "right": 684.531202435312,
+              "right": 719.5312024353119,
               "bottom": 1474.786053819391,
               "top": 75.84012712526911
             }
           }
         ],
         "dims": {
-          "width": 691.90625,
+          "width": 726.90625,
           "height": 1500
         }
       }
     },
     "plot_3": {
-      "src": "[image data hash: a96798d340ac8f0478a140afdd5bf0b3]",
-      "width": 1739,
+      "src": "[image data hash: a7b993cc1be9d7e618691ebc9b4d4e27]",
+      "width": 1823,
       "height": 800,
       "alt": "Plot object",
       "coordmap": {
@@ -227,8 +228,8 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 45.26631659056312,
-              "right": 182.0715776050023,
+              "left": 45.26631659056313,
+              "right": 188.882388415813,
               "bottom": 706.7193084094368,
               "top": 161.684348662181
             }
@@ -262,8 +263,8 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 182.0715776050023,
-              "right": 318.8768386194414,
+              "left": 188.882388415813,
+              "right": 332.498460241063,
               "bottom": 706.7193084094368,
               "top": 161.684348662181
             }
@@ -297,8 +298,8 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 318.8768386194414,
-              "right": 455.6820996338806,
+              "left": 332.498460241063,
+              "right": 476.1145320663129,
               "bottom": 706.7193084094368,
               "top": 161.684348662181
             }
@@ -332,8 +333,8 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 455.6820996338806,
-              "right": 592.4873606483197,
+              "left": 476.1145320663129,
+              "right": 619.7306038915629,
               "bottom": 706.7193084094368,
               "top": 161.684348662181
             }
@@ -370,8 +371,8 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 592.4873606483197,
-              "right": 843.297005841458,
+              "left": 619.7306038915629,
+              "right": 883.0267355711877,
               "bottom": 706.7193084094368,
               "top": 161.684348662181
             }
@@ -408,8 +409,8 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 843.297005841458,
-              "right": 1094.106651034597,
+              "left": 883.0267355711877,
+              "right": 1146.322867250813,
               "bottom": 706.7193084094368,
               "top": 161.684348662181
             }
@@ -446,8 +447,8 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 1094.106651034597,
-              "right": 1344.916296227735,
+              "left": 1146.322867250813,
+              "right": 1409.618998930437,
               "bottom": 706.7193084094368,
               "top": 161.684348662181
             }
@@ -484,8 +485,8 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 1344.916296227735,
-              "right": 1595.725941420873,
+              "left": 1409.618998930437,
+              "right": 1672.915130610062,
               "bottom": 706.7193084094368,
               "top": 161.684348662181
             }
@@ -519,22 +520,22 @@
               "panelvar1": "fac_var"
             },
             "range": {
-              "left": 1595.725941420873,
-              "right": 1732.531202435312,
+              "left": 1672.915130610062,
+              "right": 1816.531202435312,
               "bottom": 706.7193084094368,
               "top": 161.684348662181
             }
           }
         ],
         "dims": {
-          "width": 1739,
+          "width": 1823,
           "height": 800
         }
       }
     },
     "plot_4": {
-      "src": "[image data hash: a86d79ae6886f03400e2f618ceca8566]",
-      "width": 991.078125,
+      "src": "[image data hash: 749bbc1402e67183fdf4ddf5f80d0772]",
+      "width": 1040.078125,
       "height": 1500,
       "alt": "Plot object",
       "coordmap": {
@@ -578,14 +579,14 @@
             },
             "range": {
               "left": 167.9443374238964,
-              "right": 984.531202435312,
+              "right": 1033.531202435312,
               "bottom": 1478.020452601735,
               "top": 101.7308984690643
             }
           }
         ],
         "dims": {
-          "width": 991.078125,
+          "width": 1040.078125,
           "height": 1500
         }
       }
