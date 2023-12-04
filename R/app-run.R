@@ -64,14 +64,33 @@ appExplorePRM <- function(...) {
 
 #' @describeIn app-run server function for app
 .app_server <- function() {
+
   function(input, output, session) {
+
+    # log helpers
+    log_i <- function(msg, ...) {
+      env <- parent.frame(1)
+      msg <- stringr::str_glue(msg, .envir = env)
+      rdstools::log_inf(msg, ...)
+    }
+    log_s <- function(msg, ...) {
+      env <- parent.frame(1)
+      msg <- stringr::str_glue(msg, .envir = env)
+      rdstools::log_suc(msg, ...)
+    }
+
     w <- new_waiter()
+
+    onStop(clear_session_dir, session)
 
     ## Data filtered by the user contains org/store products
     r_index <- reactive_app_index(db_app_index_anon(), session)
 
     ## Update the Stats Cards on filtered index
-    observe(update_stat_cards(r_index(), session))
+    observe({
+      update_stat_cards(r_index(), session)
+      log_s("+++ app event @-> filter update")
+    })
 
     ## Get model input params and store as reactive object
     r_ml_args <- reactive(list(
@@ -97,19 +116,35 @@ appExplorePRM <- function(...) {
       as.data.table(r_index())[store == req(input$`filters-store`), store_uuid[1]]
     })
 
+
     ## On click, reset, load, or save tuning parameters
-    observeEvent(input$btn_reset, reset_model_inputs())
-    observeEvent(input$btn_load, load_model_params(r_oid(), r_sid()))
-    observeEvent(input$btn_save, save_model_params(r_oid(), r_sid(), r_ml_args()))
+    observeEvent(input$btn_reset, {
+      log_i("+++ user action @-> reset ml params")
+      reset_model_inputs()
+      log_s("+++ app event @-> slider default")
+    })
+    observeEvent(input$btn_load, {
+      log_i("+++ user action @-> load from db")
+      load_model_params(r_oid(), r_sid())
+      log_s("+++ app event @-> set sliders")
+    })
+    observeEvent(input$btn_save, {
+      log_i("+++ user action @-> write to db")
+      save_model_params(r_oid(), r_sid(), r_ml_args())
+      log_s("+++ app event @-| none")
+    })
 
     ## On click, run model
-    r_ml_out <- eventReactive(input$btn_run, run_model(
-      w = w,
-      oid = r_oid(),
-      sid = r_sid(),
-      index = as.data.table(r_index()),
-      ml_args = r_ml_args()
-    ))
+    r_ml_out <- eventReactive(input$btn_run, {
+      log_i("+++ user action @-> run model")
+      run_model(
+        w = w,
+        oid = r_oid(),
+        sid = r_sid(),
+        index = as.data.table(r_index()),
+        ml_args = r_ml_args()
+      )
+    })
 
     ## Render Plots
     output$plot_0 <- renderPlot(r_ml_out()$outputs$plots[[1]], res = 85)
@@ -120,6 +155,8 @@ appExplorePRM <- function(...) {
 
     # On click, generate report
     observeEvent(input$btn_post, {
+      log_i("+++ user action @-> create report")
+
       shinyWidgets::sendSweetAlert(
           title = "Report Format",
           session = session,
@@ -147,6 +184,7 @@ appExplorePRM <- function(...) {
     # Download report.html on action
     output$btn_dl <- downloadHandler(
       filename = function() {
+        log_i("+++ user action @-> confirmed download")
         paste0('my-report.', switch(
           input$dl_format,
           pdf = 'pdf',
@@ -183,7 +221,9 @@ reactive_app_index <- function(index, session = getDefaultReactiveDomain()) {
 
 #' @describeIn app-run function that's executed on user action to run model
 #' @export
-run_model <- function(w, oid, sid, index, ml_args, session = getDefaultReactiveDomain()) {
+run_model <- function(w, oid, sid, index, ml_args,
+                      session = getDefaultReactiveDomain()) {
+
   if (shiny::isRunning()) {
     # Check if the minimal required arguments are provided
     # Note the other args could never be null
@@ -247,6 +287,8 @@ run_model <- function(w, oid, sid, index, ml_args, session = getDefaultReactiveD
 
       # Save additional data if testmode is true
       if (getOption("shiny.testmode", FALSE)) {
+        rdstools::log_inf("__! Test Mode Detected !___")
+
         w$update(html = waiter_html("...Saving Model Context..."))
         ml_out$paths$context_path <- save_ml_context(context)
 
@@ -414,7 +456,9 @@ load_model_params <- function(oid, sid, session = getDefaultReactiveDomain()) {
 
 #' @describeIn app-run save model inputs to database on user action
 #' @export
-save_model_params <- function(oid, sid, ml_args, session = getDefaultReactiveDomain()) {
+save_model_params <- function(oid, sid, ml_args,
+                              session = getDefaultReactiveDomain()) {
+
   if (shiny::isRunning()) {
 
     if (is.null(oid) || is.null(sid)) {
@@ -453,6 +497,5 @@ save_model_params <- function(oid, sid, ml_args, session = getDefaultReactiveDom
     stop("Shiny app not running...", call. = FALSE)
   }
 }
-
 
 
