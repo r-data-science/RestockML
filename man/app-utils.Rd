@@ -5,7 +5,7 @@
 \alias{get_app_dir}
 \alias{get_app_colors}
 \alias{create_session_dir}
-\alias{clean_session_dir}
+\alias{clear_session_dir}
 \alias{generate_report}
 \alias{build_plot_data}
 \alias{save_plot_data}
@@ -28,7 +28,7 @@ get_app_colors()
 
 create_session_dir()
 
-clean_session_dir()
+clear_session_dir()
 
 generate_report(file)
 
@@ -94,7 +94,7 @@ Functions required to execute and facililate an application user session
 
 \item \code{create_session_dir()}: Run and Publishing Functions
 
-\item \code{clean_session_dir()}: Run and Publishing Functions
+\item \code{clear_session_dir()}: Run and Publishing Functions
 
 \item \code{generate_report()}: Generate report and return download link
 

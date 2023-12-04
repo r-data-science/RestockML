@@ -2,7 +2,7 @@
   "input": {
     "sli_npom_ltmi": [
       14,
-      120
+      182
     ],
     "sli_ppql_ppqh": [
       20,
@@ -10,15 +10,15 @@
     ],
     "sli_secd_prim": [
       20,
-      40
+      45
     ],
     "sli_stock_pval_conf": [
-      8,
-      80
+      5,
+      85
     ],
     "sli_trend_pval_conf": [
-      8,
-      80
+      5,
+      85
     ]
   }
 }
