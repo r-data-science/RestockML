@@ -55,9 +55,9 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages:
-            local::., shinytest2=?ignore
-            shinytest2
             any::rcmdcheck
+            shinytest2
+            # local::., shinytest2=?ignore
           needs: check
 
       - name: Check R Package
