@@ -19,7 +19,7 @@ jobs:
       matrix:
         config:
           # - {os: macos-latest,   r: 'release'}
-          # - {os: windows-latest, r: 'release'}
+          - {os: windows-latest, r: 'release'}
           # - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
           # - {os: ubuntu-latest,   r: 'oldrel-1'}
@@ -62,13 +62,8 @@ jobs:
             # local::., shinytest2=?ignore
           needs: check
 
-
       - name: Check R Package
         uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
 
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -34,10 +34,12 @@ is_ci <- function() {
   isTRUE(as.logical(Sys.getenv("CI", "false")))
 }
 
+
 #' @describeIn app-utils returns TRUE if called while testing
 is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")
 }
+
 
 #' @describeIn app-utils creates and returns app dir path
 get_app_dir <- function() {

@@ -37,9 +37,9 @@ Imports:
   rdscore,
   rdstools
 Remotes:
-  r-data-science/rpgconn,
-  r-data-science/rdscore,
-  r-data-science/rdstools
+  git@github.com:r-data-science/rpgconn.git,
+  git@github.com:r-data-science/rdscore.git,
+  git@github.com:r-data-science/rdstools.git
 Depends: 
   R (>= 4.0)
 Suggests: 
