@@ -30,11 +30,14 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v3
 
-      - uses: r-lib/actions/setup-pandoc@v2
+      - name: Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
 
-      - uses: r-lib/actions/setup-r@v2
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
@@ -48,16 +51,18 @@ jobs:
           remotes::install_github("r-data-science/rdscore")
         shell: Rscript {0}
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Setup Cran Depends
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - uses: r-lib/actions/check-r-package@v2
+      - name: Check R Package
+        uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
 
-      - name: Upload coverage reports to Codecov
+      - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
