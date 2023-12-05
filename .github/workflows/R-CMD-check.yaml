@@ -57,7 +57,7 @@ jobs:
           _R_CHECK_FORCE_SUGGESTS_: false
         with:
           extra-packages:
-            shinytest2
+            local::.
             any::rcmdcheck
             # local::., shinytest2=?ignore
           needs: check
