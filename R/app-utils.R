@@ -29,6 +29,16 @@
 NULL
 
 
+#' @describeIn app-utils returns TRUE if called on CI
+is_ci <- function() {
+  isTRUE(as.logical(Sys.getenv("CI", "false")))
+}
+
+#' @describeIn app-utils returns TRUE if called while testing
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")
+}
+
 #' @describeIn app-utils creates and returns app dir path
 get_app_dir <- function() {
   fs::path_temp("rdsapps-session") |>
@@ -319,7 +329,7 @@ save_plot_data <- function(results) {
 
 
 #' @describeIn app-utils get list of diagnostic plots given processed recs results
-build_diag_plots <- function(results) {
+build_plot_objects <- function(results) {
   list(
     .plot_diagnostic_0(results[[1]]),
     .plot_diagnostic_1(results[[2]]),
@@ -331,7 +341,7 @@ build_diag_plots <- function(results) {
 
 
 #' @describeIn app-utils Saving plots for report
-save_diag_plots <- function(plots) {
+save_plot_objects <- function(plots) {
   rdstools::log_inf("...Saving Plot Outputs")
 
   plot_path <- fs::path(get_app_dir(), "output/plots")

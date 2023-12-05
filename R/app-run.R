@@ -23,22 +23,13 @@
 #' @name app-run
 NULL
 
-#' @describeIn app-run returns app object for subsequent execution
-#' @export
-runExplorePRM <- function(test.mode = FALSE, ...) {
-  runApp(
-    test.mode = test.mode,
-    appDir = fs::path_package("rdsapps", "apps"),
-    ...
-  )
-}
 
 #' @describeIn app-run returns app object for subsequent execution
 #' @export
 appExplorePRM <- function(...) {
   shiny::shinyApp(
-    ui = .app_ui(),
-    server = .app_server(),
+    ui = app_ui(),
+    server = app_server(),
     onStart = create_session_dir,
     options = list(...)
   )
@@ -46,7 +37,7 @@ appExplorePRM <- function(...) {
 
 
 #' @describeIn app-run UI function for app
-.app_ui <- function() {
+app_ui <- function() {
   fluidPage(
     theme = .ui_bootstrap_theme(),
     useWaiter(),
@@ -62,7 +53,7 @@ appExplorePRM <- function(...) {
 
 
 #' @describeIn app-run server function for app
-.app_server <- function() {
+app_server <- function() {
 
   function(input, output, session) {
 
@@ -83,7 +74,11 @@ appExplorePRM <- function(...) {
     onStop(clear_session_dir, session)
 
     ## Data filtered by the user contains org/store products
-    r_index <- reactive_app_index(db_app_index_anon(), session)
+    r_index <- select_group_server(
+      id = "filters",
+      data_r = db_app_index_anon(),
+      vars_r = c("org", "store", "category3", "brand_name", "product_sku")
+    )
 
     ## Update the Stats Cards on filtered index
     observe({
@@ -123,18 +118,40 @@ appExplorePRM <- function(...) {
     ## On click, reset, load, or save tuning parameters
     observeEvent(input$btn_reset, {
       log_i("+++ user action @-> reset ml params")
-      reset_model_inputs()
-      log_s("+++ app event @-> slider default")
+
+      default_ml_params() |>
+        update_model_params()
     })
+
     observeEvent(input$btn_load, {
       log_i("+++ user action @-> load from db")
-      load_model_params(r_oid(), r_sid())
-      log_s("+++ app event @-> set sliders")
+
+      db_load_params(r_oid(), r_sid()) |>
+        update_model_params()
+
+      shinyWidgets::show_alert(
+        session = session,
+        title = "Success !!",
+        text = "Parameters Loaded",
+        type = "success",
+        closeOnClickOutside = TRUE,
+        showCloseButton = TRUE
+      )
     })
+
     observeEvent(input$btn_save, {
       log_i("+++ user action @-> write to db")
-      save_model_params(r_oid(), r_sid(), r_ml_args())
-      log_s("+++ app event @-| none")
+
+      n <- db_save_params(r_oid(), r_sid(), r_ml_args())
+
+      show_alert(
+        session = session,
+        title = "Success !!",
+        text = "Parameters Saved",
+        type = "success",
+        closeOnClickOutside = TRUE,
+        showCloseButton = TRUE
+      )
     })
 
     ## On click, run model
@@ -198,7 +215,7 @@ appExplorePRM <- function(...) {
       })
 
     # Download report.html on action
-    output$btn_dl <- downloadHandler(
+    output$btn_dl <- shiny::downloadHandler(
       filename = function() {
         log_i("+++ user action @-> confirmed download")
         paste0('my-report.', switch(
@@ -220,14 +237,13 @@ appExplorePRM <- function(...) {
 }
 
 
-#' @describeIn app-run function returns the reactive data needed on app startup
-#' @export
-reactive_app_index <- function(index, session = getDefaultReactiveDomain()) {
+
+#' @describeIn app-run create a new waiter object
+new_waiter <- function(session = getDefaultReactiveDomain()) {
   if (shiny::isRunning()) {
-    select_group_server(
-      id = "filters",
-      data_r = index,
-      vars_r = c("org", "store", "category3", "brand_name", "product_sku")
+    Waiter$new(
+      html = waiter_html("Initializing..."),
+      color = get_app_colors()$bg
     )
   } else {
     stop("Shiny app not running...", call. = FALSE)
@@ -235,10 +251,81 @@ reactive_app_index <- function(index, session = getDefaultReactiveDomain()) {
 }
 
 
+#' @describeIn app-run get html for waiter progress page
+waiter_html <- function(msg, session = getDefaultReactiveDomain()) {
+  if (shiny::isRunning()) {
+    shiny::tagList(waiter::spin_pulsar(), shiny::br(), msg)
+  } else {
+    stop("Shiny app not running...", call. = FALSE)
+  }
+}
+
+
+#' @describeIn app-run update stats on filter
+update_stat_cards <- function(index, session = getDefaultReactiveDomain()) {
+  if (shiny::isRunning()) {
+    updateStatiCard(
+      session = session,
+      id = "stat_skus",
+      value = scales::comma(as.integer(nrow(index))),
+      duration = 100
+    )
+    updateStatiCard(
+      session = session,
+      id = "stat_brands",
+      value = scales::comma(as.integer(length(unique(index$brand_name)))),
+      duration = 100
+    )
+    updateStatiCard(
+      session = session,
+      id = "stat_sales",
+      value = scales::dollar(as.integer(sum(index$tot_sales))),
+      duration = 100
+    )
+    updateStatiCard(
+      session = session,
+      id = "stat_units",
+      value = scales::comma(as.integer(sum(index$units_sold))),
+      duration = 100
+    )
+  } else {
+    stop("Shiny app not running...", call. = FALSE)
+  }
+}
+
+
+#' @describeIn app-run update ui sliders containing model params
+update_model_params <- function(args, session = getDefaultReactiveDomain()) {
+
+  if (shiny::isRunning()) {
+    updateMaterialSwitch(session = session,
+                         inputId = "sw_poolvar",
+                         value = args$ml_pooled_var)
+    updateMaterialSwitch(session = session,
+                         inputId = "sw_pairttest",
+                         value = args$ml_pair_ttest)
+    updateNoUiSliderInput(session = session,
+                          inputId = "sli_trend_pval_conf",
+                          value = list(args$ml_trend_pval, args$ml_trend_conf))
+    updateNoUiSliderInput(session = session,
+                          inputId = "sli_stock_pval_conf",
+                          value = list(args$ml_stock_pval, args$ml_stock_conf))
+    updateNoUiSliderInput(session = session,
+                          inputId = "sli_ppql_ppqh",
+                          value = list(args$ml_ppql, args$ml_ppqh))
+    updateNoUiSliderInput(session = session,
+                          inputId = "sli_secd_prim",
+                          value = list(args$ml_secd, args$ml_prim))
+    updateNoUiSliderInput(session = session,
+                          inputId = "sli_npom_ltmi",
+                          value = list(args$ml_npom, args$ml_ltmi))
+  } else {
+    stop("Shiny app not running...", call. = FALSE)
+  }
+}
+
 #' @describeIn app-run function that's executed on user action to run model
-#' @export
-run_model <- function(w, oid, sid, index, ml_args,
-                      session = getDefaultReactiveDomain()) {
+run_model <- function(w, oid, sid, index, ml_args, session = getDefaultReactiveDomain()) {
 
   if (shiny::isRunning()) {
     # Check if the minimal required arguments are provided
@@ -272,10 +359,10 @@ run_model <- function(w, oid, sid, index, ml_args,
       scenario <- build_ml_scenario(results, context)
 
       w$update(html = waiter_html("...Building Plot Outputs..."))
-      plots <- build_diag_plots(results)
+      plots <- build_plot_objects(results)
 
       w$update(html = waiter_html("...Saving Report Images..."))
-      plots_path <- save_diag_plots(plots)
+      plots_path <- save_plot_objects(plots)
 
       w$update(html = waiter_html("...Saving Report Data..."))
       scenario_path <- save_ml_scenario(scenario)
@@ -317,198 +404,6 @@ run_model <- function(w, oid, sid, index, ml_args,
       w$hide()
       ml_out
     }
-  } else {
-    stop("Shiny app not running...", call. = FALSE)
-  }
-}
-
-
-#' @describeIn app-run Reset inputs to default values
-#' @export
-reset_model_inputs <- function(session = getDefaultReactiveDomain()) {
-  if (shiny::isRunning()) {
-    args <- default_ml_params()
-    updateMaterialSwitch(session = session,
-                         inputId = "sw_poolvar",
-                         value = args$ml_pooled_var)
-    updateMaterialSwitch(session = session,
-                         inputId = "sw_pairttest",
-                         value = args$ml_pair_ttest)
-    updateNoUiSliderInput(session = session,
-                          inputId = "sli_trend_pval_conf",
-                          value = list(args$ml_trend_pval, args$ml_trend_conf))
-    updateNoUiSliderInput(session = session,
-                          inputId = "sli_stock_pval_conf",
-                          value = list(args$ml_stock_pval, args$ml_stock_conf))
-    updateNoUiSliderInput(session = session,
-                          inputId = "sli_ppql_ppqh",
-                          value = list(args$ml_ppql, args$ml_ppqh))
-    updateNoUiSliderInput(session = session,
-                          inputId = "sli_secd_prim",
-                          value = list(args$ml_secd, args$ml_prim))
-    updateNoUiSliderInput(session = session,
-                          inputId = "sli_npom_ltmi",
-                          value = list(args$ml_npom, args$ml_ltmi))
-  } else {
-    stop("Shiny app not running...", call. = FALSE)
-  }
-}
-
-
-#' @describeIn app-run create a new waiter object
-#' @export
-new_waiter <- function(session = getDefaultReactiveDomain()) {
-  if (shiny::isRunning()) {
-    .colors <- get_app_colors()
-    Waiter$new(
-      html = waiter_html("Initializing..."),
-      color = .colors$bg
-    )
-  } else {
-    stop("Shiny app not running...", call. = FALSE)
-  }
-}
-
-
-#' @describeIn app-run get html for waiter progress page
-#' @export
-waiter_html <- function(msg, session = getDefaultReactiveDomain()) {
-  if (shiny::isRunning()) {
-    shiny::tagList(waiter::spin_pulsar(), shiny::br(), msg)
-  } else {
-    stop("Shiny app not running...", call. = FALSE)
-  }
-}
-
-
-#' @describeIn app-run update stats cards when selections change and data gets filtered
-#' @export
-update_stat_cards <- function(index, session = getDefaultReactiveDomain()) {
-  if (shiny::isRunning()) {
-    updateStatiCard(
-      session = session,
-      id = "stat_skus",
-      value = scales::comma(as.integer(nrow(index))),
-      duration = 100
-    )
-    updateStatiCard(
-      session = session,
-      id = "stat_brands",
-      value = scales::comma(as.integer(length(unique(index$brand_name)))),
-      duration = 100
-    )
-    updateStatiCard(
-      session = session,
-      id = "stat_sales",
-      value = scales::dollar(as.integer(sum(index$tot_sales))),
-      duration = 100
-    )
-    updateStatiCard(
-      session = session,
-      id = "stat_units",
-      value = scales::comma(as.integer(sum(index$units_sold))),
-      duration = 100
-    )
-  } else {
-    stop("Shiny app not running...", call. = FALSE)
-  }
-}
-
-
-#' @describeIn app-run update model inputs using values retrieved from database
-#' @export
-load_model_params <- function(oid, sid, session = getDefaultReactiveDomain()) {
-  if (shiny::isRunning()) {
-
-    # Check if the minimal required arguments are provided
-    # Note the other args could never be null
-    if (is.null(oid) | is.null(sid)) {
-      show_alert(
-        session = session,
-        title = "Oops !!",
-        text = "Select org and store to load any saved parameters",
-        type = "error",
-        closeOnClickOutside = TRUE,
-        showCloseButton = TRUE
-      )
-    } else {
-      args <- db_load_params(oid, sid)
-      updateMaterialSwitch(session = session,
-                           inputId = "sw_poolvar",
-                           value = args$ml_pooled_var)
-      updateMaterialSwitch(session = session,
-                           inputId = "sw_pairttest",
-                           value = args$ml_pair_ttest)
-      updateNoUiSliderInput(session = session,
-                            inputId = "sli_trend_pval_conf",
-                            value = list(args$ml_trend_pval, args$ml_trend_conf))
-      updateNoUiSliderInput(session = session,
-                            inputId = "sli_stock_pval_conf",
-                            value = list(args$ml_stock_pval, args$ml_stock_conf))
-      updateNoUiSliderInput(session = session,
-                            inputId = "sli_ppql_ppqh",
-                            value = list(args$ml_ppql, args$ml_ppqh))
-      updateNoUiSliderInput(session = session,
-                            inputId = "sli_secd_prim",
-                            value = list(args$ml_secd, args$ml_prim))
-      updateNoUiSliderInput(session = session,
-                            inputId = "sli_npom_ltmi",
-                            value = list(args$ml_npom, args$ml_ltmi))
-
-      shinyWidgets::show_alert(
-        session = session,
-        title = "Success !!",
-        text = "Parameters Loaded",
-        type = "success",
-        closeOnClickOutside = TRUE,
-        showCloseButton = TRUE
-      )
-    }
-  } else {
-    stop("Shiny app not running...", call. = FALSE)
-  }
-}
-
-
-#' @describeIn app-run save model inputs to database on user action
-#' @export
-save_model_params <- function(oid, sid, ml_args,
-                              session = getDefaultReactiveDomain()) {
-
-  if (shiny::isRunning()) {
-
-    if (is.null(oid) || is.null(sid)) {
-      show_alert(
-        session = session,
-        title = "Oops !!",
-        text = "Select Org and Store to save model parameters",
-        type = "error",
-        closeOnClickOutside = TRUE,
-        showCloseButton = TRUE
-      )
-    } else {
-      n <- db_save_params(oid, sid, ml_args)
-      if (n == 1) {
-        show_alert(
-          session = session,
-          title = "Success !!",
-          text = "Parameters Saved",
-          type = "success",
-          closeOnClickOutside = TRUE,
-          showCloseButton = TRUE
-        )
-      } else {
-        show_alert(
-          session = session,
-          title = "Error !!",
-          text = "Failed to save parameters",
-          type = "error",
-          closeOnClickOutside = TRUE,
-          showCloseButton = TRUE
-        )
-      }
-    }
-
   } else {
     stop("Shiny app not running...", call. = FALSE)
   }
