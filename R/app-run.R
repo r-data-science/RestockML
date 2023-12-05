@@ -19,7 +19,6 @@
 #' @importFrom rdstools log_suc
 #' @importFrom fs file_exists path
 #' @importFrom datamods select_group_server
-#' @importFrom testthat is_testing
 #'
 #' @name app-run
 NULL

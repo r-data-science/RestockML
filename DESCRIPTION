@@ -35,8 +35,7 @@ Imports:
   rmarkdown,
   rpgconn,
   rdscore,
-  rdstools,
-  testthat (>= 3.0.0)
+  rdstools
 Remotes:
   r-data-science/rpgconn,
   r-data-science/rdscore,
@@ -45,4 +44,5 @@ Depends:
   R (>= 4.0)
 Suggests: 
     shinytest2,
-    covr
+    covr,
+    testthat (>= 3.0.0)
