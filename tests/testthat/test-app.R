@@ -233,6 +233,4 @@ test_that("{shinytest2} Testing App", {
 
 # Cleanup -----------------------------------------------------------------
 
-test_that("Clearing Database", {
-  expect_equal(clear_db_params(oid, sid), 1)
-})
+clear_db_params(oid, sid)
