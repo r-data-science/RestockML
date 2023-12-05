@@ -46,4 +46,5 @@ Suggests:
     shinytest2,
     covr,
     testthat (>= 3.0.0),
-    vdiffr
+    vdiffr,
+    withr
