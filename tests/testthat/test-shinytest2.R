@@ -12,17 +12,14 @@ sid <- "ecfb2baa-c5de-46f4-bb3a-96f62a819e3e"
 slider_trend <- c(15, 60)
 
 
-
-# Test Prep ---------------------------------------------------------------
-
-
-clear_db_params(oid, sid)
-
-
 # Start Tests -------------------------------------------------------------
 
 
 test_that("{shinytest2} Testing App", {
+
+  # Clear db values on exit if they exist
+  on.exit(clear_db_params(oid, sid))
+
   app <- AppDriver$new(
     app_dir = "app",
     name = "app",
