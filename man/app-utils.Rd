@@ -13,15 +13,15 @@
 \alias{save_plot_data}
 \alias{build_plot_objects}
 \alias{save_plot_objects}
+\alias{default_ml_params}
+\alias{scale_ml_params}
+\alias{unscale_ml_params}
 \alias{build_ml_scenario}
 \alias{save_ml_scenario}
 \alias{build_ml_context}
 \alias{save_ml_context}
 \alias{build_ml_recs}
 \alias{save_ml_recs}
-\alias{default_ml_params}
-\alias{scale_ml_params}
-\alias{unscale_ml_params}
 \title{App Utils}
 \usage{
 is_ci()
@@ -46,6 +46,12 @@ build_plot_objects(results)
 
 save_plot_objects(plots)
 
+default_ml_params()
+
+scale_ml_params(ll)
+
+unscale_ml_params(ll)
+
 build_ml_scenario(results, context)
 
 save_ml_scenario(scenario)
@@ -57,12 +63,6 @@ save_ml_context(context)
 build_ml_recs(oid, sid, skus, ml_args)
 
 save_ml_recs(recs)
-
-default_ml_params()
-
-scale_ml_params(ll)
-
-unscale_ml_params(ll)
 }
 \arguments{
 \item{file}{file name for report download passed from app}
@@ -72,6 +72,8 @@ unscale_ml_params(ll)
 \item{results}{results from shiny app}
 
 \item{plots}{list of diagnostic plots}
+
+\item{ll}{argument list to scale or unscale values}
 
 \item{context}{model context}
 
@@ -86,8 +88,6 @@ unscale_ml_params(ll)
 \item{ml_args}{model args}
 
 \item{skus}{skus to get recs for}
-
-\item{ll}{argument list to scale or unscale values}
 }
 \description{
 Functions required to execute and facililate an application user session
@@ -116,6 +116,12 @@ Functions required to execute and facililate an application user session
 
 \item \code{save_plot_objects()}: Saving plots for report
 
+\item \code{default_ml_params()}: get defaults and scale
+
+\item \code{scale_ml_params()}: scale for shiny sliders
+
+\item \code{unscale_ml_params()}: scale for shiny sliders
+
 \item \code{build_ml_scenario()}: build model scenario
 
 \item \code{save_ml_scenario()}: save model scenario
@@ -127,11 +133,5 @@ Functions required to execute and facililate an application user session
 \item \code{build_ml_recs()}: Run recs model, save results, and return
 
 \item \code{save_ml_recs()}: save ml results (internal)
-
-\item \code{default_ml_params()}: get defaults and scale
-
-\item \code{scale_ml_params()}: scale for shiny sliders
-
-\item \code{unscale_ml_params()}: scale for shiny sliders
 
 }}

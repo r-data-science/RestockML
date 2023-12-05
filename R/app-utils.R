@@ -105,7 +105,13 @@ clear_session_dir <- function() {
 generate_report <- function(file) {
   rdstools::log_inf("...Rendering Model Report")
   report_path <- fs::path(get_app_dir(), "output/report.Rmd")
-  templ_path <- fs::path_package("rdsapps", "docs", "template.Rmd")
+
+  if (is_testing() & !shiny::isRunning()) {
+    templ_path <- "docs/test-template.Rmd"
+  } else {
+    templ_path <- fs::path_package("rdsapps", "docs", "template.Rmd")
+  }
+
   writeLines(readLines(templ_path), report_path)
   x <- rmarkdown::render(
     input = report_path,
@@ -415,6 +421,59 @@ save_plot_objects <- function(plots) {
 }
 
 
+#' @describeIn app-utils get defaults and scale
+default_ml_params <- function() {
+  rdstools::log_inf("...Getting Default Params")
+
+  scale_ml_params(
+    list(
+      ml_npom = 14,
+      ml_ltmi = 182,
+      ml_secd = .20,
+      ml_prim = .45,
+      ml_ppql = .20,
+      ml_ppqh = .80,
+      ml_pair_ttest = FALSE,
+      ml_pooled_var = TRUE,
+      ml_trend_pval = .05,
+      ml_trend_conf = .85,
+      ml_stock_pval = .05,
+      ml_stock_conf = .85
+    )
+  )
+}
+
+
+#' @describeIn app-utils scale for shiny sliders
+scale_ml_params <- function(ll) {
+  ll$ml_secd <- ll$ml_secd * 100
+  ll$ml_prim <- ll$ml_prim * 100
+  ll$ml_ppql <- ll$ml_ppql * 100
+  ll$ml_ppqh <- ll$ml_ppqh * 100
+
+  ll$ml_trend_pval <- ll$ml_trend_pval * 100
+  ll$ml_trend_conf <- ll$ml_trend_conf * 100
+  ll$ml_stock_pval <- ll$ml_stock_pval * 100
+  ll$ml_stock_conf <- ll$ml_stock_conf * 100
+  ll
+}
+
+
+#' @describeIn app-utils scale for shiny sliders
+unscale_ml_params <- function(ll) {
+  ll$ml_secd <- ll$ml_secd / 100
+  ll$ml_prim <- ll$ml_prim / 100
+  ll$ml_ppql <- ll$ml_ppql / 100
+  ll$ml_ppqh <- ll$ml_ppqh / 100
+
+  ll$ml_trend_pval <- ll$ml_trend_pval / 100
+  ll$ml_trend_conf <- ll$ml_trend_conf / 100
+  ll$ml_stock_pval <- ll$ml_stock_pval / 100
+  ll$ml_stock_conf <- ll$ml_stock_conf / 100
+  ll
+}
+
+
 #' @describeIn app-utils build model scenario
 build_ml_scenario <- function(results, context) {
   rdstools::log_inf("...Building Model Scenario")
@@ -495,57 +554,7 @@ save_ml_recs <- function(recs) {
 }
 
 
-#' @describeIn app-utils get defaults and scale
-default_ml_params <- function() {
-  rdstools::log_inf("...Getting Default Params")
 
-  scale_ml_params(
-    list(
-      ml_npom = 14,
-      ml_ltmi = 182,
-      ml_secd = .20,
-      ml_prim = .45,
-      ml_ppql = .20,
-      ml_ppqh = .80,
-      ml_pair_ttest = FALSE,
-      ml_pooled_var = TRUE,
-      ml_trend_pval = .05,
-      ml_trend_conf = .85,
-      ml_stock_pval = .05,
-      ml_stock_conf = .85
-    )
-  )
-}
-
-
-#' @describeIn app-utils scale for shiny sliders
-scale_ml_params <- function(ll) {
-  ll$ml_secd <- ll$ml_secd * 100
-  ll$ml_prim <- ll$ml_prim * 100
-  ll$ml_ppql <- ll$ml_ppql * 100
-  ll$ml_ppqh <- ll$ml_ppqh * 100
-
-  ll$ml_trend_pval <- ll$ml_trend_pval * 100
-  ll$ml_trend_conf <- ll$ml_trend_conf * 100
-  ll$ml_stock_pval <- ll$ml_stock_pval * 100
-  ll$ml_stock_conf <- ll$ml_stock_conf * 100
-  ll
-}
-
-
-#' @describeIn app-utils scale for shiny sliders
-unscale_ml_params <- function(ll) {
-  ll$ml_secd <- ll$ml_secd / 100
-  ll$ml_prim <- ll$ml_prim / 100
-  ll$ml_ppql <- ll$ml_ppql / 100
-  ll$ml_ppqh <- ll$ml_ppqh / 100
-
-  ll$ml_trend_pval <- ll$ml_trend_pval / 100
-  ll$ml_trend_conf <- ll$ml_trend_conf / 100
-  ll$ml_stock_pval <- ll$ml_stock_pval / 100
-  ll$ml_stock_conf <- ll$ml_stock_conf / 100
-  ll
-}
 
 
 
