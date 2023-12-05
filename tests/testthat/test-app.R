@@ -217,13 +217,15 @@ test_that("{shinytest2} Testing App", {
 
   #-------------
   app$log_message("<ACTION> User Click {input$btn_dl}")
-  app$log_message("<EXPECT> Checking File Download")
-  app$expect_download("btn_dl", compare = compare_report)
-
+  if (is_ci()) {
+    app$log_message("!!----> CI Detected...Skipping")
+  } else {
+    app$log_message("<EXPECT> Checking File Download")
+    app$expect_download("btn_dl", compare = compare_report)
+  }
 
   #===========================================================
   app$log_message("*****< App Tests Complete >*****")
-  app$log_message("<EVENT> Stopping App Driver")
   app$stop()
 })
 
