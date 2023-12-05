@@ -54,7 +54,10 @@ jobs:
       - name: Setup Cran Depends
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages:
+            local::.
+            shinytest2
+            any::rcmdcheck
           needs: check
 
       - name: Check R Package
