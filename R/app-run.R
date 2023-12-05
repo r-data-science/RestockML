@@ -237,7 +237,6 @@ app_server <- function() {
 }
 
 
-
 #' @describeIn app-run create a new waiter object
 new_waiter <- function(session = getDefaultReactiveDomain()) {
   if (shiny::isRunning()) {
@@ -323,6 +322,7 @@ update_model_params <- function(args, session = getDefaultReactiveDomain()) {
     stop("Shiny app not running...", call. = FALSE)
   }
 }
+
 
 #' @describeIn app-run function that's executed on user action to run model
 run_model <- function(w, oid, sid, index, ml_args, session = getDefaultReactiveDomain()) {
