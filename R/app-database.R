@@ -94,6 +94,7 @@ db_save_params <- function(oid, sid, args) {
     DBI::dbExecute(cn, qry)
     DBI::dbAppendTable(cn, tab, arg_row)
   })
+  stopifnot(n == 1)
   rdstools::log_inf("Saved Parameters", n)
   return(n)
 }
