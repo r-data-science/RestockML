@@ -1,6 +1,6 @@
 {
   "input": {
-    "btn_load": 0,
+    "btn_load": 1,
     "btn_param_drop": 0,
     "btn_param_drop_dropmenu": false,
     "btn_post": 0,
@@ -28,10 +28,13 @@
       85
     ],
     "sli_trend_pval_conf": [
-      5,
-      85
+      15,
+      60
     ],
     "sw_pairttest": false,
-    "sw_poolvar": true
+    "sw_poolvar": true,
+    "swal2-checkbox": false,
+    "swal2-select": null,
+    "swal2-textarea": ""
   }
 }

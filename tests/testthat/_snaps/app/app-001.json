@@ -33,50 +33,5 @@
     ],
     "sw_pairttest": false,
     "sw_poolvar": true
-  },
-  "output": {
-    "plot_0": {
-      "message": "",
-      "call": "NULL",
-      "type": [
-        "shiny.silent.error",
-        "validation"
-      ]
-    },
-    "plot_1": {
-      "message": "",
-      "call": "NULL",
-      "type": [
-        "shiny.silent.error",
-        "validation"
-      ]
-    },
-    "plot_2": {
-      "message": "",
-      "call": "NULL",
-      "type": [
-        "shiny.silent.error",
-        "validation"
-      ]
-    },
-    "plot_3": {
-      "message": "",
-      "call": "NULL",
-      "type": [
-        "shiny.silent.error",
-        "validation"
-      ]
-    },
-    "plot_4": {
-      "message": "",
-      "call": "NULL",
-      "type": [
-        "shiny.silent.error",
-        "validation"
-      ]
-    }
-  },
-  "export": {
-
   }
 }
