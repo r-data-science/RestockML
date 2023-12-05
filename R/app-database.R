@@ -72,7 +72,7 @@ db_load_params <- function(oid, sid) {
   args <- setDT(DBI::dbGetQuery(cn, qry))
 
   if (nrow(args) == 0) {
-    default_ml_params()
+    c(list(oid = oid, sid = sid), default_ml_params())
   } else {
     scale_ml_params(as.list(args))
   }
