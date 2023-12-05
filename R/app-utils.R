@@ -43,9 +43,12 @@ is_testing <- function() {
 
 #' @describeIn app-utils creates and returns app dir path
 get_app_dir <- function() {
-  fs::path_temp("rdsapps-session") |>
-    fs::dir_create() |>
-    fs::path_norm()
+  if (is_testing()) {
+    x <- "rdsapps-session"
+  } else {
+    x <- fs::path_temp("rdsapps-session")
+  }
+  fs::path_norm(x)
 }
 
 
@@ -67,13 +70,14 @@ get_app_colors <- function() {
 #' @describeIn app-utils Run and Publishing Functions
 create_session_dir <- function() {
   rdstools::log_inf("...Launching Shiny App")
-  curr_d <- get_app_dir()
-  rdstools::log_inf(paste0("...Outputs Directory -> ", curr_d))
+  app_d <- get_app_dir() |>
+    fs::dir_create()
+  rdstools::log_inf(paste0("...Output Dir -> ", app_d))
   fs::dir_create(get_app_dir(), "www")
   fs::dir_create(get_app_dir(), "output", c("plots/data"))
   cat("\n\n")
   cat("**************\n")
-  fs::dir_tree(get_app_dir())
+  fs::dir_tree(app_d)
   cat("**************\n")
   invisible(TRUE)
 }
@@ -84,11 +88,14 @@ clear_session_dir <- function() {
   if (getOption("shiny.testmode", FALSE)) {
     rdstools::log_inf("...[Test Mode] skipping session clean")
   } else {
-    rdstools::log_inf("...Clearing Session Data")
-    if (fs::dir_exists(get_app_dir())) {
-      rdstools::log_suc("...Deleted...", fs::dir_delete(get_app_dir()))
+    appd <- get_app_dir()
+    if (fs::dir_exists(appd)) {
+      fs::dir_delete(appd)
+      rdstools::log_suc("...Cleared Session Outputs")
+      invisible(TRUE)
     } else {
-      rdstools::log_err("...Session Dir Not Found")
+      rdstools::log_wrn("...Session Outputs Not Found")
+      invisible(FALSE)
     }
   }
 }

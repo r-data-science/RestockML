@@ -19,7 +19,6 @@
 #' @name app-plots
 NULL
 
-
 #' @describeIn app-plots provides the base theme for plots
 .plot_theme <- function() {
   .colors <- get_app_colors()
