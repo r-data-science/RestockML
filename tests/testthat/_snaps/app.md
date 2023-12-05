@@ -1,4 +1,4 @@
-# Initial Values
+# {shinytest2} Testing App
 
     "227,059"
 
@@ -14,7 +14,7 @@
 
     "13,393,465"
 
-# Selection Filtering
+---
 
     "15"
 
@@ -30,7 +30,7 @@
 
     "1,014"
 
-# Run and Download
+---
 
     "my-report.html"
 
