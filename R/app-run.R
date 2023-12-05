@@ -116,6 +116,10 @@ appExplorePRM <- function(...) {
       as.data.table(r_index())[store == req(input$`filters-store`), store_uuid[1]]
     })
 
+    exportTestValues(
+      oid = r_oid(),
+      sid = r_sid()
+    )
 
     ## On click, reset, load, or save tuning parameters
     observeEvent(input$btn_reset, {
@@ -152,6 +156,19 @@ appExplorePRM <- function(...) {
     output$plot_2 <- renderPlot(r_ml_out()$outputs$plots[[3]], res = 85)
     output$plot_3 <- renderPlot(r_ml_out()$outputs$plots[[4]], res = 85)
     output$plot_4 <- renderPlot(r_ml_out()$outputs$plots[[5]], res = 85)
+
+    exportTestValues(
+      plot_0 = r_ml_out()$outputs$plots[[1]],
+      plot_1 = r_ml_out()$outputs$plots[[2]],
+      plot_2 = r_ml_out()$outputs$plots[[3]],
+      plot_3 = r_ml_out()$outputs$plots[[4]],
+      plot_4 = r_ml_out()$outputs$plots[[5]],
+      plot_0_data = r_ml_out()$outputs$results[[1]],
+      plot_1_data = r_ml_out()$outputs$results[[2]],
+      plot_2_data = r_ml_out()$outputs$results[[3]],
+      plot_3_data = r_ml_out()$outputs$results[[4]],
+      plot_4_data = r_ml_out()$outputs$results[[5]]
+    )
 
     # On click, generate report
     observeEvent(input$btn_post, {
@@ -442,7 +459,7 @@ load_model_params <- function(oid, sid, session = getDefaultReactiveDomain()) {
       shinyWidgets::show_alert(
         session = session,
         title = "Success !!",
-        text = "Loaded parameters",
+        text = "Parameters Loaded",
         type = "success",
         closeOnClickOutside = TRUE,
         showCloseButton = TRUE
@@ -476,7 +493,7 @@ save_model_params <- function(oid, sid, ml_args,
         show_alert(
           session = session,
           title = "Success !!",
-          text = "Parameters saved",
+          text = "Parameters Saved",
           type = "success",
           closeOnClickOutside = TRUE,
           showCloseButton = TRUE
