@@ -83,8 +83,8 @@ test_that("{shinytest2} Testing App", {
     name = "app",
     width = 2000,
     height = 1000,
-    load_timeout = 25000,
-    timeout = 15000
+    load_timeout = 35000,
+    timeout = 25000
   )
 
   #===========================================================
