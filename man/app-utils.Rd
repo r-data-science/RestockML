@@ -2,6 +2,8 @@
 % Please edit documentation in R/app-utils.R
 \name{app-utils}
 \alias{app-utils}
+\alias{is_ci}
+\alias{is_testing}
 \alias{get_app_dir}
 \alias{get_app_colors}
 \alias{create_session_dir}
@@ -9,8 +11,8 @@
 \alias{generate_report}
 \alias{build_plot_data}
 \alias{save_plot_data}
-\alias{build_diag_plots}
-\alias{save_diag_plots}
+\alias{build_plot_objects}
+\alias{save_plot_objects}
 \alias{build_ml_scenario}
 \alias{save_ml_scenario}
 \alias{build_ml_context}
@@ -22,6 +24,10 @@
 \alias{unscale_ml_params}
 \title{App Utils}
 \usage{
+is_ci()
+
+is_testing()
+
 get_app_dir()
 
 get_app_colors()
@@ -36,9 +42,9 @@ build_plot_data(recs)
 
 save_plot_data(results)
 
-build_diag_plots(results)
+build_plot_objects(results)
 
-save_diag_plots(plots)
+save_plot_objects(plots)
 
 build_ml_scenario(results, context)
 
@@ -88,6 +94,10 @@ Functions required to execute and facililate an application user session
 }
 \section{Functions}{
 \itemize{
+\item \code{is_ci()}: returns TRUE if called on CI
+
+\item \code{is_testing()}: returns TRUE if called while testing
+
 \item \code{get_app_dir()}: creates and returns app dir path
 
 \item \code{get_app_colors()}: Set Plot colors
@@ -102,9 +112,9 @@ Functions required to execute and facililate an application user session
 
 \item \code{save_plot_data()}: keeps plot data generated during session
 
-\item \code{build_diag_plots()}: get list of diagnostic plots given processed recs results
+\item \code{build_plot_objects()}: get list of diagnostic plots given processed recs results
 
-\item \code{save_diag_plots()}: Saving plots for report
+\item \code{save_plot_objects()}: Saving plots for report
 
 \item \code{build_ml_scenario()}: build model scenario
 

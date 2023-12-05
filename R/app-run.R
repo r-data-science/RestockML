@@ -10,7 +10,7 @@
 #' @param index table of filtered rows from app
 #' @param ml_args list of ml args from app
 #' @param session shiny session object
-#' @param test.mode runApp in test mode. Default FALSE
+#' @param args Values to update model parameters on UI
 #'
 #' @import shiny
 #' @import waiter

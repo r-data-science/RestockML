@@ -2,33 +2,21 @@
 % Please edit documentation in R/app-run.R
 \name{app-run}
 \alias{app-run}
-\alias{runExplorePRM}
 \alias{appExplorePRM}
-\alias{.app_ui}
-\alias{.app_server}
-\alias{reactive_app_index}
-\alias{run_model}
-\alias{reset_model_inputs}
+\alias{app_ui}
+\alias{app_server}
 \alias{new_waiter}
 \alias{waiter_html}
 \alias{update_stat_cards}
-\alias{load_model_params}
-\alias{save_model_params}
+\alias{update_model_params}
+\alias{run_model}
 \title{Run App}
 \usage{
-runExplorePRM(test.mode = FALSE, ...)
-
 appExplorePRM(...)
 
-.app_ui()
+app_ui()
 
-.app_server()
-
-reactive_app_index(index, session = getDefaultReactiveDomain())
-
-run_model(w, oid, sid, index, ml_args, session = getDefaultReactiveDomain())
-
-reset_model_inputs(session = getDefaultReactiveDomain())
+app_server()
 
 new_waiter(session = getDefaultReactiveDomain())
 
@@ -36,18 +24,20 @@ waiter_html(msg, session = getDefaultReactiveDomain())
 
 update_stat_cards(index, session = getDefaultReactiveDomain())
 
-load_model_params(oid, sid, session = getDefaultReactiveDomain())
+update_model_params(args, session = getDefaultReactiveDomain())
 
-save_model_params(oid, sid, ml_args, session = getDefaultReactiveDomain())
+run_model(w, oid, sid, index, ml_args, session = getDefaultReactiveDomain())
 }
 \arguments{
-\item{test.mode}{runApp in test mode. Default FALSE}
-
 \item{...}{additional args for runApp or options to pass to shinyApp}
+
+\item{session}{shiny session object}
+
+\item{msg}{message for waiter progress}
 
 \item{index}{table of filtered rows from app}
 
-\item{session}{shiny session object}
+\item{args}{Values to update model parameters on UI}
 
 \item{w}{waiter object from app}
 
@@ -56,36 +46,26 @@ save_model_params(oid, sid, ml_args, session = getDefaultReactiveDomain())
 \item{sid}{store uuid from app}
 
 \item{ml_args}{list of ml args from app}
-
-\item{msg}{message for waiter progress}
 }
 \description{
 Functions to run the package shiny app
 }
 \section{Functions}{
 \itemize{
-\item \code{runExplorePRM()}: returns app object for subsequent execution
-
 \item \code{appExplorePRM()}: returns app object for subsequent execution
 
-\item \code{.app_ui()}: UI function for app
+\item \code{app_ui()}: UI function for app
 
-\item \code{.app_server()}: server function for app
-
-\item \code{reactive_app_index()}: function returns the reactive data needed on app startup
-
-\item \code{run_model()}: function that's executed on user action to run model
-
-\item \code{reset_model_inputs()}: Reset inputs to default values
+\item \code{app_server()}: server function for app
 
 \item \code{new_waiter()}: create a new waiter object
 
 \item \code{waiter_html()}: get html for waiter progress page
 
-\item \code{update_stat_cards()}: update stats cards when selections change and data gets filtered
+\item \code{update_stat_cards()}: update stats on filter
 
-\item \code{load_model_params()}: update model inputs using values retrieved from database
+\item \code{update_model_params()}: update ui sliders containing model params
 
-\item \code{save_model_params()}: save model inputs to database on user action
+\item \code{run_model()}: function that's executed on user action to run model
 
 }}
