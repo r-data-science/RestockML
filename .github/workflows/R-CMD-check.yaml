@@ -53,12 +53,15 @@ jobs:
 
       - name: Setup Cran Depends
         uses: r-lib/actions/setup-r-dependencies@v2
+        env:
+          _R_CHECK_FORCE_SUGGESTS_: false
         with:
           extra-packages:
-            any::rcmdcheck
             shinytest2
+            any::rcmdcheck
             # local::., shinytest2=?ignore
           needs: check
+
 
       - name: Check R Package
         uses: r-lib/actions/check-r-package@v2
