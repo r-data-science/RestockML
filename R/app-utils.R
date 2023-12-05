@@ -297,7 +297,7 @@ build_plot_data <- function(recs) {
     pdata0 = pdata0,
     pdata1 = pdata1,
     pdata2 = pdata2,
-    pdata3 = pdata3,
+    pdata3 = pdata3[variable != "is_trending"], # remove trending from plot3
     pdata4 = pdata4,
     data = list(recs = recs)
   )

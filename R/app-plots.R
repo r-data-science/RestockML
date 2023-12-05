@@ -247,7 +247,7 @@ NULL
   .colors <- get_app_colors()
   ptitle <- "Proportion of Recommendation"
   psubtitle <- "By Recommendation and Flag Assignments"
-  p3 <- ggplot2::ggplot(pdata3[variable != "is_trending"]) +
+  p3 <- ggplot2::ggplot(pdata3) +
     ggplot2::geom_bar(
       ggplot2::aes(value2, fill = restock, alpha = value2, color = value2),
       stat = "count",
