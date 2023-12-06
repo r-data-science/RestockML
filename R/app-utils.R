@@ -94,7 +94,7 @@ clear_session_dir <- function() {
       rdstools::log_suc("...Cleared Session Outputs")
       invisible(TRUE)
     } else {
-      rdstools::log_wrn("...Session Outputs Not Found")
+      rdstools::log_wrn("...Session Outputs Not Found at Path", appd)
       invisible(FALSE)
     }
   }
@@ -103,8 +103,11 @@ clear_session_dir <- function() {
 
 #' @describeIn app-utils Generate report and return download link
 generate_report <- function(file) {
-  rdstools::log_inf("...Rendering Model Report")
+  rdstools::log_inf(paste("...Rendering Report"))
   report_path <- fs::path(get_app_dir(), "output/report.Rmd")
+
+  rdstools::log_inf(paste("...File Input: ", report_path))
+  rdstools::log_inf(paste("...File Output: ", file))
 
   if (is_testing() & !shiny::isRunning()) {
     templ_path <- "docs/test-template.Rmd"

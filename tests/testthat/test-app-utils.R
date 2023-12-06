@@ -37,26 +37,6 @@ test_that("Utils - Dev/Test Helpers", {
 
 
 
-# test_that("Utils - Build and Save Plots", {
-#
-#   results <- lapply(fs::dir_ls("data", regexp = "pdata"), readRDS)
-#   plots <- build_plot_objects(results)
-#   for (p in plots)
-#     expect_true(ggplot2::is.ggplot(p))
-#
-#   path_plots <- save_plot_objects(plots)
-#   expect_equal(path_plots, fs::path(get_app_dir(), "output/plots"))
-#
-#   withr::with_dir(path_plots, {
-#     for (i in 1:4) {
-#       stringr::str_glue("diagnostic-{i}.png") |>
-#         fs::file_exists() |>
-#         expect_true()
-#     }
-#   })
-# })
-
-
 test_that("Utils - Build and Save Plots & Datasets", {
 
 
@@ -121,10 +101,6 @@ test_that("Utils - Build and Save ML Scenario", {
 })
 
 test_that("Utils - Build and Save ML Context", {
-  oid <- ..testuuid$oid
-  sid <- ..testuuid$sid
-
-
   x <- build_ml_context(
     oid = ..testuuid$oid,
     sid = ..testuuid$sid,

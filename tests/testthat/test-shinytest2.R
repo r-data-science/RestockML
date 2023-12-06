@@ -17,8 +17,12 @@ slider_trend <- c(15, 60)
 
 test_that("{shinytest2} Testing App", {
 
-  # Clear db values on exit if they exist
-  on.exit(clear_db_params(oid, sid))
+  clean_up <- function(oid, sid) {
+    clear_db_params(oid, sid)
+    fs::dir_delete(fs::path("app", get_app_dir()))
+  }
+  on.exit(clean_up(oid, sid))
+
 
   app <- AppDriver$new(
     app_dir = "app",
