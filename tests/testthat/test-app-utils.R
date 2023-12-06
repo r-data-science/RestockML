@@ -21,10 +21,10 @@ test_that("Utils - Handle Session Dir", {
 
 
 test_that("Utils - Generate Report", {
-  # create_session_dir() |>
-  #   expect_true()
-  generate_report(file = "test-report.html") |>
-    expect_snapshot_file()
+  x <- generate_report(file = "test-report.html")
+  fs::file_exists(x) |>
+    expect_true()
+  expect_snapshot_file(x)
 })
 
 
@@ -37,17 +37,56 @@ test_that("Utils - Dev/Test Helpers", {
 
 
 
-test_that("Utils - Build and Save Plots", {
+# test_that("Utils - Build and Save Plots", {
+#
+#   results <- lapply(fs::dir_ls("data", regexp = "pdata"), readRDS)
+#   plots <- build_plot_objects(results)
+#   for (p in plots)
+#     expect_true(ggplot2::is.ggplot(p))
+#
+#   path_plots <- save_plot_objects(plots)
+#   expect_equal(path_plots, fs::path(get_app_dir(), "output/plots"))
+#
+#   withr::with_dir(path_plots, {
+#     for (i in 1:4) {
+#       stringr::str_glue("diagnostic-{i}.png") |>
+#         fs::file_exists() |>
+#         expect_true()
+#     }
+#   })
+# })
 
-  results <- lapply(fs::dir_ls("data", regexp = "pdata"), readRDS)
+
+test_that("Utils - Build and Save Plots & Datasets", {
+
+
+  ## Build plot data
+  results <- readRDS("data/recs.Rds") |>
+    build_plot_data()
+  expect_snapshot(results)
+
+  ## Save plot data
+  pdata_path <- save_plot_data(results)
+
+  withr::with_dir(pdata_path, {
+    for (i in 1:4) {
+      stringr::str_glue("pdata{i}.Rds") |>
+        fs::file_exists() |>
+        expect_true()
+    }
+  })
+
+  ## Build plot objects
   plots <- build_plot_objects(results)
+
   for (p in plots)
     expect_true(ggplot2::is.ggplot(p))
 
+  ## Save plot objects
   path_plots <- save_plot_objects(plots)
   expect_equal(path_plots, fs::path(get_app_dir(), "output/plots"))
 
-  with_dir(path_plots, {
+  withr::with_dir(path_plots, {
     for (i in 1:4) {
       stringr::str_glue("diagnostic-{i}.png") |>
         fs::file_exists() |>
