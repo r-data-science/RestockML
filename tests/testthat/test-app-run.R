@@ -22,7 +22,7 @@ test_that("Testing run_model", {
   w <- NULL
   oid <- "044d7564-db32-4100-b960-f225c6879280"
   sid <- "ecfb2baa-c5de-46f4-bb3a-96f62a819e3e"
-  index <- readRDS(test_path("data/context.Rds"))$products[[1]]
+  index <- readRDS("data/context.Rds")$products[[1]]
   ml_args <- default_ml_params()
   expect_no_error(run_model(w, oid, sid, index, ml_args))
 })

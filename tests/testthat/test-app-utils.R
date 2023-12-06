@@ -14,7 +14,7 @@ test_that("Utils - Dev/Test Helpers", {
 
 
 test_that("Utils - Build and Save Plots & Datasets", {
-  recs <- readRDS(test_path("data/recs.Rds"))
+  recs <- readRDS("data/recs.Rds")
   results <- expect_no_error(build_plot_data(recs))
   expect_no_error(save_plot_data(results))
   plots <- expect_no_error(build_plot_objects(results))
@@ -31,8 +31,8 @@ test_that("Utils - Handling Model Params", {
 
 
 test_that("Utils - Build and Save ML Scenario", {
-  results <- readRDS(test_path("data/results.Rds"))
-  context <- readRDS(test_path("data/context.Rds"))
+  results <- readRDS("data/results.Rds")
+  context <- readRDS("data/context.Rds")
   scenario <- expect_no_error(build_ml_scenario(results, context))
   expect_no_error(save_ml_scenario(scenario))
 })

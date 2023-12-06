@@ -16,7 +16,6 @@ test_that("Testing Plot Title", {
 test_that("Testing Plot Functions", {
   for (i in 0:4) {
     stringr::str_glue("data/pdata{i}.Rds") |>
-      test_path() |>
       readRDS() |>
       (function(x, i) get(paste0(".plot_diagnostic_", i))(x))(i) |>
       expect_s3_class("gg")
