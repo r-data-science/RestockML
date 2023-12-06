@@ -136,11 +136,13 @@ generate_report <- function(file) {
 #' @describeIn app-utils build plot data with result of rdscore::restock_rec_ep
 build_plot_data <- function(recs) {
 
+  cp_recs <- copy(recs)
+
   ## Label failed skus in results table
-  recs$results[(
+  cp_recs$results[(
     stringr::str_split_1(
       stringr::str_remove(
-        recs$status_msg,
+        cp_recs$status_msg,
         "Recommendations failed for the following..."
       ), ", ?")),
     restock := "failed",
@@ -148,7 +150,7 @@ build_plot_data <- function(recs) {
 
   ## Set as factor columns
   levs <- c("yes", "no", "unsure", "failed")
-  recs$results[, restock := factor(restock, levs)]
+  cp_recs$results[, restock := factor(restock, levs)]
 
   ## Save labels for later
   labs <- c(
@@ -160,7 +162,7 @@ build_plot_data <- function(recs) {
   label_table <- data.table(level = levs, label = labs)
 
   ## Set category factors
-  recs$meta$stats[, category3 := factor(
+  cp_recs$meta$stats[, category3 := factor(
     category3,
     levels = c(
       "FLOWER", "PREROLLS",
@@ -179,24 +181,24 @@ build_plot_data <- function(recs) {
   )]
 
   ## Get plot datasets
-  pdata0 <- recs$results[, .N, restock]
+  pdata0 <- cp_recs$results[, .N, restock]
   pdata0[, label := scales::percent(N / sum(N), accuracy = 1)]
   pdata0[, restock := factor(restock, levels = c("yes", "no", "unsure", "failed"))]
 
-  pdata1 <- recs$results[
-    recs$meta$stats[, .(product_sku, category3)],
+  pdata1 <- cp_recs$results[
+    cp_recs$meta$stats[, .(product_sku, category3)],
     on = "product_sku"][, !"is_recommended"]
   pdata1[, restock := factor(restock, levels = c("yes", "no", "unsure"))]
 
   # Proportion by Flag
-  recs$meta$flags[, has_sales_growth := trend_sign == "positive"]
-  recs$meta$flags[, has_sales_decline := trend_sign == "negative"]
-  recs$meta$flags[, is_price_high := price_point == "high"]
-  recs$meta$flags[, is_price_low := price_point == "low"]
-  recs$meta$flags[, price_point := NULL]
-  recs$meta$flags[, trend_sign := NULL]
+  cp_recs$meta$flags[, has_sales_growth := trend_sign == "positive"]
+  cp_recs$meta$flags[, has_sales_decline := trend_sign == "negative"]
+  cp_recs$meta$flags[, is_price_high := price_point == "high"]
+  cp_recs$meta$flags[, is_price_low := price_point == "low"]
+  cp_recs$meta$flags[, price_point := NULL]
+  cp_recs$meta$flags[, trend_sign := NULL]
 
-  pdata2 <- data.table::melt(recs$meta$flags, id.vars = "product_sku", variable.factor = FALSE)[!is.na(value)]
+  pdata2 <- data.table::melt(cp_recs$meta$flags, id.vars = "product_sku", variable.factor = FALSE)[!is.na(value)]
   labs <- pdata2[, .N, .(variable, value)][, perc := N / sum(N), variable][]
   labs[, pctlab := scales::percent(perc, accuracy = 1)]
 
@@ -254,11 +256,11 @@ build_plot_data <- function(recs) {
   pdata3[value == "Flag Assigned", value2 := "Assigned"]
   pdata3[value == "Flag Not Assigned", value2 := "Not Assigned"]
 
-  # recs Breakdown by category
+  # cp_recs Breakdown by category
   #
-  setkey(recs$meta$descr, product_sku)
+  setkey(cp_recs$meta$descr, product_sku)
 
-  pdata4 <- recs$meta$descr[
+  pdata4 <- cp_recs$meta$descr[
     pdata3[, unique(.SD), .SDcols = c("product_sku", "restock", "category3")]
   ][!is.na(description)]
 
@@ -324,7 +326,7 @@ build_plot_data <- function(recs) {
     pdata2 = pdata2,
     pdata3 = pdata3[variable != "is_trending"], # remove trending from plot3
     pdata4 = pdata4,
-    data = list(recs = recs)
+    data = list(recs = cp_recs)
   )
 }
 
