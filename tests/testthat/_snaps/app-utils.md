@@ -699,48 +699,6 @@
       
       
 
-# Utils - Handling Model Params
-
-    Code
-      ll
-    Output
-      $ml_npom
-      [1] 14
-      
-      $ml_ltmi
-      [1] 182
-      
-      $ml_secd
-      [1] 20
-      
-      $ml_prim
-      [1] 45
-      
-      $ml_ppql
-      [1] 20
-      
-      $ml_ppqh
-      [1] 80
-      
-      $ml_pair_ttest
-      [1] FALSE
-      
-      $ml_pooled_var
-      [1] TRUE
-      
-      $ml_trend_pval
-      [1] 5
-      
-      $ml_trend_conf
-      [1] 85
-      
-      $ml_stock_pval
-      [1] 5
-      
-      $ml_stock_conf
-      [1] 85
-      
-
 # Utils - Build and Save ML Context
 
     Code
