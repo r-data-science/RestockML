@@ -19,4 +19,5 @@ BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source --build
 PackageRoxygenize: rd,collate,namespace,vignette
-DisableExecuteRprofile: Yes
+
+QuitChildProcessesOnExit: Yes

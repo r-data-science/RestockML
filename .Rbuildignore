@@ -1,11 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
-^_dev$
 ^codecov\.yml$
 .github
 ^\.github$
-^\.lintr$
 ^R/_dev$
 _\.new\.png$
 ^.dockerignore$
