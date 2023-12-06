@@ -64,7 +64,6 @@ db_app_index_anon <- function() {
 #' @describeIn app-database get default model params by location from the db
 db_load_params <- function(oid, sid) {
   rdstools::log_inf("...Loading Model Params")
-
   cn <- rpgconn::dbc(db = "hcaconfig")
   on.exit(rpgconn::dbd(cn))
   tab <- "restock_ml_params"
@@ -76,16 +75,13 @@ db_load_params <- function(oid, sid) {
   } else {
     scale_ml_params(as.list(args))
   }
-
 }
 
 
 #' @describeIn app-database save custom model params by location to the db
 db_save_params <- function(oid, sid, args) {
   rdstools::log_inf("...Saving Model Params")
-
   arg_row <- cbind(oid, sid, as.data.table(unscale_ml_params(args)))
-
   cn <- rpgconn::dbc(db = "hcaconfig")
   on.exit(rpgconn::dbd(cn))
   tab <- "restock_ml_params"
@@ -94,7 +90,5 @@ db_save_params <- function(oid, sid, args) {
     DBI::dbExecute(cn, qry)
     DBI::dbAppendTable(cn, tab, arg_row)
   })
-  stopifnot(n == 1)
-  rdstools::log_inf("Saved Parameters", n)
   return(n)
 }

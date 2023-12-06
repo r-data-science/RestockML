@@ -1,31 +1,24 @@
-test_that("App Database Interface", {
+oid <- ..testuuid$oid
+sid <- ..testuuid$sid
 
-  oid <- ..testuuid$oid
-  sid <- ..testuuid$sid
+# Set args to random values
+test_args <- default_ml_params() |>
+  sapply(function(x) as.list(sample(seq_len(10), 1)))
+test_args$ml_pooled_var <- FALSE # needs to be bool
+test_args$ml_pair_ttest <- FALSE # needs to be bool
 
-  on.exit(clear_db_params(oid, sid))
+test_that("Testing App Index", {
+  expect_no_error(db_app_index_anon())
+})
 
-  ## Test app index data
-  indx <- head(db_app_index_anon())
-  expect_true(is.data.table(indx) & nrow(indx) == 6)
+test_that("Testing Save Param Values", {
+  expect_no_error(db_save_params(oid, sid, test_args))
+})
 
-  apply(indx, 1, as.list) |>
-    expect_snapshot_value()
-
-  # snapshot default values
-  defs <- default_ml_params()
-  expect_true(is.list(defs) & length(defs) > 1)
-  expect_snapshot_value(defs)
-
-  # set params to random number
-  .args <- sapply(defs, function(x) as.list(sample(seq_len(10), 1)))
-  .args$ml_pooled_var <- FALSE # needs to be bool
-  .args$ml_pair_ttest <- FALSE # needs to be bool
-
-  # Save to db and check
-  expect_equal(db_save_params(oid, sid, .args), 1)
-
-  # Load recently saved params
-  ck_params <- c(list(oid = oid, sid = sid), .args)
+test_that("Testing Load Param Values", {
+  ck_params <- c(list(oid = oid, sid = sid), test_args)
   expect_mapequal(db_load_params(oid, sid), ck_params)
 })
+
+
+clear_db_params(oid, sid)

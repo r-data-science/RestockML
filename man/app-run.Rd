@@ -20,7 +20,7 @@ app_server()
 
 new_waiter(session = getDefaultReactiveDomain())
 
-waiter_html(msg, session = getDefaultReactiveDomain())
+waiter_html(msg)
 
 update_stat_cards(index, session = getDefaultReactiveDomain())
 

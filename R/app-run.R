@@ -239,24 +239,16 @@ app_server <- function() {
 
 #' @describeIn app-run create a new waiter object
 new_waiter <- function(session = getDefaultReactiveDomain()) {
-  if (shiny::isRunning()) {
-    Waiter$new(
-      html = waiter_html("Initializing..."),
-      color = get_app_colors()$bg
-    )
-  } else {
-    stop("Shiny app not running...", call. = FALSE)
-  }
+  waiter::Waiter$new(
+    html = waiter_html("Initializing..."),
+    color = get_app_colors()$bg
+  )
 }
 
 
 #' @describeIn app-run get html for waiter progress page
-waiter_html <- function(msg, session = getDefaultReactiveDomain()) {
-  if (shiny::isRunning()) {
-    shiny::tagList(waiter::spin_pulsar(), shiny::br(), msg)
-  } else {
-    stop("Shiny app not running...", call. = FALSE)
-  }
+waiter_html <- function(msg) {
+  shiny::tagList(waiter::spin_pulsar(), shiny::br(), msg)
 }
 
 
@@ -295,7 +287,6 @@ update_stat_cards <- function(index, session = getDefaultReactiveDomain()) {
 
 #' @describeIn app-run update ui sliders containing model params
 update_model_params <- function(args, session = getDefaultReactiveDomain()) {
-
   if (shiny::isRunning()) {
     updateMaterialSwitch(session = session,
                          inputId = "sw_poolvar",
@@ -324,89 +315,75 @@ update_model_params <- function(args, session = getDefaultReactiveDomain()) {
 }
 
 
+
 #' @describeIn app-run function that's executed on user action to run model
 run_model <- function(w, oid, sid, index, ml_args, session = getDefaultReactiveDomain()) {
+  .show_w <- function() if (isRunning()) w$show()
+  .update_w <- function(msg) if (isRunning()) w$update(html = waiter_html(msg))
+  .hide_w <- function() if (isRunning()) w$hide()
 
-  if (shiny::isRunning()) {
-    # Check if the minimal required arguments are provided
-    # Note the other args could never be null
-    if (is.null(oid) | is.null(sid)) {
-      show_alert(
-        session = session,
-        title = "Oops !!",
-        text = "Select org and store to run model",
-        type = "error",
-        closeOnClickOutside = TRUE,
-        showCloseButton = TRUE
-      )
-    } else {
-      w$show()
+  .show_w()
+  skus <- as.data.table(index)[
+    org_uuid == oid & store_uuid == sid,
+    product_sku]
 
-      skus <- as.data.table(index)[
-        org_uuid == oid & store_uuid == sid,
-        product_sku]
+  .update_w("...Building Model Context")
+  context <- build_ml_context(oid, sid, index, ml_args)
 
-      w$update(html = waiter_html("...Building Model Context"))
-      context <- build_ml_context(oid, sid, index, ml_args)
+  .update_w("...Building Model Recs...")
+  recs <- build_ml_recs(oid, sid, skus, ml_args)
 
-      w$update(html = waiter_html("...Building Model Recs..."))
-      recs <- build_ml_recs(oid, sid, skus, ml_args)
+  .update_w("...Building Plot Datasets...")
+  results <- build_plot_data(recs)
 
-      w$update(html = waiter_html("...Building Plot Datasets..."))
-      results <- build_plot_data(recs)
+  .update_w("...Building Report Scenario...")
+  scenario <- build_ml_scenario(results, context)
 
-      w$update(html = waiter_html("...Building Report Scenario..."))
-      scenario <- build_ml_scenario(results, context)
+  .update_w("...Building Plot Outputs...")
+  plots <- build_plot_objects(results)
 
-      w$update(html = waiter_html("...Building Plot Outputs..."))
-      plots <- build_plot_objects(results)
+  .update_w("...Saving Report Images...")
+  plots_path <- save_plot_objects(plots)
 
-      w$update(html = waiter_html("...Saving Report Images..."))
-      plots_path <- save_plot_objects(plots)
+  .update_w("...Saving Report Data...")
+  scenario_path <- save_ml_scenario(scenario)
 
-      w$update(html = waiter_html("...Saving Report Data..."))
-      scenario_path <- save_ml_scenario(scenario)
+  ml_out <- list(
+    inputs = list(
+      oid = oid,
+      sid = sid,
+      skus = skus,
+      index = index,
+      ml_args = ml_args
+    ),
+    outputs = list(
+      context = context,
+      recs = recs,
+      results = results,
+      scenario = scenario,
+      plots = plots
+    ),
+    paths = list(
+      plots_path = plots_path,
+      scenario_path = scenario_path
+    )
+  )
 
-      ml_out <- list(
-        inputs = list(
-          oid = oid,
-          sid = sid,
-          skus = skus,
-          index = index,
-          ml_args = ml_args
-        ),
-        outputs = list(
-          context = context,
-          recs = recs,
-          results = results,
-          scenario = scenario,
-          plots = plots
-        ),
-        paths = list(
-          plots_path = plots_path,
-          scenario_path = scenario_path
-        )
-      )
+  # Save additional data if testmode is true
+  if (getOption("shiny.testmode", FALSE)) {
+    rdstools::log_inf("__! Test Mode Detected !___")
 
-      # Save additional data if testmode is true
-      if (getOption("shiny.testmode", FALSE)) {
-        rdstools::log_inf("__! Test Mode Detected !___")
+    .update_w("...Saving Model Context...")
+    ml_out$paths$context_path <- save_ml_context(context)
 
-        w$update(html = waiter_html("...Saving Model Context..."))
-        ml_out$paths$context_path <- save_ml_context(context)
+    .update_w("...Saving Model Recs...")
+    ml_out$paths$recs_path <- save_ml_recs(recs)
 
-        w$update(html = waiter_html("...Saving Model Recs..."))
-        ml_out$paths$recs_path <- save_ml_recs(recs)
-
-        w$update(html = waiter_html("...Saving Plot Datasets..."))
-        ml_out$paths$results_path <- save_plot_data(results)
-      }
-      w$hide()
-      ml_out
-    }
-  } else {
-    stop("Shiny app not running...", call. = FALSE)
+    .update_w("...Saving Plot Datasets...")
+    ml_out$paths$results_path <- save_plot_data(results)
   }
+  .hide_w()
+  ml_out
 }
 
 
