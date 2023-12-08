@@ -31,10 +31,10 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Install System Dependencies
-        if: runner.os == 'Linux'
-        run: sudo apt-get update & sudo apt-get install -y libcurl4-openssl-dev
-        shell: bash
+      # - name: Install System Dependencies
+      #   if: runner.os == 'Linux'
+      #   run: sudo apt-get update & sudo apt-get install -y libcurl4-openssl-dev
+      #   shell: bash
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
