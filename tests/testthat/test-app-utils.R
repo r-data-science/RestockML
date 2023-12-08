@@ -2,7 +2,7 @@ test_that("Utils - Create Session Dir and Generate Report", {
   expect_true(create_session_dir())
   x <- generate_report(file = "test-report.html")
   expect_true(fs::file_exists(x))
-  expect_snapshot_file(x)
+  expect_snapshot_file(x, compare = compare_report)
 })
 
 test_that("Utils - Dev/Test Helpers", {
