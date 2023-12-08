@@ -44,11 +44,11 @@ is_testing <- function() {
 #' @describeIn app-utils creates and returns app dir path
 get_app_dir <- function() {
   if (is_testing()) {
-    x <- "rdsapps-session"
+    x <- fs::path_wd("test_app", "rdsapps-session")
   } else {
     x <- fs::path_temp("rdsapps-session")
   }
-  fs::path_norm(x)
+  x
 }
 
 
@@ -70,8 +70,10 @@ get_app_colors <- function() {
 #' @describeIn app-utils Run and Publishing Functions
 create_session_dir <- function() {
   rdstools::log_inf("...Launching Shiny App")
+
   app_d <- get_app_dir() |>
     fs::dir_create()
+
   rdstools::log_inf(paste0("...Output Dir -> ", app_d))
   fs::dir_create(get_app_dir(), "www")
   fs::dir_create(get_app_dir(), "output", c("plots/data"))
@@ -110,12 +112,18 @@ generate_report <- function(file) {
   rdstools::log_inf(paste("...File Output: ", file))
 
   if (is_testing() & !shiny::isRunning()) {
-    templ_path <- "docs/test-template.Rmd"
+    templ_path <- fs::path_wd("test_docs/test-template.Rmd")
   } else {
     templ_path <- fs::path_package("rdsapps", "docs", "template.Rmd")
   }
 
+  rdstools::log_inf(paste0("Read Template From: ", templ_path))
+  rdstools::log_inf(paste0("Write Rmarkdown To: ", report_path))
   writeLines(readLines(templ_path), report_path)
+
+  outpath <- fs::path(get_app_dir(), file)
+  rdstools::log_inf(paste0("Render Report To: ", outpath))
+
   x <- rmarkdown::render(
     input = report_path,
     output_file = file,
@@ -131,7 +139,8 @@ generate_report <- function(file) {
     output_options = "self-contained",
     encoding = 'UTF-8'
   )
-  rdstools::log_suc("...File Created for Download...", file)
+
+  rdstools::log_suc("...File Created for Download...", x)
   return(x)
 }
 
@@ -338,12 +347,17 @@ build_plot_data <- function(recs) {
 save_plot_data <- function(results) {
   rdstools::log_inf("...Saving Plot Datasets")
   dpath <- fs::path(get_app_dir(), "output/plots/data")
+  rdstools::log_inf(paste0("...Save Path: ", dpath))
   saveRDS(results[[1]], fs::path(dpath, "pdata0.rds"))
   saveRDS(results[[2]], fs::path(dpath, "pdata1.rds"))
   saveRDS(results[[3]], fs::path(dpath, "pdata2.rds"))
   saveRDS(results[[4]], fs::path(dpath, "pdata3.rds"))
   saveRDS(results[[5]], fs::path(dpath, "pdata4.rds"))
-  saveRDS(results, fs::path(get_app_dir(), "output/results.rds"))
+
+  rdstools::log_inf("...Saving Results Object")
+  outpath <- fs::path(get_app_dir(), "output/results.rds")
+  rdstools::log_inf(paste0("...Save Path: ", outpath))
+  saveRDS(results, outpath)
   invisible(dpath)
 }
 
@@ -363,8 +377,9 @@ build_plot_objects <- function(results) {
 #' @describeIn app-utils Saving plots for report
 save_plot_objects <- function(plots) {
   rdstools::log_inf("...Saving Plot Outputs")
+  plotpath <- fs::path(get_app_dir(), "output/plots")
+  rdstools::log_inf(paste0("...Save Path: ", plotpath))
 
-  plot_path <- fs::path(get_app_dir(), "output/plots")
   p0 <- plots[[1]]
   p1 <- plots[[2]]
   p2 <- plots[[3]]
@@ -375,7 +390,7 @@ save_plot_objects <- function(plots) {
   ggplot2::ggsave(
     filename = "diagnostic-0.png",
     plot = p0,
-    path = plot_path,
+    path = plotpath,
     width = 1800,
     height = 1150,
     units = "px",
@@ -385,7 +400,7 @@ save_plot_objects <- function(plots) {
   ggplot2::ggsave(
     filename = "diagnostic-1.png",
     plot = p1,
-    path = plot_path,
+    path = plotpath,
     width = 1700,
     height = 1200,
     units = "px",
@@ -395,7 +410,7 @@ save_plot_objects <- function(plots) {
   ggplot2::ggsave(
     filename = "diagnostic-2.png",
     plot = p2,
-    path = plot_path,
+    path = plotpath,
     width = 1500,
     height = 2500,
     units = "px",
@@ -405,7 +420,7 @@ save_plot_objects <- function(plots) {
   ggplot2::ggsave(
     filename = "diagnostic-3.png",
     plot = p3,
-    path = plot_path,
+    path = plotpath,
     width = 2600,
     height = 1200,
     units = "px",
@@ -415,14 +430,14 @@ save_plot_objects <- function(plots) {
   ggplot2::ggsave(
     filename = "diagnostic-4.png",
     plot = p4,
-    path = plot_path,
+    path = plotpath,
     width = 2000,
     height = 2500,
     units = "px",
     dpi = 150,
     bg = NULL
   )
-  return(invisible(plot_path))
+  return(invisible(plotpath))
 }
 
 
@@ -508,6 +523,7 @@ build_ml_scenario <- function(results, context) {
 save_ml_scenario <- function(scenario) {
   rdstools::log_inf("...Saving Model Scenario")
   outpath <- fs::path(get_app_dir(), "output/scenario.rds")
+  rdstools::log_inf(paste0("...Save Path: ", outpath))
   saveRDS(scenario[], outpath)
   invisible(outpath)
 }
@@ -531,6 +547,7 @@ build_ml_context <- function(oid, sid, index, ml_args) {
 save_ml_context <- function(context) {
   rdstools::log_inf("...Saving Model Context")
   outpath <- fs::path(get_app_dir(), "output/context.rds")
+  rdstools::log_inf(paste0("...Save Path: ", outpath))
   saveRDS(context, outpath)
   invisible(outpath)
 }
@@ -554,6 +571,7 @@ build_ml_recs <- function(oid, sid, skus, ml_args) {
 save_ml_recs <- function(recs) {
   rdstools::log_inf("...Saving Model Results")
   outpath <- fs::path(get_app_dir(), "output/recs.rds")
+  rdstools::log_inf(paste0("...Save Path: ", outpath))
   saveRDS(recs, outpath)
   invisible(outpath)
 }
