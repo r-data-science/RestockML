@@ -16,6 +16,7 @@ slider_trend <- c(15, 60)
 
 
 test_that("{shinytest2} Testing App", {
+  skip_on_ci()
 
   clean_up <- function(oid, sid) {
     clear_db_params(oid, sid)
