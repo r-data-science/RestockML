@@ -25,19 +25,19 @@ NULL
   ggplot2::theme(
     axis.title = ggplot2::element_blank(),
     plot.title = ggtext::element_textbox(
-      lineheight = 1.5,
-      family = "Sora"
+      lineheight = 1.5
+      # family = "Sora"
     ),
     plot.title.position = "plot",
     axis.text.x = ggtext::element_markdown(
       size = 12,
-      colour = .colors$fg,
-      family = "Sora"
+      colour = .colors$fg
+      # family = "Sora"
     ),
     axis.text.y = ggtext::element_markdown(
       size = 12,
-      colour = .colors$fg,
-      family = "Sora"
+      colour = .colors$fg
+      # family = "Sora"
     ),
     panel.background = ggplot2::element_rect(
       fill = .colors$bg,
@@ -59,7 +59,7 @@ NULL
       halign = 0.5,
       linewidth = .5,
       linetype = 1,
-      family = "Sora",
+      # family = "Sora",
       r = ggplot2::unit(5, "pt"),
       width = ggplot2::unit(1, "npc"),
       padding = ggplot2::margin(2, 0, 1, 0),
@@ -104,7 +104,7 @@ NULL
       ggplot2::aes(restock, N, label = label),
       label.colour = .colors$fg,
       size = 6,
-      family = "Sora",
+      # family = "Sora",
       position = ggplot2::position_stack(0.9),
       text.colour = .colors$bg,
       vjust = 0
@@ -219,7 +219,7 @@ NULL
       position = ggplot2::position_dodge(0),
       size = 4,
       fontface = "bold",
-      family = "Sora",
+      # family = "Sora",
       vjust = .5,
       label.size = 0
     ) +
@@ -231,7 +231,7 @@ NULL
       position = ggplot2::position_dodge(0),
       size = 4,
       fontface = "bold",
-      family = "Sora",
+      # family = "Sora",
       vjust = .5,
       label.size = 0
     ) +

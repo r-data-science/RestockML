@@ -1,7 +1,6 @@
 #' Ui elements of MLTuning App
 #'
 #' @import shiny
-#' @importFrom sass font_link
 #' @importFrom bslib bs_theme
 #' @importFrom datamods select_group_ui
 #' @importFrom shinyWidgets panel statiCard noUiSliderInput wNumbFormat materialSwitch dropMenu actionBttn
@@ -9,12 +8,12 @@
 #'
 #' @name app-ui
 NULL
-
+#importFrom sass font_link
 
 #' @describeIn app-ui bootstrap theme for app
 .ui_bootstrap_theme <- function() {
-  sor <- sass::font_link("Sora", href = "https://fonts.googleapis.com/css2?family=Sora")
-  lex <- sass::font_link("Lexend", href = "https://fonts.googleapis.com/css2?family=Lexend")
+  # sor <- sass::font_link("Sora", href = "https://fonts.googleapis.com/css2?family=Sora")
+  # lex <- sass::font_link("Lexend", href = "https://fonts.googleapis.com/css2?family=Lexend")
   bslib::bs_theme(
     version = 5,
     bg = "#041E39",
@@ -25,10 +24,10 @@ NULL
     info = "#fff573",
     warning = "#7d3be8",
     danger = "#DB14BF",
-    bootswatch = "materia",
-    base_font = lex,
-    heading_font = sor,
-    code_font = lex
+    bootswatch = "materia"
+    # base_font = lex,
+    # heading_font = sor,
+    # code_font = lex
   )
 }
 
