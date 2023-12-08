@@ -26,7 +26,7 @@ test_that("{shinytest2} Testing App", {
 
 
   app <- AppDriver$new(
-    app_dir = "test_app",
+    app_dir = "_app",
     name = "app",
     expect_values_screenshot_args = FALSE,
     width = 2000,

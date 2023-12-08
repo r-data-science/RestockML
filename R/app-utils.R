@@ -44,7 +44,7 @@ is_testing <- function() {
 #' @describeIn app-utils creates and returns app dir path
 get_app_dir <- function() {
   if (is_testing()) {
-    x <- fs::path_wd("test_app", "rdsapps-session")
+    x <- "rdsapps-session"
   } else {
     x <- fs::path_temp("rdsapps-session")
   }
@@ -112,7 +112,7 @@ generate_report <- function(file) {
   rdstools::log_inf(paste("...File Output: ", file))
 
   if (is_testing() & !shiny::isRunning()) {
-    templ_path <- fs::path_wd("test_docs/test-template.Rmd")
+    templ_path <- fs::path_wd("_docs/test-template.Rmd")
   } else {
     templ_path <- fs::path_package("rdsapps", "docs", "template.Rmd")
   }

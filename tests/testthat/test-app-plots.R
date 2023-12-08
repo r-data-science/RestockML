@@ -15,7 +15,7 @@ test_that("Testing Plot Title", {
 
 test_that("Testing Plot Functions", {
   for (i in 0:4) {
-    path <- fs::path(getwd(), stringr::str_glue("test_data/pdata{i}.Rds"))
+    path <- fs::path(getwd(), stringr::str_glue("_data/pdata{i}.Rds"))
     pdata <- readRDS(path)
     pobj <- get(paste0(".plot_diagnostic_", i))(pdata)
     expect_s3_class(pobj, "gg")

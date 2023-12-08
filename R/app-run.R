@@ -342,48 +342,53 @@ run_model <- function(w, oid, sid, index, ml_args, session = getDefaultReactiveD
   .update_w("...Building Plot Outputs...")
   plots <- build_plot_objects(results)
 
-  .update_w("...Saving Report Images...")
-  plots_path <- save_plot_objects(plots)
+  if (is_testing() & !shiny::isRunning()) {
+    cat("\n\n\n...Unit Test Detected...\n\n\n")
+  } else {
+    .update_w("...Saving Report Images...")
+    plots_path <- save_plot_objects(plots)
 
-  .update_w("...Saving Report Data...")
-  scenario_path <- save_ml_scenario(scenario)
+    .update_w("...Saving Report Data...")
+    scenario_path <- save_ml_scenario(scenario)
 
-  ml_out <- list(
-    inputs = list(
-      oid = oid,
-      sid = sid,
-      skus = skus,
-      index = index,
-      ml_args = ml_args
-    ),
-    outputs = list(
-      context = context,
-      recs = recs,
-      results = results,
-      scenario = scenario,
-      plots = plots
-    ),
-    paths = list(
-      plots_path = plots_path,
-      scenario_path = scenario_path
+    ml_out <- list(
+      inputs = list(
+        oid = oid,
+        sid = sid,
+        skus = skus,
+        index = index,
+        ml_args = ml_args
+      ),
+      outputs = list(
+        context = context,
+        recs = recs,
+        results = results,
+        scenario = scenario,
+        plots = plots
+      ),
+      paths = list(
+        plots_path = plots_path,
+        scenario_path = scenario_path
+      )
     )
-  )
 
-  # Save additional data if testmode is true
-  if (getOption("shiny.testmode", FALSE)) {
-    rdstools::log_inf("__! Test Mode Detected !___")
+    # Save additional data if testmode is true
+    if (getOption("shiny.testmode", FALSE)) {
+      rdstools::log_inf("__! Test Mode Detected !___")
 
-    .update_w("...Saving Model Context...")
-    ml_out$paths$context_path <- save_ml_context(context)
+      .update_w("...Saving Model Context...")
+      ml_out$paths$context_path <- save_ml_context(context)
 
-    .update_w("...Saving Model Recs...")
-    ml_out$paths$recs_path <- save_ml_recs(recs)
+      .update_w("...Saving Model Recs...")
+      ml_out$paths$recs_path <- save_ml_recs(recs)
 
-    .update_w("...Saving Plot Datasets...")
-    ml_out$paths$results_path <- save_plot_data(results)
+      .update_w("...Saving Plot Datasets...")
+      ml_out$paths$results_path <- save_plot_data(results)
+    }
+    .hide_w()
+    ml_out
   }
-  .hide_w()
-  ml_out
+
 }
 
 

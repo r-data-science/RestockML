@@ -1,0 +1,17 @@
+---
+title: "Sample Document"
+output: html_document
+---
+
+# Package Testing
+
+Here is an example rmd file to be rendered during unit tests
+
+```{r}
+1 + 1
+```
+
+```{r}
+print("Hello World")
+```
+
