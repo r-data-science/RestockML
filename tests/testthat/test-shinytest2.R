@@ -19,7 +19,8 @@ test_that("{shinytest2} Testing App", {
 
   clean_up <- function(oid, sid) {
     clear_db_params(oid, sid)
-    fs::dir_delete(get_app_dir())
+    if (fs::dir_exists(get_app_dir()))
+      fs::dir_delete(get_app_dir())
   }
   on.exit(clean_up(oid, sid))
 
