@@ -19,14 +19,15 @@ test_that("{shinytest2} Testing App", {
 
   clean_up <- function(oid, sid) {
     clear_db_params(oid, sid)
-    fs::dir_delete(fs::path("app", get_app_dir()))
+    fs::dir_delete(get_app_dir())
   }
   on.exit(clean_up(oid, sid))
 
 
   app <- AppDriver$new(
-    app_dir = "app",
+    app_dir = "test_app",
     name = "app",
+    expect_values_screenshot_args = FALSE,
     width = 2000,
     height = 1000,
     load_timeout = 35000,
