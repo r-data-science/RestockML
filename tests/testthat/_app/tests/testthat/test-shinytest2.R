@@ -1,6 +1,6 @@
 library(shinytest2)
 library(RestockML)
-
+library(data.table)
 
 # Globals for Testing -----------------------------------------------------
 
@@ -99,7 +99,7 @@ test_that("{shinytest2} Testing App", {
   #-------------
   app$log_message("<ACTION> User Click {input$btn_reset}")
   app$click("btn_reset", wait_ = FALSE)
-  app$wait_for_idle()
+  app$wait_for_idle(1000)
   app$expect_values(input = TRUE)
 
 
@@ -109,7 +109,7 @@ test_that("{shinytest2} Testing App", {
   #-------------
   app$log_message("<ACTION> User Click {input$btn_load}")
   app$click("btn_load", wait_ = FALSE)
-  app$wait_for_idle()
+  app$wait_for_idle(1000)
 
   #-------------
   app$log_message("<EXPECT> Checking Success Alert")
@@ -158,6 +158,9 @@ test_that("{shinytest2} Testing App", {
   expect_equal(plot_1$data, plot_1_data)
   expect_equal(plot_2$data, plot_2_data)
   expect_equal(plot_3$data, plot_3_data)
+
+  setkey(plot_4$data, NULL)
+  setkey(plot_4_data, NULL)
   expect_equal(plot_4$data, plot_4_data)
 
   #-------------
@@ -172,7 +175,7 @@ test_that("{shinytest2} Testing App", {
     app$log_message("!!----> CI Detected...Skipping")
   } else {
     app$log_message("<EXPECT> Checking File Download")
-    app$expect_download("btn_dl", compare = compare_report)
+    app$expect_download("btn_dl", compare = RestockML:::compare_report)
   }
 
   #===========================================================
