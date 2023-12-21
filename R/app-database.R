@@ -15,6 +15,7 @@ NULL
 
 #' @describeIn app-database get index of locations with anonomized names
 db_app_index_anon <- function() {
+
   cn <- rpgconn::dbc(db = "appdata")
   on.exit(rpgconn::dbd(cn))
 

@@ -6,13 +6,12 @@ FROM rocker/r-ubuntu:22.04
 #------------------------------------------------------------
 # Args required to build image
 #
-ARG RPG_CONN_STRING
 ARG GITHUB_PAT
 
 #------------------------------------------------------------
 # Expose port for app to listen on
 #
-EXPOSE 3939
+EXPOSE 3838
 
 #------------------------------------------------------------
 # Install system dependencies
@@ -40,7 +39,9 @@ RUN install.r remotes
 # Install cran and gh dependencies using the remotes package
 # and the current package's DESCRIPTION file
 #
-ENV GITHUB_PAT=$GITHUB_PAT
+RUN Rscript -e \
+    "remotes::install_github('r-data-science/rdscore', auth_token = '$GITHUB_PAT')"
+
 ADD . rpkg
 RUN Rscript -e "remotes::install_local('rpkg')" && rm -rf rpkg
 
@@ -48,7 +49,7 @@ RUN Rscript -e "remotes::install_local('rpkg')" && rm -rf rpkg
 # Specify shiny runtime options in Rprofile.site that was
 # copied in prior step
 #
-RUN echo "local(options(shiny.port = 3939, shiny.host = '0.0.0.0'))" > \
+RUN echo "local(options(shiny.port = 3838, shiny.host = '0.0.0.0'))" > \
     /usr/lib/R/etc/Rprofile.site
 
 #------------------------------------------------------------
@@ -57,10 +58,6 @@ RUN echo "local(options(shiny.port = 3939, shiny.host = '0.0.0.0'))" > \
 RUN addgroup --system app && adduser --system --ingroup app app
 WORKDIR /home/app
 
-#------------------------------------------------------------
-# Set envvar needed to run app
-#
-ENV RPG_CONN_STRING=$RPG_CONN_STRING
 
 #------------------------------------------------------------
 # Set permissions, switch user, and run the app
@@ -68,5 +65,7 @@ ENV RPG_CONN_STRING=$RPG_CONN_STRING
 RUN chown app:app -R /home/app
 USER app
 
-CMD ["R", "-e", "rdsapps::runExplorePRM()"]
+
+
+CMD ["R", "-e", "rdsapps::appExplorePRM()"]
 

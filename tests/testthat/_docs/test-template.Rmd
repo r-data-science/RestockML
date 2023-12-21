@@ -1,17 +1,17 @@
 ---
-title: "Sample Document"
+title: "My Report"
 output: html_document
 ---
 
-# Package Testing
+# My Report
 
-Here is an example rmd file to be rendered during unit tests
+Here is an example rmd file to be rendered by the app user.
 
 ```{r}
 1 + 1
 ```
 
-```{r}
-print("Hello World")
-```
+# Plots
+
+![](plots/plot_1.png)
 

@@ -73,10 +73,19 @@ app_server <- function() {
 
     onStop(clear_session_dir, session)
 
+
+    appdata <- tryCatch({
+      db_app_index_anon()
+    }, error = function(c) {
+      warning("Error getting appdata:\n", c$message, call. = FALSE)
+      empty_appdata[]
+    })
+
+
     ## Data filtered by the user contains org/store products
     r_index <- select_group_server(
       id = "filters",
-      data_r = db_app_index_anon(),
+      data_r = appdata,
       vars_r = c("org", "store", "category3", "brand_name", "product_sku")
     )
 
