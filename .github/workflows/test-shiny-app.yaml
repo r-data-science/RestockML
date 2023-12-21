@@ -1,13 +1,15 @@
 # Workflow derived from https://github.com/rstudio/shinytest2/tree/main/actions/test-app/example-test-app-package.yaml
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
 
-name: shiny-apps
+name: test-shiny-app
 
 jobs:
-  shiny-apps:
+  test-shiny-app:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
