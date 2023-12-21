@@ -1,14 +1,14 @@
 sudo docker build \
   --build-arg GITHUB_PAT=$GITHUB_PAT \
-  -t rdsapps:latest \
+  -t RestockML:latest \
   -f inst/docker/Dockerfile \
   .
-docker tag rdsapps:latest bfatemi/rdsapps:latest
-docker push bfatemi/rdsapps:latest
+docker tag RestockML:latest bfatemi/RestockML:latest
+docker push bfatemi/RestockML:latest
 
 sudo docker run \
-  --name app-prm \
+  --name appRestockML \
   -p 4000:3838 \
   -e RPG_CONN_STRING=$RPG_CONN_STRING \
   --rm \
-  -dt rdsapps:latest
+  -dt RestockML:latest

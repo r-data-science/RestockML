@@ -43,9 +43,9 @@ is_testing <- function() {
 #' @describeIn app-utils creates and returns app dir path
 get_app_dir <- function() {
   if (is_testing()) {
-    x <- "rdsapps-session"
+    x <- "RestockML-session"
   } else {
-    x <- fs::path_temp("rdsapps-session")
+    x <- fs::path_temp("RestockML-session")
   }
   x
 }
@@ -113,7 +113,7 @@ generate_report <- function(file) {
   if (is_testing() & !shiny::isRunning()) {
     templ_path <- fs::path_wd("_docs/test-template.Rmd")
   } else {
-    templ_path <- fs::path_package("rdsapps", "docs", "template.Rmd")
+    templ_path <- fs::path_package("RestockML", "docs", "template.Rmd")
   }
 
   rdstools::log_inf(paste0("Read Template From: ", templ_path))

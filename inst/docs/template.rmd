@@ -11,7 +11,7 @@ resource_files:
 library(stringr)
 library(data.table)
 library(scales)
-library(rdsapps)
+library(RestockML)
 scenario <- readRDS(file = "scenario.rds")
 sf <- function(x) scales::percent(x, accuracy = 1)
 qf <- function(x) scales::percent(x, accuracy = 1, suffix = "th")
@@ -21,7 +21,7 @@ utc <- scenario[1, as.Date(run_utc)]
 org_uuid <- scenario[1, org_uuid]
 store_uuid <- scenario[1, store_uuid]
 run_params <- as.list(scenario[1, str_detect(names(scenario), "^ml_"), with = FALSE])
-def_params <- rdsapps:::default_ml_params()
+def_params <- RestockML:::default_ml_params()
 USED_DEFAULTS <- all(mapply(`==`, run_params[sort(names(run_params))], def_params[sort(names(def_params))]))
 ```
 

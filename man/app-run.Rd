@@ -2,7 +2,7 @@
 % Please edit documentation in R/app-run.R
 \name{app-run}
 \alias{app-run}
-\alias{appExplorePRM}
+\alias{appRestockML}
 \alias{app_ui}
 \alias{app_server}
 \alias{new_waiter}
@@ -12,7 +12,7 @@
 \alias{run_model}
 \title{Run App}
 \usage{
-appExplorePRM(...)
+appRestockML(...)
 
 app_ui()
 
@@ -52,7 +52,7 @@ Functions to run the package shiny app
 }
 \section{Functions}{
 \itemize{
-\item \code{appExplorePRM()}: returns app object for subsequent execution
+\item \code{appRestockML()}: returns app object for subsequent execution
 
 \item \code{app_ui()}: UI function for app
 

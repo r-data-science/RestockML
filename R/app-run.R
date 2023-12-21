@@ -26,7 +26,7 @@ NULL
 
 #' @describeIn app-run returns app object for subsequent execution
 #' @export
-appExplorePRM <- function(...) {
+appRestockML <- function(...) {
   shiny::shinyApp(
     ui = app_ui(),
     server = app_server(),

@@ -64,5 +64,5 @@ USER app
 
 
 
-CMD ["R", "-e", "rdsapps::appExplorePRM()"]
+CMD ["R", "-e", "RestockML::appRestockML()"]
 
