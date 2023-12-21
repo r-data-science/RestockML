@@ -4,9 +4,9 @@
 \name{rdsapps-package}
 \alias{rdsapps}
 \alias{rdsapps-package}
-\title{rdsapps: Product Recommendations Model Explorer}
+\title{rdsapps: Inventory Restock Recommendations Model}
 \description{
-Package containing app for exploring product recommendations model.
+Package containing inventory restock recommendation model and accompanied app for exploring and fine-tuning the model.
 }
 \seealso{
 Useful links:

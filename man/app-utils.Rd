@@ -108,7 +108,7 @@ Functions required to execute and facililate an application user session
 
 \item \code{generate_report()}: Generate report and return download link
 
-\item \code{build_plot_data()}: build plot data with result of rdscore::restock_rec_ep
+\item \code{build_plot_data()}: build plot data with result of restock_rec_ep
 
 \item \code{save_plot_data()}: keeps plot data generated during session
 

@@ -46,6 +46,7 @@ test_that("{shinytest2} Testing App", {
 
   #-------------
   app$log_message("<EXPECT> Stats Values Before Filter")
+  app$wait_for_idle(1000)
   app$expect_text(selector = "#stat_skus.stati-value.shiny-bound-input")
   app$expect_text(selector = "#stat_brands.stati-value.shiny-bound-input")
   app$expect_text(selector = "#stat_sales.stati-value.shiny-bound-input")

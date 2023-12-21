@@ -1,5 +1,5 @@
 Package: rdsapps
-Title: Product Recommendations Model Explorer
+Title: Inventory Restock Recommendations Model
 Version: 0.0.9
 Authors@R: 
   person(
@@ -8,7 +8,8 @@ Authors@R:
     role = c("aut", "cre"), 
     email = "bfatemi07@gmail.com"
   )
-Description: Package containing app for exploring product recommendations model.
+Description: Package containing inventory restock recommendation model 
+ and accompanied app for exploring and fine-tuning the model.
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -33,15 +34,17 @@ Imports:
   waiter,
   rmarkdown,
   rpgconn,
-  rdscore,
-  rdstools
+  rdstools,
+  jsonlite,
+  stats,
+  utils
 Remotes:
   git@github.com:r-data-science/rpgconn.git,
-  git@github.com:r-data-science/rdscore.git,
   git@github.com:r-data-science/rdstools.git
 Depends: 
-  R (>= 4.0)
+  R (>= 4.2)
 Suggests: 
-    shinytest2,
-    covr,
-    testthat (>= 3.0.0)
+  shinytest2,
+  covr,
+  testthat (>= 3.0.0),
+  rcmdcheck

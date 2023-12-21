@@ -36,12 +36,9 @@ COPY ./inst/docker/Rprofile.site /etc/R
 RUN install.r remotes
 
 #------------------------------------------------------------
-# Install cran and gh dependencies using the remotes package
+# Install cran dependencies using the remotes package
 # and the current package's DESCRIPTION file
 #
-RUN Rscript -e \
-    "remotes::install_github('r-data-science/rdscore', auth_token = '$GITHUB_PAT')"
-
 ADD . rpkg
 RUN Rscript -e "remotes::install_local('rpkg')" && rm -rf rpkg
 

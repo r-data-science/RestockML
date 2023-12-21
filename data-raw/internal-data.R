@@ -16,6 +16,6 @@ devtools::load_all()
 
 
 
-empty_appdata <- db_app_index_anon()[0]
+empty_appdata <- db_app_index_anon()
 
 usethis::use_data(..testuuid, empty_appdata, internal = TRUE, overwrite = TRUE)
