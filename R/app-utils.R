@@ -23,7 +23,6 @@
 #' @importFrom ggplot2 ggsave
 #' @importFrom lubridate now
 #' @importFrom rmarkdown render
-#' @importFrom rdscore restock_rec_ep
 #'
 #' @name app-utils
 NULL
@@ -145,7 +144,7 @@ generate_report <- function(file) {
 }
 
 
-#' @describeIn app-utils build plot data with result of rdscore::restock_rec_ep
+#' @describeIn app-utils build plot data with result of restock_rec_ep
 build_plot_data <- function(recs) {
 
   cp_recs <- copy(recs)
@@ -562,8 +561,7 @@ build_ml_recs <- function(oid, sid, skus, ml_args) {
     list(sku = skus),
     unscale_ml_params(ml_args)
   )
-  rdscore::restock_rec_ep |>
-    do.call(args)
+  do.call(restock_rec_ep, args)
 }
 
 
