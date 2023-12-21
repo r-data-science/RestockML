@@ -53,7 +53,6 @@ jobs:
           install.packages("remotes", repos = "https://packagemanager.posit.co/cran/latest")
           remotes::install_github("r-data-science/rpgconn")
           remotes::install_github("r-data-science/rdstools")
-          remotes::install_github("r-data-science/rdscore")
         shell: Rscript {0}
 
       - name: Setup Cran Depends
