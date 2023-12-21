@@ -20,7 +20,7 @@ test_that("{shinytest2} Testing App", {
 
   clean_up <- function(oid, sid) {
     RestockML:::clear_db_params(oid, sid)
-    path <- fs::path("_app", get_app_dir())
+    path <- RestockML:::get_app_dir()
     if (fs::dir_exists(path))
       fs::dir_delete(path)
   }
@@ -88,7 +88,7 @@ test_that("{shinytest2} Testing App", {
 
   #-------------
   app$log_message("<EXPECT> Checking DB For Values")
-  params <- get_db_params(oid, sid)
+  params <- RestockML:::get_db_params(oid, sid)
   expect_equal(params$ml_trend_conf, slider_trend[2] / 100)
   expect_equal(params$ml_trend_pval, slider_trend[1] / 100)
 
@@ -135,7 +135,7 @@ test_that("{shinytest2} Testing App", {
                  allow_no_input_binding_ = TRUE,
                  priority_ = "event",
                  wait_ = FALSE)
-  app$wait_for_idle()
+  app$wait_for_idle(1000)
 
   #-------------
   app$log_message("<EVENT> Getting Plot Objects")
@@ -163,12 +163,12 @@ test_that("{shinytest2} Testing App", {
   #-------------
   app$log_message("<ACTION> User Click {input$btn_post}")
   app$click("btn_post", wait_ = FALSE)
-  app$wait_for_idle()
+  app$wait_for_idle(1000)
   app$set_inputs(dl_format = "html", wait_ = FALSE)
 
   #-------------
   app$log_message("<ACTION> User Click {input$btn_dl}")
-  if (is_ci()) {
+  if (RestockML:::is_ci()) {
     app$log_message("!!----> CI Detected...Skipping")
   } else {
     app$log_message("<EXPECT> Checking File Download")

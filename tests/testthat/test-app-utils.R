@@ -5,8 +5,8 @@ test_that("Utils - Create Session Dir and Generate Report", {
 })
 
 test_that("Utils - Dev/Test Helpers", {
-  expect_no_error(is_ci())
-  expect_true(is_testing())
+  expect_no_error(RestockML:::is_ci())
+  expect_true(RestockML:::is_testing())
 })
 
 
