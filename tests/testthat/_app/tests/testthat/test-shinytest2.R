@@ -1,4 +1,5 @@
 library(shinytest2)
+library(RestockML)
 
 
 # Globals for Testing -----------------------------------------------------
@@ -18,7 +19,7 @@ slider_trend <- c(15, 60)
 test_that("{shinytest2} Testing App", {
 
   clean_up <- function(oid, sid) {
-    clear_db_params(oid, sid)
+    RestockML:::clear_db_params(oid, sid)
     path <- fs::path("_app", get_app_dir())
     if (fs::dir_exists(path))
       fs::dir_delete(path)
@@ -27,7 +28,6 @@ test_that("{shinytest2} Testing App", {
 
 
   app <- AppDriver$new(
-    app_dir = "_app",
     wait = FALSE,
     name = "app",
     expect_values_screenshot_args = FALSE,

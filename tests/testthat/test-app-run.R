@@ -6,8 +6,8 @@ test_that("Testing App Server Function", {
   expect_true(is.function(app_server()))
 })
 
-test_that("Testing appExplorePRM", {
-  expect_s3_class(appExplorePRM(), "shiny.appobj")
+test_that("Testing appRestockML", {
+  expect_s3_class(appRestockML(), "shiny.appobj")
   expect_true(is.shiny.appobj(shinyApp(app_ui(), app_server())))
 })
 
