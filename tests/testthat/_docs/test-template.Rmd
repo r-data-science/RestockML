@@ -1,8 +1,6 @@
 ---
 title: "My Report"
 output: html_document
-resource_files:
- - plots/diagnostic_1.png
 ---
 
 # My Report
@@ -14,6 +12,3 @@ Here is an example rmd file to be rendered by the app user.
 ```
 
 # Plots
-
-![](plots/diagnostic_1.png)
-
