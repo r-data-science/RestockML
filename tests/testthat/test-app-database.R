@@ -1,6 +1,19 @@
 oid <- ..testuuid$oid
 sid <- ..testuuid$sid
 
+
+test_that("Testing helpers", {
+  expect_equal(nrow(get_db_params("fake oid", "fake sid")), 0)
+
+  old <- tempfile()
+  new <- tempfile()
+  writeLines("test", old)
+  writeLines("test", new)
+  expect_true(compare_report(old, new))
+})
+
+
+
 # Set args to random values
 test_args <- default_ml_params() |>
   sapply(function(x) as.list(sample(seq_len(10), 1)))
