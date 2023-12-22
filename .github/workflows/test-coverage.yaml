@@ -12,7 +12,7 @@ jobs:
   test-coverage:
     runs-on: ubuntu-latest
     env:
-      GITHUB_PAT: ${{ secrets.GH_PAT }}
+      # GITHUB_PAT: ${{ secrets.GH_PAT }}
       RPG_CONN_STRING: ${{ secrets.RPG_CONN_STRING }}
 
     steps:
@@ -24,12 +24,12 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Install Private Depends
-        run: |
-          install.packages("remotes", repos = "https://packagemanager.posit.co/cran/latest")
-          remotes::install_github("r-data-science/rpgconn")
-          remotes::install_github("r-data-science/rdstools")
-        shell: Rscript {0}
+      # - name: Install Private Depends
+      #   run: |
+      #     install.packages("remotes", repos = "https://packagemanager.posit.co/cran/latest")
+      #     remotes::install_github("r-data-science/rpgconn")
+      #     remotes::install_github("r-data-science/rdstools")
+      #   shell: Rscript {0}
 
       - name: Install Cran Depends
         uses: r-lib/actions/setup-r-dependencies@v2

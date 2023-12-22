@@ -18,12 +18,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
+          # - {os: macos-latest,   r: 'release'}
+          # - {os: windows-latest, r: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
 
     env:
-      GITHUB_PAT: ${{ secrets.GH_PAT }}
       RPG_CONN_STRING: ${{ secrets.RPG_CONN_STRING }}
       R_KEEP_PKG_SOURCE: yes
 
@@ -48,12 +47,12 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Install Private Depends
-        run: |
-          install.packages("remotes", repos = "https://packagemanager.posit.co/cran/latest")
-          remotes::install_github("r-data-science/rpgconn")
-          remotes::install_github("r-data-science/rdstools")
-        shell: Rscript {0}
+      # - name: Install Private Depends
+      #   run: |
+      #     install.packages("remotes", repos = "https://packagemanager.posit.co/cran/latest")
+      #     remotes::install_github("r-data-science/rpgconn")
+      #     remotes::install_github("r-data-science/rdstools")
+      #   shell: Rscript {0}
 
       - name: Setup Cran Depends
         uses: r-lib/actions/setup-r-dependencies@v2
