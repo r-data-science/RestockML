@@ -1,4 +1,5 @@
-# RestockML 
+# RestockML <img src="man/figures/logo.png" align="right" height="120" alt="" />
+
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/r-data-science/RestockML/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-data-science/RestockML/actions/workflows/R-CMD-check.yaml)
